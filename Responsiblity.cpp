@@ -1,4 +1,5 @@
     #include <iostream>
+    using namespace std;
 
     struct GlobalSystemHardware
     {
@@ -8,11 +9,14 @@
         int inline3 : 2;
         int valveCW : 2;
         int valveCCW: 2;
-        int StorageDepthMin: 1;
-        int StorageDepthMax:1;
-        int OverheadDepthMin:1;
-        int OverheadDepthMax:1;      
-
+        int valveSwitchedRecently : 2;
+        int StorageDepthMin: 2;
+        int StorageDepthMax:2;
+        int OverheadDepthMin:2;
+        int OverheadDepthMax:2;
+        int PullMotor:2;
+        int LiftMotor:2;      
+        
     };
 
 
@@ -70,7 +74,7 @@
             if(this->next){
                 return this->next->PullMotorLogic(HwPtr);
             }
-            return false;
+            return true;
         }
     };
 
@@ -80,16 +84,18 @@
 
     public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
-            std::cout<<"\n Check #1 : InlineMain";
-             if(HwPtr->inline1>>1 & 1){
-                 std::cout<<"\n Inline main Has Water. Motor On.";
-                    return false;
+        
+        std::cout<<"\n Check #1 : InlineMain";
+        
+             if(HwPtr->inline1 == 1){
+                std::cout<<"\t Inline Main Has Water. Next CHeck!";
+                 return MotorValidatorCycler::PullMotorLogic(HwPtr);
              }
-             else       // Motor Off
+             else      
              {
-                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
-                                                                    // calling the virtual fn above will make
-                                                                    // call to the next class
+                cout <<"\\t Inline Main doens have Water ";
+                return false;
+                                   
              }
              
         }
@@ -99,16 +105,18 @@
 
     public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
-            std::cout<<"\n Check #1 : InlineMain";
-             if(HwPtr->inline1>>1 & 1){
-                 std::cout<<"\n Inline main Has Water. Motor On.";
-                    return false;
+
+            std::cout<<"\n Check #2 : Inline Top";
+            
+            if(HwPtr->inline2 == 1){
+                 std::cout<<"\t Inline TOp Has Water. Next CHeck!";
+                 return MotorValidatorCycler::PullMotorLogic(HwPtr);            // return the same pointer back
+
              }
-             else       // Motor Off
+             else                                                               // Motor Off
              {
-                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
-                                                                    // calling the virtual fn above will make
-                                                                    // call to the next class
+                cout <<"\t Inline Top doens have Water. ";
+                return false;
              }
              
         }
@@ -118,9 +126,9 @@
 
     public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
-            std::cout<<"\n Check #2 : InlinePull";
-             if(HwPtr->inline1>>1 && 11){
-                 std::cout<<"\n Inline 2 Has Water. Motor On.";
+            std::cout<<"\n Check #3 : InlinePull";
+             if(HwPtr->inline3==1){
+                 std::cout<<"\n Inline 3 Has Water. Motor On.";
                     return false;
              }
              else       // Motor Off
@@ -147,23 +155,28 @@
         HardwareValues->inline1 = 1;      HardwareValues->inline2 = 0;
         std::cout<<"\n Condition #1 for Motor Il1 : "<<HardwareValues->inline1;
         std::cout<<",  Il2 :"<< HardwareValues->inline2;
-        // std::cout<<"\n Condition #1 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<"\n Result #1 Keep Motor ON/Off : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<"\n\n -------\n\n";
 
 
         HardwareValues->inline1 = 0;      HardwareValues->inline2 = 0;
          std::cout<<"\n Condition #2 for Motor Il1 : "<<HardwareValues->inline1;
         std::cout<<",  Il2 : "<< HardwareValues->inline2;
-        // std::cout<<"\n Condition #2 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<"\n Result #2 Keep Motor ON/Off : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<"\n\n -------\n\n";
 
 
         HardwareValues->inline1 = 1;      HardwareValues->inline2= 1;
         std::cout<<"\n Condition #3 for Motor Il1 : "<<HardwareValues->inline1;
-        std::cout<<",  Il2 : "<< HardwareValues->inline2;        // std::cout<<"\n Condition #3 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<",  Il2 : "<< HardwareValues->inline2;        
+         std::cout<<"\n Result #3 Keep Motor ON/Off : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<"\n\n -------\n\n";
 
 
         HardwareValues->inline1 = 0;      HardwareValues->inline2= 1;
         std::cout<<"\n Condition #4 for Motor Il1 : "<<HardwareValues->inline1;
-        std::cout<<",  Il2 :"<< HardwareValues->inline2;        // std::cout<<"\n Condition #4 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+        std::cout<<",  Il2 :"<< HardwareValues->inline2;        
+        std::cout<<"\n Result #4 Keep Motor ON/Off : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
         std::cout<<"\n\n --- Program End----\n\n";
         delete PullMotorValidator;
