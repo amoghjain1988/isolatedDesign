@@ -2,12 +2,12 @@
 
     struct GlobalSystemHardware
     {
-        int userReq : 1;        // 2 bits : 1 bit for True, Second for False.
-        int inline1 : 1;        // inline as 1 bit size
-        int inline2 : 1;
-        int inline3 : 1;
-        int valveCW : 1;
-        int valveCCW: 1;
+        int userReq : 2;        // 2 bits : 1 bit for True, Second for False.
+        int inline1 : 2;        // inline as 1 bit size
+        int inline2 : 2;
+        int inline3 : 2;
+        int valveCW : 2;
+        int valveCCW: 2;
         int StorageDepthMin: 1;
         int StorageDepthMax:1;
         int OverheadDepthMin:1;
@@ -135,6 +135,8 @@
     int main(int argc, char *argv[])
 
     {
+        std::cout<<"\n\n --- Program Start----\n\n";
+
             GlobalSystemHardware    *HardwareValues = new GlobalSystemHardware;
             //  {0,0,0,0,0,0,0,0,0,0};
             
@@ -142,27 +144,28 @@
         PullMotorValidator->setNextCheck(new InlineMainCheck)->setNextCheck( new InlineTopMainCheck);
         
 
-        HardwareValues->inline1& 1<<1;      HardwareValues->inline2& 1<<1;
-        std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        HardwareValues->inline1 = 1;      HardwareValues->inline2 = 0;
+        std::cout<<"\n Condition #1 for Motor Il1 : "<<HardwareValues->inline1;
         std::cout<<",  Il2 :"<< HardwareValues->inline2;
         // std::cout<<"\n Condition #1 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
 
-        HardwareValues->inline1& 0<<1;      HardwareValues->inline2& 0<<1;
-         std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        HardwareValues->inline1 = 0;      HardwareValues->inline2 = 0;
+         std::cout<<"\n Condition #2 for Motor Il1 : "<<HardwareValues->inline1;
         std::cout<<",  Il2 : "<< HardwareValues->inline2;
         // std::cout<<"\n Condition #2 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
 
-        HardwareValues->inline1& 1<<1;      HardwareValues->inline2& 0<<1;
-        std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        HardwareValues->inline1 = 1;      HardwareValues->inline2= 1;
+        std::cout<<"\n Condition #3 for Motor Il1 : "<<HardwareValues->inline1;
         std::cout<<",  Il2 : "<< HardwareValues->inline2;        // std::cout<<"\n Condition #3 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
 
-        HardwareValues->inline1 & 0<<1;      HardwareValues->inline2& 1<<1;
-        std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        HardwareValues->inline1 = 0;      HardwareValues->inline2= 1;
+        std::cout<<"\n Condition #4 for Motor Il1 : "<<HardwareValues->inline1;
         std::cout<<",  Il2 :"<< HardwareValues->inline2;        // std::cout<<"\n Condition #4 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
+        std::cout<<"\n\n --- Program End----\n\n";
         delete PullMotorValidator;
         delete HardwareValues;
         return 0;
