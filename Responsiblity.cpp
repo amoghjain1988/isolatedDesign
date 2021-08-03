@@ -2,29 +2,28 @@
 
     struct GlobalSystemHardware
     {
-        int userReq : 2;        // 2 bits : 1 bit for True, Second for False.
-        int inline1 : 2;        // inline as 1 bit size
-        int inline2 : 2;
-        int inline3 : 2;
-        int valveCW : 2;
-        int valveCCW: 2;
-        int StorageDepthMin: 2;
-        int StorageDepthMax:2;
-        int OverheadDepthMin:2;
-        int OverheadDepthMax:2;      
+        int userReq : 1;        // 2 bits : 1 bit for True, Second for False.
+        int inline1 : 1;        // inline as 1 bit size
+        int inline2 : 1;
+        int inline3 : 1;
+        int valveCW : 1;
+        int valveCCW: 1;
+        int StorageDepthMin: 1;
+        int StorageDepthMax:1;
+        int OverheadDepthMin:1;
+        int OverheadDepthMax:1;      
 
     };
 
-    GlobalSystemHardware    *HardwareValues  = {};
 
 
-    class MotorStateValidator{
+    class MotorValidator{
 
     public:
 
-    virtual MotorStateValidator *setNextCheck(MotorStateValidator *nextCheck) = 0;
+    virtual MotorValidator *setNextCheck(MotorValidator *nextCheck) = 0;
 
-    virtual ~MotorStateValidator(){};
+    virtual ~MotorValidator(){};
 
     virtual bool PullMotorLogic(GlobalSystemHardware *) =0;
 
@@ -51,16 +50,16 @@
         }
 
     */
-    class MotorValidator: public MotorStateValidator{
+    class MotorValidatorCycler: public MotorValidator{
 
     protected:
 
-        MotorStateValidator *next = nullptr;
+        MotorValidator *next = nullptr;
     public:
 
-        ~MotorValidator(){ delete next;};
+        ~MotorValidatorCycler(){ delete next;};
 
-        MotorStateValidator *setNextCheck(MotorStateValidator *nextCheck){
+        MotorValidator *setNextCheck(MotorValidator *nextCheck){
 
             next = nextCheck;
             return nextCheck;
@@ -77,26 +76,95 @@
 
 
 
-    class InlineMainCheck:public MotorValidator{
+    class InlineMainCheck:public MotorValidatorCycler{
 
     public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
             std::cout<<"\n Check #1 : InlineMain";
-             if(HwPtr->inline1>>1 && 11){
-                 std::cout<<"\n Inline1 Set True";
-
+             if(HwPtr->inline1>>1 & 1){
+                 std::cout<<"\n Inline main Has Water. Motor On.";
+                    return false;
              }
-            return true;
+             else       // Motor Off
+             {
+                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
+                                                                    // calling the virtual fn above will make
+                                                                    // call to the next class
+             }
+             
         }
     };
 
-    int main()
+    class InlineTopMainCheck:public MotorValidatorCycler{
+
+    public:
+        bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
+            std::cout<<"\n Check #1 : InlineMain";
+             if(HwPtr->inline1>>1 & 1){
+                 std::cout<<"\n Inline main Has Water. Motor On.";
+                    return false;
+             }
+             else       // Motor Off
+             {
+                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
+                                                                    // calling the virtual fn above will make
+                                                                    // call to the next class
+             }
+             
+        }
+    };
+
+    class InlinePullCheck:public MotorValidatorCycler{
+
+    public:
+        bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
+            std::cout<<"\n Check #2 : InlinePull";
+             if(HwPtr->inline1>>1 && 11){
+                 std::cout<<"\n Inline 2 Has Water. Motor On.";
+                    return false;
+             }
+             else       // Motor Off
+             {
+                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
+                                                                    // calling the virtual fn above will make
+                                                                    // call to the next class
+             }
+             
+        }
+    };
+    int main(int argc, char *argv[])
 
     {
+            GlobalSystemHardware    *HardwareValues = new GlobalSystemHardware;
+            //  {0,0,0,0,0,0,0,0,0,0};
+            
+        MotorValidatorCycler *PullMotorValidator = new MotorValidatorCycler;
+        PullMotorValidator->setNextCheck(new InlineMainCheck)->setNextCheck( new InlineTopMainCheck);
+        
+
+        HardwareValues->inline1& 1<<1;      HardwareValues->inline2& 1<<1;
+        std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        std::cout<<",  Il2 :"<< HardwareValues->inline2;
+        // std::cout<<"\n Condition #1 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
 
-        std::cout<<"\n Checks for Motor \n";
+        HardwareValues->inline1& 0<<1;      HardwareValues->inline2& 0<<1;
+         std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        std::cout<<",  Il2 : "<< HardwareValues->inline2;
+        // std::cout<<"\n Condition #2 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
 
+
+        HardwareValues->inline1& 1<<1;      HardwareValues->inline2& 0<<1;
+        std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        std::cout<<",  Il2 : "<< HardwareValues->inline2;        // std::cout<<"\n Condition #3 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+
+
+        HardwareValues->inline1 & 0<<1;      HardwareValues->inline2& 1<<1;
+        std::cout<<"\n Checks for Motor. Il1 : "<<HardwareValues->inline1;
+        std::cout<<",  Il2 :"<< HardwareValues->inline2;        // std::cout<<"\n Condition #4 : "<<PullMotorValidator->PullMotorLogic(HardwareValues);
+
+        delete PullMotorValidator;
+        delete HardwareValues;
         return 0;
 
     }
