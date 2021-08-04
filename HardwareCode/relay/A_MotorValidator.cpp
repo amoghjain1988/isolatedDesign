@@ -1,3 +1,5 @@
+    #ifndef A_MotorValidator
+    #define A_MotorValidator    
 
     #include <iostream>
     #include "Data.cpp"
@@ -47,7 +49,7 @@
         ~MotorValidatorCycler(){ delete next;};
 
         MotorValidator *setNextCheck(MotorValidator *nextCheck){
-            cout<<"\n Cycler CLass called";
+            cout<<"\n Adding Motor Validation Checks";
             next = nextCheck;
             return nextCheck;
         }
@@ -65,3 +67,4 @@
             
         }
     };
+#endif

@@ -1,4 +1,8 @@
-#include "1.MotorValidator.cpp"
+
+  #ifndef B_MotorChecks
+#define B_MotorChecks
+
+#include "A_MotorValidator.cpp"
 #include <iostream>
 
 
@@ -203,3 +207,5 @@ using namespace std;
              
         }
     };
+
+    #endif

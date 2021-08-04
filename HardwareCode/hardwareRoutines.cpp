@@ -1,6 +1,6 @@
 #include "hardware.cpp"
 using namespace std;
-#include "./relay/2.MotorChecks.cpp"
+#include "./relay/B_MotorChecks.cpp"
  void SetHwValues(bool b,bool c,bool d,bool e,int h,int i)
     {
         HardwareValues->inlineMain               =b;
