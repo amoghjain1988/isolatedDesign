@@ -74,7 +74,14 @@
             if(this->next){
                 return this->next->PullMotorLogic(HwPtr);
             }
-            return true;
+            else
+            {
+                           
+                cout<<"\n No More next";      
+                return true;
+
+            }
+            
         }
     };
 
