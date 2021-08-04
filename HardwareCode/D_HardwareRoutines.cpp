@@ -29,7 +29,14 @@ class relayPull: public SystemHardware
 { 
     
     
-        public:
+    public:
+
+    // virtual bool HardwareSetup(GlobalHWData *myptr, HardwareUpdateSource source ) override
+    // {
+    //         std::cout<<"\n Running Relay Setup for Source as  :"<<source;
+
+    //         return false;
+    // }
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
             std::cout<<"\n Checking: RElay Pull src  :"<<source;
