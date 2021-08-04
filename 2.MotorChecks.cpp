@@ -16,7 +16,7 @@ using namespace std;
              }
              else      
              {
-                cout <<"\t => No. Exit.";
+                cout <<"\t => No Water! Exit.";
                 return false;
                                    
              }
@@ -39,7 +39,7 @@ using namespace std;
              }
              else      
              {
-                cout <<"\t => No. Exit.";
+                cout <<"\t => No Water! Exit.";
                 return false;
 
              }
@@ -59,7 +59,7 @@ using namespace std;
              }
              else      
              {
-                cout <<"\t => No. Exit.";
+                cout <<"\t => StorageOverFull! Exit.";
                 return false;
 
              }
@@ -74,13 +74,13 @@ using namespace std;
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
             std::cout<<"\n Checking Min Overhead Depth";
              if(HwPtr->OverheadDepth > HardwareConstants.minOverheadDepth){
-                 std::cout<<"\n Overhead Tank Less than Full. Motor On.";
+                 std::cout<<"\t Yes. Next CHeck.";
                     return MotorValidatorCycler::PullMotorLogic(HwPtr);    
                     
              }
              else      
              {
-                    cout <<"\t => No. Exit.";
+                    cout <<"\t => OverheadOverFull. Exit.";
                     return false;
 
              }

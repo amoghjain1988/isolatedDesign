@@ -6,8 +6,7 @@
         int inlinePull              :   2;
         int inlineLift              :   2;
         int ValveMovedRecently      :   2;
-        int valveCW                 :   2;
-        int valveCCW                :   2;
+  
         int StorageDepth;
         int OverheadDepth;
         int PullMotor               :   2;

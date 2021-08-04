@@ -59,7 +59,7 @@
             }
             else
             {                           
-                cout<<"\n No More next. Reached End! Motor ON.";      
+                cout<<"\n All Checks Passed! Motor ON.";      
                 return true;
             }
             
