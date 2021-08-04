@@ -3,7 +3,16 @@
 #include "B_Hardware_COR_Base.cpp"
 //#include input pins
 
+class PowerSetup: public SystemHardwareSetup
+{
+    public:
+    virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
+            std::cout<<"\n HW Setup : PowerSetup ";
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
+
+    }
+};
 
 class relayPullSetup: public SystemHardwareSetup
 {

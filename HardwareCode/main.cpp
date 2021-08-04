@@ -1,91 +1,18 @@
 
-#include "C_HardwareSetup.cpp"
-#include "D_HardwareRoutines.cpp"
-
-#define FirmwareType 1
+#include "Z_ControllerManager.cpp"
 
 
-// #include <iostream>
-int main()
-
-{
-    cout<<"\n Program Start";
-
-    #if  ( FirmwareType ==1 )
-    SystemHWRoutine *LiftMotorController = new SystemHWRoutine;
-     SystemHardwareSetup *LiftMotorSetup = new SystemHardwareSetup;
-
-    LiftMotorSetup
-    ->AddToHWSetupList(new relayLiftSetup)
-    ->AddToHWSetupList(new LEDSetup)
-    ->AddToHWSetupList(new SDCardSetup)
-    ->AddToHWSetupList(new BtnSetup)
-    ->AddToHWSetupList(new relayPullSetup)
-    ->AddToHWSetupList(new relayPullSetup);
-
-    LiftMotorSetup->HardwareSetup(HWSetupVars); // different for each contolelr?
-
-
-
-    LiftMotorController
-    ->AddToHWRoutineList(new relayPull, Remotely)
-    ->AddToHWRoutineList(new relayLift, locally)
-    ->AddToHWRoutineList(new DepthStorage, Remotely)
-    ->AddToHWRoutineList(new DepthOverhead, Remotely)
-    ->AddToHWRoutineList(new LED, locally)
-    ->AddToHWRoutineList(new UserButton, locally)
-    ->AddToHWRoutineList(new SDCard, locally)
-    ->AddToHWRoutineList(new RTC, locally)
-    ->AddToHWRoutineList(new Valve, Remotely)
-    ->AddToHWRoutineList(new BMSOverhead, Remotely)
-    ->AddToHWRoutineList(new BMSStorage, Remotely)
-    ->AddToHWRoutineList(new InlineMain, Remotely)
-    ->AddToHWRoutineList(new InlineOverheadPull, Remotely)
-    ->AddToHWRoutineList(new InlineOverheadLift, Remotely)
-    ->AddToHWRoutineList(new InlineMain, Remotely);
-
-//    LiftMotorController->HardwareSetup(HWData, locally);
-
-        for(int i = 1; i <3; i++)       // looping through list of HW routines
-        {
-            cout<<"\n Running Routine Check "<<i<<" ON List";
-            LiftMotorController->HardwareRoutine(HWData, locally);
-        }
-
-    delete     LiftMotorController;
-    delete     LiftMotorSetup;
-
-    cout<<"\n Finished Adding  HW list for Lift Motor Controlelr\n";
-    #endif
+int main(){
     
+ControllerManager_t ControllerManager ;
 
-    #if  ( FirmwareType ==2 )
 
-    cout<<"\n Program Start";
-    SystemHardware *PullMotorController = new SystemHardware;
-    PullMotorController
-    ->AddToHWRoutineList(new relayPull, locally)
-    ->AddToHWRoutineList(new relayLift, Remotely)
-    ->AddToHWRoutineList(new DepthStorage, Remotely)
-    ->AddToHWRoutineList(new DepthOverhead, Remotely)
-    ->AddToHWRoutineList(new LED, locally)
-    ->AddToHWRoutineList(new UserButton, locally)
-    // ->AddToHWRoutineList(new SDCard, locally)
-    // ->AddToHWRoutineList(new RTC, locally)
-    // ->AddToHWRoutineList(new Valve, Remotely)
-    ->AddToHWRoutineList(new BMSOverhead, Remotely)
-    ->AddToHWRoutineList(new BMSStorage, Remotely)
-    ->AddToHWRoutineList(new InlineMain, Remotely)
-    ->AddToHWRoutineList(new InlineOverheadPull, Remotely)
-    ->AddToHWRoutineList(new InlineOverheadLift, Remotely)
-    ->AddToHWRoutineList(new InlineMain, Remotely);
-    
+    ControllerManager.HardwareSetup();
+    ControllerManager.DeleteHWSetupObject();
+    ControllerManager.HardwareRoutineListSetup();
+    ControllerManager.HardwareRoutineListCycler();
+    ControllerManager.DeleteHWRoutineObject();
 
-     PullMotorController->HardwareRoutine(HWData, locally);
 
-    delete PullMotorController;
-    cout<<"\n Program End \n";
-    #endif
-
-    return 0;
+return 0;
 }

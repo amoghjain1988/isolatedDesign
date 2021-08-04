@@ -25,6 +25,16 @@ using namespace std;
         cout<<", 8. OvDepth : "<<HardwareValues->OverheadDepth;
          
     }
+class PowerSettings: public SystemHWRoutine
+{
+            public:
+    virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
+
+            std::cout<<"\n Checking: PowerSettings  :"<<source;
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
+
+    }
+};
 class relayPull: public SystemHWRoutine
 { 
     
