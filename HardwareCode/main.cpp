@@ -1,7 +1,7 @@
 
 #include "hardwareRoutines.cpp"
 
-#define FirmwareType 2
+#define FirmwareType 1
 
 
 // #include <iostream>
@@ -30,8 +30,12 @@ int main()
     ->AddToHWList(new InlineOverheadLift, Remotely)
     ->AddToHWList(new InlineMain, Remotely);
     
+        for(int i = 1; i <3; i++)       // looping through list of HW routines
+        {
+            cout<<"\n Running Routine Check "<<i<<" ON List";
+            LiftMotorController->HardwareRoutine(HWData, locally);
+        }
 
-     LiftMotorController->HardwareRoutine(HWData, locally);
      delete  LiftMotorController;
 
     cout<<"\n Finished Adding  HW list for Lift Motor Controlelr\n";

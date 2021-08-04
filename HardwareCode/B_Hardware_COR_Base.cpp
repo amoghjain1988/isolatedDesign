@@ -47,8 +47,16 @@ public:
      virtual bool HardwareSetup(GlobalHWData *myptr, HardwareUpdateSource source ) override
     {
          
-         cout<<"\n Running Setup for Hardware!! "<<source;
-            return false;
+            cout<<"\n Running Setup for Hardware!! "<<source;
+
+            if(this->next){
+            return this->next->HardwareSetup(myptr, sourceLocation);
+            }
+            else
+            {                           
+                cout<<"\n hardware Setup FInished!!\n.";      
+                return false;
+            }   
     }   
 
 
