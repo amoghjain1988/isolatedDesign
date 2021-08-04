@@ -21,9 +21,9 @@
     {
 
         const int maxStorageDepth =  200;
-        const int minStorageDepth =  25;
+        const int minStorageDepth =  20;
         const int maxOverheadDepth =  180;
-        const int minOverheadDepth=  25;
+        const int minOverheadDepth=  20;
 
 
     };

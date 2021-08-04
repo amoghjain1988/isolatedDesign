@@ -3,20 +3,20 @@
 
 using namespace std;
 
-    class InlineMainCheck:public MotorValidatorCycler{
+    class InlineMainandPullCheck:public MotorValidatorCycler{
 
     public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
         
-        std::cout<<"\n Checking: Inline Main";
+        std::cout<<"\n Checking: Inline Main + Pull + Recent Valve";
         
-             if(HwPtr->inlineMain == 1 || HwPtr->ValveMovedRecently){
-                std::cout<<"\t Inline Main Has Water. Next CHeck!";
+             if(HwPtr->inlineMain == 1 || HwPtr->inlinePull == 1 || HwPtr->ValveMovedRecently ){
+                std::cout<<"\t =>  Yes. Next CHeck!";
                  return MotorValidatorCycler::PullMotorLogic(HwPtr);
              }
              else      
              {
-                cout <<"\\t Inline Main doens have Water ";
+                cout <<"\t => No. Exit.";
                 return false;
                                    
              }
@@ -24,26 +24,7 @@ using namespace std;
         }
     };
 
-    class InlinePullCheck:public MotorValidatorCycler{
 
-    public:
-        bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
-
-            std::cout<<"\n Checking Inline Pull @ Top";
-            
-            if(HwPtr->inlinePull == 1 || HwPtr->ValveMovedRecently){
-                 std::cout<<"\t Inline Top + Valve Moved Recent Check.Next CHeck!";
-                 return MotorValidatorCycler::PullMotorLogic(HwPtr);            // return the same pointer back
-
-             }
-             else                                                               // Motor Off
-             {
-                cout <<"\t Inline Top doens have Water. ";
-                return false;
-             }
-             
-        }
-    };
 
     class InlineLiftCheck:public MotorValidatorCycler{
 
@@ -51,14 +32,16 @@ using namespace std;
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
             std::cout<<"\n Checking Inline Lift";
              if(HwPtr->inlineLift==1){
-                 std::cout<<"\n Inline Lift Has Water. Motor On.";
-                    return false;
+                std::cout<<"\t =>  Yes. Next CHeck!";
+                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
+
+
              }
              else      
              {
-                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
-                                                                    // calling the virtual fn above will make
-                                                                    // call to the next class
+                cout <<"\t => No. Exit.";
+                return false;
+
              }
              
         }
@@ -68,16 +51,17 @@ using namespace std;
 
         public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
-            std::cout<<"\n Checking Min Storage Depth";
+            std::cout<<"\n Checking Storage Depth";
              if(HwPtr->StorageDepth > HardwareConstants.minStorageDepth){
-                 std::cout<<"\n Storage Tank Less than Full. Motor On.";
-                    return false;
+                std::cout<<"\t =>  Yes. Next CHeck!";
+                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return A Pointer to Feed Next
+
              }
              else      
              {
-                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
-                                                                    // calling the virtual fn above will make
-                                                                    // call to the next class
+                cout <<"\t => No. Exit.";
+                return false;
+
              }
              
         }
@@ -91,13 +75,14 @@ using namespace std;
             std::cout<<"\n Checking Min Overhead Depth";
              if(HwPtr->OverheadDepth > HardwareConstants.minOverheadDepth){
                  std::cout<<"\n Overhead Tank Less than Full. Motor On.";
-                    return false;
+                    return MotorValidatorCycler::PullMotorLogic(HwPtr);    
+                    
              }
              else      
              {
-                return MotorValidatorCycler::PullMotorLogic(HwPtr);       // return the same pointer back
-                                                                    // calling the virtual fn above will make
-                                                                    // call to the next class
+                    cout <<"\t => No. Exit.";
+                    return false;
+
              }
              
         }
