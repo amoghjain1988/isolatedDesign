@@ -21,8 +21,7 @@ class Hardware{
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) =0;
 
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source ) =0;
-    // virtual bool GetRemoteHardwareValues(GlobalHWData * )=0;
-    // virtual void SetHardwareTriggers(GlobalHWData * )=0;
+
 
 
 };
@@ -51,8 +50,9 @@ public:
          
             cout<<"\n Running Setup for Hardware!!";
 
-            if(this->next){
-            return this->next->HardwareSetup(nextSetupItem);
+            if(this->next)
+            {
+                return this->next->HardwareSetup(nextSetupItem);
             }
             else
             {                           
@@ -61,12 +61,12 @@ public:
             }   
     }   
 
-
    
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override
     {
 
-        if(this->next){
+        if(this->next)
+        {
             return this->next->HardwareRoutine(myptr, sourceLocation);
         }
         else
@@ -75,8 +75,6 @@ public:
             return false;
         }        
     }
-
-
 
 
     
