@@ -1,5 +1,5 @@
 
-    using namespace std;
+    #include <iostream>
     #include "Data.cpp"
     using namespace std;
 

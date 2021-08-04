@@ -1,5 +1,4 @@
     #include <iostream>
-    #include "Data.cpp"
 
     #include "2.MotorChecks.cpp"
 
@@ -15,10 +14,13 @@
             //  {0,0,0,0,0,0,0,0,0,0};
             
         MotorValidatorCycler *PullMotorValidator = new MotorValidatorCycler;
-        PullMotorValidator->setNextCheck(new InlineMainCheck)->setNextCheck( new InlineTopMainCheck);
+        PullMotorValidator->setNextCheck(new InlineMainCheck)->setNextCheck( new InlinePullCheck);
         
 
-        HardwareValues->inlineMain = 1;      HardwareValues->inlinePull = 0;
+        HardwareValues->inlineMain = 1;
+        HardwareValues->inlinePull = 0;
+        HardwareValues->ValveMovedRecently =1;
+
         std::cout<<"\n Condition #1 for Motor Il1 : "<<HardwareValues->inlineMain;
         std::cout<<",  Il2 :"<< HardwareValues->inlinePull;
         motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
@@ -27,6 +29,8 @@
 
 
         HardwareValues->inlineMain = 0;      HardwareValues->inlinePull = 0;
+                HardwareValues->ValveMovedRecently =1;
+
          std::cout<<"\n Condition #2 for Motor Il1 : "<<HardwareValues->inlineMain;
         std::cout<<",  Il2 : "<< HardwareValues->inlinePull;
         motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
@@ -35,6 +39,7 @@
 
 
         HardwareValues->inlineMain = 1;      HardwareValues->inlinePull= 1;
+                HardwareValues->ValveMovedRecently =0;
         std::cout<<"\n Condition #3 for Motor Il1 : "<<HardwareValues->inlineMain;
         std::cout<<",  Il2 : "<< HardwareValues->inlinePull;        
         motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
