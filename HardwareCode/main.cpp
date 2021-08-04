@@ -15,7 +15,15 @@ int main()
     SystemHWRoutine *LiftMotorController = new SystemHWRoutine;
      SystemHardwareSetup *LiftMotorSetup = new SystemHardwareSetup;
 
-    LiftMotorSetup->AddToHWSetupList(new relayPullSetup);
+    LiftMotorSetup
+    ->AddToHWSetupList(new relayLiftSetup)
+    ->AddToHWSetupList(new LEDSetup)
+    ->AddToHWSetupList(new SDCardSetup)
+    ->AddToHWSetupList(new BtnSetup)
+    ->AddToHWSetupList(new relayPullSetup)
+    ->AddToHWSetupList(new relayPullSetup);
+
+    LiftMotorSetup->HardwareSetup(HWSetupVars); // different for each contolelr?
 
 
 
@@ -44,7 +52,8 @@ int main()
             LiftMotorController->HardwareRoutine(HWData, locally);
         }
 
-     delete  LiftMotorController;
+    delete     LiftMotorController;
+    delete     LiftMotorSetup;
 
     cout<<"\n Finished Adding  HW list for Lift Motor Controlelr\n";
     #endif
