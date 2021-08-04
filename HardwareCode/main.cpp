@@ -1,4 +1,5 @@
 
+#include "C_HardwareSetup.cpp"
 #include "D_HardwareRoutines.cpp"
 
 #define FirmwareType 1
@@ -11,7 +12,12 @@ int main()
     cout<<"\n Program Start";
 
     #if  ( FirmwareType ==1 )
-    SystemHardware *LiftMotorController = new SystemHardware;
+    SystemHWRoutine *LiftMotorController = new SystemHWRoutine;
+     SystemHardwareSetup *LiftMotorSetup = new SystemHardwareSetup;
+
+    LiftMotorSetup->AddToHWSetupList(new relayPullSetup);
+
+
 
     LiftMotorController
     ->AddToHWRoutineList(new relayPull, Remotely)
@@ -30,7 +36,7 @@ int main()
     ->AddToHWRoutineList(new InlineOverheadLift, Remotely)
     ->AddToHWRoutineList(new InlineMain, Remotely);
 
-   LiftMotorController->HardwareSetup(HWData, locally);
+//    LiftMotorController->HardwareSetup(HWData, locally);
 
         for(int i = 1; i <3; i++)       // looping through list of HW routines
         {

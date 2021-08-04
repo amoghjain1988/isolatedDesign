@@ -5,135 +5,135 @@
 
 
 
-class relayPullSetup: public SystemHardware
+class relayPullSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  Relay Pull ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
-class relayLiftSetup: public SystemHardware
+class relayLiftSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  Relay Lift ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
-class LEDSetup: public SystemHardware
+class LEDSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HE Setup :  LEDSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
-class SDCardSetup: public SystemHardware
+class SDCardSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  SDCardSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
 
-class BtnSetup: public SystemHardware
+class BtnSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup : BtnSetup";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
-class DepthStorageSetup: public SystemHardware
+class DepthStorageSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  DepthStorageSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
 
-class InlineMainSetup: public SystemHardware
+class InlineMainSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  Relay Pull ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
-class InlinePullSetup: public SystemHardware
+class InlinePullSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  InlinePullSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
 
-class InlineValveSetup: public SystemHardware
+class InlineValveSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  InlineValveSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
 
-class ValveSetup: public SystemHardware
+class ValveSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup : ValveSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
-class BmsStorageSetup: public SystemHardware
+class BmsStorageSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup : BmsStorageSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };
 
-class BMSOverheadSetup: public SystemHardware
+class BMSOverheadSetup: public SystemHardwareSetup
 {
     public:
     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem)  override{
 
             std::cout<<"\n HW Setup :  BMSOverheadSetup ";
-            return SystemHardware::HardwareSetup(nextSetupItem);
+            return SystemHardwareSetup::HardwareSetup(nextSetupItem);
 
     }
 };

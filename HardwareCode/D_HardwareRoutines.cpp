@@ -25,18 +25,13 @@ using namespace std;
         cout<<", 8. OvDepth : "<<HardwareValues->OverheadDepth;
          
     }
-class relayPull: public SystemHardware
+class relayPull: public SystemHWRoutine
 { 
     
     
     public:
 
-    // virtual bool HardwareSetup(GlobalHWData *myptr, HardwareUpdateSource source ) override
-    // {
-    //         std::cout<<"\n Running Relay Setup for Source as  :"<<source;
-
-    //         return false;
-    // }
+    
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
             std::cout<<"\n Checking: RElay Pull src  :"<<source;
@@ -73,172 +68,172 @@ class relayPull: public SystemHardware
 
 
     }
-            return SystemHardware::HardwareRoutine(myptr, source);
+            return SystemHWRoutine::HardwareRoutine(myptr, source);
 
     }
 
 };
 
 
-class relayLift: public SystemHardware
+class relayLift: public SystemHWRoutine
 {
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
             std::cout<<"\n Checking: RElay Lift src  :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
 
     }
 };
 
 
-class DepthStorage: public SystemHardware
+class DepthStorage: public SystemHWRoutine
 {
         public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
             std::cout<<"\n Checking: Depth ST src    :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
 
     }
 };
 
 
-class DepthOverhead: public SystemHardware
+class DepthOverhead: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
             std::cout<<"\n Checking: Depth OH src    :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class LED: public SystemHardware
+class LED: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: LED src         :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
-class UserButton: public SystemHardware
+class UserButton: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: UserButton src  :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class SDCard: public SystemHardware
+class SDCard: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: SDCard src      :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class RTC: public SystemHardware
+class RTC: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: RTC src         :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class Valve: public SystemHardware
+class Valve: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: Valve src       :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class BMSOverhead: public SystemHardware
+class BMSOverhead: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: BMSOverhead src :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
-class BMSStorage: public SystemHardware
+class BMSStorage: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: BMSStorage src  :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
-class PowerAndSleep: public SystemHardware
+class PowerAndSleep: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: PowerAndSleep src:"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class InlineMain: public SystemHardware
+class InlineMain: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking: InlineMain src  :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class InlineOverheadPull: public SystemHardware
+class InlineOverheadPull: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking:IL_OHPull src    :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };
 
 
-class InlineOverheadLift: public SystemHardware
+class InlineOverheadLift: public SystemHWRoutine
 { 
             public:
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
            std::cout<<"\n Checking:IL_OHLift src    :"<<source;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+                   return SystemHWRoutine::HardwareRoutine(myptr, source);
     }
 
 };

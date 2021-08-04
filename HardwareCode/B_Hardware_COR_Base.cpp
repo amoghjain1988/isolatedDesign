@@ -8,17 +8,15 @@
 
 
 
-class Hardware{
+class Base_Hardware_Routine{
 
     public:
   
-    virtual Hardware *AddToHWRoutineList(Hardware *nextListItem, HardwareUpdateSource source ) =0;
+    virtual Base_Hardware_Routine *AddToHWRoutineList(Base_Hardware_Routine *nextListItem, HardwareUpdateSource source ) =0;
 
-    virtual Hardware *AddToHWSetupList(Hardware *nextListItem) =0;
 
-    virtual ~Hardware(){};
+    virtual ~Base_Hardware_Routine(){};
 
-    virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) =0;
 
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source ) =0;
 
@@ -26,24 +24,38 @@ class Hardware{
 
 };
 
+class Base_Hardware_Setup{
 
-class SystemHardware:public Hardware
+    public:
+  
+
+    virtual Base_Hardware_Setup *AddToHWSetupList(Base_Hardware_Setup *nextListItem) =0;
+
+    virtual ~Base_Hardware_Setup(){};
+
+    virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) =0;
+
+
+
+
+};
+
+
+class SystemHardwareSetup:public Base_Hardware_Setup
 {
 
 protected:
-        Hardware *next = nullptr;
-        HardwareUpdateSource sourceLocation;
-public:
-    virtual ~SystemHardware() { delete next;}
+        Base_Hardware_Setup *next = nullptr;
 
-    Hardware * AddToHWRoutineList(Hardware *nextListItem, HardwareUpdateSource source)
-    {
-        cout<<"\n Added Hardware to List! "<<source;
+public:
+    virtual ~SystemHardwareSetup() { delete next;}
+      virtual Base_Hardware_Setup *AddToHWSetupList(Base_Hardware_Setup *nextListItem)
+      {
+        cout<<"\n Added Hardware to Setup List! ";
 
         next                =   nextListItem;
-        sourceLocation      =   source;
         return                  nextListItem;
-    }
+      }
 
      virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) override
     {
@@ -59,9 +71,28 @@ public:
                 cout<<"\n hardware Setup FInished!!\n.";      
                 return false;
             }   
-    }   
+    }      
+};
 
-   
+
+class SystemHWRoutine:public Base_Hardware_Routine
+{
+
+protected:
+        Base_Hardware_Routine *next = nullptr;
+        HardwareUpdateSource sourceLocation;
+public:
+    virtual ~SystemHWRoutine() { delete next;}
+
+    Base_Hardware_Routine * AddToHWRoutineList(Base_Hardware_Routine *nextListItem, HardwareUpdateSource source)
+    {
+        cout<<"\n Added Hardware to List! "<<source;
+
+        next                =   nextListItem;
+        sourceLocation      =   source;
+        return                  nextListItem;
+    }
+
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override
     {
 
