@@ -48,14 +48,20 @@ protected:
         Base_Hardware_Setup *next = nullptr;
 
 public:
-    virtual ~SystemHardwareSetup() { delete next;}
-      virtual Base_Hardware_Setup *AddToHWSetupList(Base_Hardware_Setup *nextListItem)
-      {
-        cout<<"\n Added Hardware to Setup List! ";
+    virtual ~SystemHardwareSetup() 
+    { 
+        cout<<"\n -------------Deleting Setup Object";
+        delete next;
+    }
 
-        next                =   nextListItem;
-        return                  nextListItem;
-      }
+
+    virtual Base_Hardware_Setup *AddToHWSetupList(Base_Hardware_Setup *nextListItem)
+    {
+    cout<<"\n Added Hardware to Setup List! ";
+
+    next                =   nextListItem;
+    return                  nextListItem;
+    }
 
      virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) override
     {
@@ -82,7 +88,12 @@ protected:
         Base_Hardware_Routine *next = nullptr;
         HardwareUpdateSource sourceLocation;
 public:
-    virtual ~SystemHWRoutine() { delete next;}
+    virtual ~SystemHWRoutine() 
+    { 
+        cout<<"\n -------------Deleting Routine Object";
+
+        delete next;
+    }
 
     Base_Hardware_Routine * AddToHWRoutineList(Base_Hardware_Routine *nextListItem, HardwareUpdateSource source)
     {
