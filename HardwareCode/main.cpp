@@ -25,7 +25,7 @@ int main()
     ->AddToHWList(new InlineMain, Remotely);
 
 
-    cout<<"\n Finished Adding  HW list\n";
+    cout<<"\n Finished Adding  HW list for mAin Controlelr\n";
 
     
      MainController->HardwareRoutine(HWData, locally);
