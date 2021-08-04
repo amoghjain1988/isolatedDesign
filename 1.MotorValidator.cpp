@@ -58,11 +58,9 @@
                 return this->next->PullMotorLogic(HwPtr);
             }
             else
-            {
-                           
-                cout<<"\n No More next";      
+            {                           
+                cout<<"\n No More next. Failure Detected. Motor Off.";      
                 return true;
-
             }
             
         }
