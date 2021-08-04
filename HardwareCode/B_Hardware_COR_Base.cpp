@@ -12,11 +12,13 @@ class Hardware{
 
     public:
   
-    virtual Hardware *AddToHWList(Hardware *nextListItem, HardwareUpdateSource source ) =0;
+    virtual Hardware *AddToHWRoutineList(Hardware *nextListItem, HardwareUpdateSource source ) =0;
+
+    virtual Hardware *AddToHWSetupList(Hardware *nextListItem) =0;
 
     virtual ~Hardware(){};
 
-    virtual bool HardwareSetup(GlobalHWData *myptr, HardwareUpdateSource source ) =0;
+    virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) =0;
 
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source ) =0;
     // virtual bool GetRemoteHardwareValues(GlobalHWData * )=0;
@@ -35,22 +37,22 @@ protected:
 public:
     virtual ~SystemHardware() { delete next;}
 
-    Hardware * AddToHWList(Hardware *nextListItem, HardwareUpdateSource source)
+    Hardware * AddToHWRoutineList(Hardware *nextListItem, HardwareUpdateSource source)
     {
         cout<<"\n Added Hardware to List! "<<source;
-        
+
         next                =   nextListItem;
         sourceLocation      =   source;
         return                  nextListItem;
     }
 
-     virtual bool HardwareSetup(GlobalHWData *myptr, HardwareUpdateSource source ) override
+     virtual bool HardwareSetup(HWSetupInitializers *nextSetupItem) override
     {
          
-            cout<<"\n Running Setup for Hardware!! "<<source;
+            cout<<"\n Running Setup for Hardware!!";
 
             if(this->next){
-            return this->next->HardwareSetup(myptr, sourceLocation);
+            return this->next->HardwareSetup(nextSetupItem);
             }
             else
             {                           

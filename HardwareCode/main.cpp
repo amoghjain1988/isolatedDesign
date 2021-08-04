@@ -14,21 +14,21 @@ int main()
     SystemHardware *LiftMotorController = new SystemHardware;
 
     LiftMotorController
-    ->AddToHWList(new relayPull, Remotely)
-    ->AddToHWList(new relayLift, locally)
-    ->AddToHWList(new DepthStorage, Remotely)
-    ->AddToHWList(new DepthOverhead, Remotely)
-    ->AddToHWList(new LED, locally)
-    ->AddToHWList(new UserButton, locally)
-    ->AddToHWList(new SDCard, locally)
-    ->AddToHWList(new RTC, locally)
-    ->AddToHWList(new Valve, Remotely)
-    ->AddToHWList(new BMSOverhead, Remotely)
-    ->AddToHWList(new BMSStorage, Remotely)
-    ->AddToHWList(new InlineMain, Remotely)
-    ->AddToHWList(new InlineOverheadPull, Remotely)
-    ->AddToHWList(new InlineOverheadLift, Remotely)
-    ->AddToHWList(new InlineMain, Remotely);
+    ->AddToHWRoutineList(new relayPull, Remotely)
+    ->AddToHWRoutineList(new relayLift, locally)
+    ->AddToHWRoutineList(new DepthStorage, Remotely)
+    ->AddToHWRoutineList(new DepthOverhead, Remotely)
+    ->AddToHWRoutineList(new LED, locally)
+    ->AddToHWRoutineList(new UserButton, locally)
+    ->AddToHWRoutineList(new SDCard, locally)
+    ->AddToHWRoutineList(new RTC, locally)
+    ->AddToHWRoutineList(new Valve, Remotely)
+    ->AddToHWRoutineList(new BMSOverhead, Remotely)
+    ->AddToHWRoutineList(new BMSStorage, Remotely)
+    ->AddToHWRoutineList(new InlineMain, Remotely)
+    ->AddToHWRoutineList(new InlineOverheadPull, Remotely)
+    ->AddToHWRoutineList(new InlineOverheadLift, Remotely)
+    ->AddToHWRoutineList(new InlineMain, Remotely);
 
    LiftMotorController->HardwareSetup(HWData, locally);
 
@@ -49,21 +49,21 @@ int main()
     cout<<"\n Program Start";
     SystemHardware *PullMotorController = new SystemHardware;
     PullMotorController
-    ->AddToHWList(new relayPull, locally)
-    ->AddToHWList(new relayLift, Remotely)
-    ->AddToHWList(new DepthStorage, Remotely)
-    ->AddToHWList(new DepthOverhead, Remotely)
-    ->AddToHWList(new LED, locally)
-    ->AddToHWList(new UserButton, locally)
-    // ->AddToHWList(new SDCard, locally)
-    // ->AddToHWList(new RTC, locally)
-    // ->AddToHWList(new Valve, Remotely)
-    ->AddToHWList(new BMSOverhead, Remotely)
-    ->AddToHWList(new BMSStorage, Remotely)
-    ->AddToHWList(new InlineMain, Remotely)
-    ->AddToHWList(new InlineOverheadPull, Remotely)
-    ->AddToHWList(new InlineOverheadLift, Remotely)
-    ->AddToHWList(new InlineMain, Remotely);
+    ->AddToHWRoutineList(new relayPull, locally)
+    ->AddToHWRoutineList(new relayLift, Remotely)
+    ->AddToHWRoutineList(new DepthStorage, Remotely)
+    ->AddToHWRoutineList(new DepthOverhead, Remotely)
+    ->AddToHWRoutineList(new LED, locally)
+    ->AddToHWRoutineList(new UserButton, locally)
+    // ->AddToHWRoutineList(new SDCard, locally)
+    // ->AddToHWRoutineList(new RTC, locally)
+    // ->AddToHWRoutineList(new Valve, Remotely)
+    ->AddToHWRoutineList(new BMSOverhead, Remotely)
+    ->AddToHWRoutineList(new BMSStorage, Remotely)
+    ->AddToHWRoutineList(new InlineMain, Remotely)
+    ->AddToHWRoutineList(new InlineOverheadPull, Remotely)
+    ->AddToHWRoutineList(new InlineOverheadLift, Remotely)
+    ->AddToHWRoutineList(new InlineMain, Remotely);
     
 
      PullMotorController->HardwareRoutine(HWData, locally);

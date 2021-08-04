@@ -55,4 +55,13 @@
 
 
         };
+
+
+        struct HWSetupInitializers
+        {
+
+            int poweronTime = 5;
+
+        };
+        HWSetupInitializers *HWSetupVars = new HWSetupInitializers;
 #endif
