@@ -1,32 +1,90 @@
 #include "1.MotorValidator.cpp"
 #include <iostream>
 
+
+// Set by Hardware Class!
+
+bool valvePresent(){
+return true;
+
+}
+
+bool PullMotorPresent(){
+
+return true;
+}
+
+
 using namespace std;
 
-    class InlineMainandPullCheck:public MotorValidatorCycler{
+
+
+    class InlinePullCheck:public MotorValidatorCycler{
 
     public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
         
-        std::cout<<"\n Checking: Inline Main + Pull + Recent Valve";
+        std::cout<<"\n Checking: Valve";
+        
+        if(PullMotorPresent())
+            {
+
+                if(HwPtr->ValveMovedRecently ){
+                    std::cout<<"\t =>  Yes. Next CHeck!";
+                    return MotorValidatorCycler::PullMotorLogic(HwPtr);
+                }
+                
+                cout <<"\t => No Valve! Exit.";
+                return false;
+
+            }
             
-            // if(valvePresent());
+        std::cout<<"\t =>  Skip Valve. Next CHeck!";
+        return MotorValidatorCycler::PullMotorLogic(HwPtr);                                                             
+        }
+    };
+
+
+    class InlineMainPullValveCheck:public MotorValidatorCycler{
+
+    public:
+        bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
+        
+        std::cout<<"\n Checking: Inline Main + Pull + Recent Valve";            
 
              if(HwPtr->inlineMain == 1 || HwPtr->inlinePull == 1 || HwPtr->ValveMovedRecently ){
                 std::cout<<"\t =>  Yes. Next CHeck!";
                  return MotorValidatorCycler::PullMotorLogic(HwPtr);
              }
-             else      
-             {
+             
                 cout <<"\t => No Water! Exit.";
                 return false;
                                    
-             }
+             
              
         }
     };
 
 
+    class InlineMainCheck:public MotorValidatorCycler{
+    // no valve based systems.
+    public:
+        bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
+        
+        std::cout<<"\n Checking: Inline Main";            
+
+             if(HwPtr->inlineMain == 1 ){
+                std::cout<<"\t =>  Yes. Next CHeck!";
+                 return MotorValidatorCycler::PullMotorLogic(HwPtr);
+             }
+             
+                cout <<"\t => No Water! Exit.";
+                return false;
+                                   
+             
+             
+        }
+    };
 
     class InlineLiftCheck:public MotorValidatorCycler{
 
@@ -39,12 +97,11 @@ using namespace std;
 
 
              }
-             else      
-             {
+            
                 cout <<"\t => No Water! Exit.";
                 return false;
 
-             }
+             
              
         }
     };
@@ -63,7 +120,6 @@ using namespace std;
              {
                 cout <<"\t => StorageOverFull! Exit.";
                 return false;
-
              }
              
         }
@@ -74,18 +130,18 @@ using namespace std;
 
         public:
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
+
             std::cout<<"\n Checking Min Overhead Depth";
              if(HwPtr->OverheadDepth > HardwareConstants.minOverheadDepth){
                  std::cout<<"\t Yes. Next CHeck.";
                     return MotorValidatorCycler::PullMotorLogic(HwPtr);    
                     
              }
-             else      
-             {
-                    cout <<"\t => OverheadOverFull. Exit.";
-                    return false;
+            
+            cout <<"\t => OverheadOverFull. Exit.";
+            return false;
 
-             }
+             
              
         }
     };

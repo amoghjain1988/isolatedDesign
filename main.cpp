@@ -39,67 +39,81 @@
 
             //  {0,0,0,0,0,0,0,0,0,0};
             
-        MotorValidatorCycler *PullMotorValidator = new MotorValidatorCycler;
-        PullMotorValidator
-        ->setNextCheck(new InlineMainandPullCheck)
+        MotorValidatorCycler *PullMotorValveValidator = new MotorValidatorCycler;
+        PullMotorValveValidator
+        ->setNextCheck(new InlineMainPullValveCheck)
         ->setNextCheck(new StorageDepthCheck)
         ->setNextCheck(new OverheadDepthCheck);
 
+
+        // cyle through all, order is relevant, just efficient, as it helps exits first.
+        MotorValidatorCycler *LiftMotorValidator = new MotorValidatorCycler;
+        LiftMotorValidator
+        ->setNextCheck(new InlineMainPullValveCheck)
+        ->setNextCheck(new StorageDepthCheck)
+        ->setNextCheck(new OverheadDepthCheck);
         
 
 
         
-        std::cout<<"\n\n -----------------------\n\n";
-        std::cout<<"\n Condition #1 : ";
-        SetHwValues(1,0,1,0,123,23);
-        printHarwareValues();
-        motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n\n -----------------------\n\n";
+        // std::cout<<"\n --- Program End----\n\n";
+        // std::cout<<"\n Condition #1 : ";
+        // SetHwValues(1,0,1,0,123,23);
+        // printHarwareValues();
+        // motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
+        // std::cout<<"\n Motor Output: "<<motorOutput;
+        // std::cout<<"\n --- Program End----\n\n";
 
 
-        std::cout<<"\n\n -----------------------\n\n";
-        std::cout<<"\n Condition #2 : ";
-        SetHwValues(1,0,1,0,15,23);
-        printHarwareValues();
-        motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n\n -----------------------\n\n";
+        // std::cout<<"\n --- Program End----\n\n";
+        // std::cout<<"\n Condition #2 : ";
+        // SetHwValues(1,0,1,0,15,23);
+        // printHarwareValues();
+        // motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
+        // std::cout<<"\n Motor Output: "<<motorOutput;
+        // std::cout<<"\n --- Program End----\n\n";
 
 
-        std::cout<<"\n\n -----------------------\n\n";
-        std::cout<<"\n Condition #3 : ";
-        SetHwValues(0,0,1,1,15,23);
-        printHarwareValues();
-        motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n\n -----------------------\n\n";
+        // std::cout<<"\n --- Program End----\n\n";
+        // std::cout<<"\n Condition #3 : ";
+        // SetHwValues(0,0,1,1,15,23);
+        // printHarwareValues();
+        // motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
+        // std::cout<<"\n Motor Output: "<<motorOutput;
+        // std::cout<<"\n --- Program End----\n\n";
 
 
-        std::cout<<"\n\n -----------------------\n\n";
-        std::cout<<"\n Condition #4 : ";
-        SetHwValues(1,0,0,0,45,23);
-        printHarwareValues();
-        motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n\n -----------------------\n\n";
-
-
-
-        std::cout<<"\n\n -----------------------\n\n";
-        std::cout<<"\n Condition #5 : ";
-        SetHwValues(1,0,0,0,45,123);
-        printHarwareValues();
-        motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n\n -----------------------\n\n";
+        // std::cout<<"\n --- Program End----\n\n";
+        // std::cout<<"\n Condition #4 : ";
+        // SetHwValues(1,0,0,0,45,23);
+        // printHarwareValues();
+        // motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
+        // std::cout<<"\n Motor Output: "<<motorOutput;
+        // std::cout<<"\n --- Program End----\n\n";
 
 
 
-        std::cout<<"\n\n --- Program End----\n\n";
+        // std::cout<<"\n --- Program End----\n\n";
+        // std::cout<<"\n Condition #5 : ";
+        // SetHwValues(1,0,0,0,45,123);
+        // printHarwareValues();
+        // motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
+        // std::cout<<"\n Motor Output: "<<motorOutput;
+        // std::cout<<"\n\n -----------------------\n\n";
+
+        // std::cout<<"\n --- Program End----\n\n";
+        // std::cout<<"\n Condition #5 : ";
+        // SetHwValues(1,0,0,0,300,123);
+        // printHarwareValues();
+        // motorOutput = PullMotorValidator->PullMotorLogic(HardwareValues);
+        // std::cout<<"\n Motor Output: "<<motorOutput;
+        // std::cout<<"\n\n -----------------------\n\n";
 
 
-        delete PullMotorValidator;
+        // std::cout<<"\n --- Program End----\n\n";
+
+        delete PullMotorValveValidator;
+        delete LiftMotorValidator;
         delete HardwareValues;
         return 0;
 
