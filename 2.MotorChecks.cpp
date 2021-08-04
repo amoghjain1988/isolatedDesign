@@ -9,7 +9,9 @@ using namespace std;
         bool PullMotorLogic(GlobalSystemHardware *HwPtr) override {
         
         std::cout<<"\n Checking: Inline Main + Pull + Recent Valve";
-        
+            
+            // if(valvePresent());
+
              if(HwPtr->inlineMain == 1 || HwPtr->inlinePull == 1 || HwPtr->ValveMovedRecently ){
                 std::cout<<"\t =>  Yes. Next CHeck!";
                  return MotorValidatorCycler::PullMotorLogic(HwPtr);
