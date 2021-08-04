@@ -38,10 +38,10 @@ public:
     Hardware * AddToHWList(Hardware *nextListItem, HardwareUpdateSource source)
     {
         cout<<"\n Added Hardware to List! "<<source;
-        next = nextListItem;
-        sourceLocation = source;
-      //  nextListItem->HardwareSetup();
-        return nextListItem;
+        
+        next                =   nextListItem;
+        sourceLocation      =   source;
+        return                  nextListItem;
     }
 
      virtual bool HardwareSetup(GlobalHWData *myptr, HardwareUpdateSource source ) override
