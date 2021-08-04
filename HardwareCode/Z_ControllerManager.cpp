@@ -51,7 +51,7 @@ class ControllerManager_t
     {
 
         LiftMotorSetup
-        ->AddToHWSetupList(new HardwareSetup)
+        ->AddToHWSetupList(new PowerSetup)
         ->AddToHWSetupList(new relayLiftSetup)
         ->AddToHWSetupList(new LEDSetup)
         ->AddToHWSetupList(new SDCardSetup)
@@ -74,7 +74,7 @@ class ControllerManager_t
     void HardwareRoutineListSetup()
     {
         LiftMotorRoutine
-        ->AddToHWRoutineList(new relayPull, locally)
+        ->AddToHWRoutineList(new PowerSettings, locally)
         ->AddToHWRoutineList(new relayPull, Remotely)
         ->AddToHWRoutineList(new relayLift, locally)
         ->AddToHWRoutineList(new DepthStorage, Remotely)
