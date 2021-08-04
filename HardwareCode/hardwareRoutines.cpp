@@ -1,6 +1,8 @@
-#include "hardware.cpp"
-using namespace std;
+#include "B_Hardware_COR_Base.cpp"
 #include "./relay/B_MotorChecks.cpp"
+using namespace std;
+
+
  void SetHwValues(bool b,bool c,bool d,bool e,int h,int i)
     {
         HardwareValues->inlineMain               =b;
@@ -48,31 +50,15 @@ class relayPull: public SystemHardware
 
 
         
-        std::cout<<"\n --- Program End----\n\n";
-        std::cout<<"\n Condition #1 : ";
-        SetHwValues(1,0,1,0,123,23);
-        printHarwareValues();
-        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n --- Program End----\n\n";
+            std::cout<<"\n --- Program End----\n\n";
+            std::cout<<"\n Condition #1 : ";
+            SetHwValues(1,0,1,0,123,23);
+            printHarwareValues();
+            motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
+            std::cout<<"\n Motor Output: "<<motorOutput;
+            std::cout<<"\n --- Program End----\n\n";
 
 
-        std::cout<<"\n --- Program End----\n\n";
-        std::cout<<"\n Condition #2 : ";
-        SetHwValues(1,0,1,0,15,23);
-        printHarwareValues();
-        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n --- Program End----\n\n";
-
-
-        std::cout<<"\n --- Program End----\n\n";
-        std::cout<<"\n Condition #3 : ";
-        SetHwValues(0,0,1,1,15,23);
-        printHarwareValues();
-        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
-        std::cout<<"\n Motor Output: "<<motorOutput;
-        std::cout<<"\n --- Program End----\n\n";
 
         delete PullMotorValveValidator;
 

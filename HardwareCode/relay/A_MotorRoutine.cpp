@@ -1,5 +1,5 @@
-    #ifndef A_MotorValidator
-    #define A_MotorValidator    
+    #ifndef A_MotorRoutine
+    #define A_MotorRoutine    
 
     #include <iostream>
     #include "Data.cpp"

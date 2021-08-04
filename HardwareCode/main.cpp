@@ -44,7 +44,21 @@ int main()
     SystemHardware *PullMotorController = new SystemHardware;
     PullMotorController
     ->AddToHWList(new relayPull, locally)
-    ->AddToHWList(new relayLift, Remotely);
+    ->AddToHWList(new relayLift, Remotely)
+    ->AddToHWList(new DepthStorage, Remotely)
+    ->AddToHWList(new DepthOverhead, Remotely)
+    ->AddToHWList(new LED, locally)
+    ->AddToHWList(new UserButton, locally)
+    // ->AddToHWList(new SDCard, locally)
+    // ->AddToHWList(new RTC, locally)
+    // ->AddToHWList(new Valve, Remotely)
+    ->AddToHWList(new BMSOverhead, Remotely)
+    ->AddToHWList(new BMSStorage, Remotely)
+    ->AddToHWList(new InlineMain, Remotely)
+    ->AddToHWList(new InlineOverheadPull, Remotely)
+    ->AddToHWList(new InlineOverheadLift, Remotely)
+    ->AddToHWList(new InlineMain, Remotely);
+    
 
      PullMotorController->HardwareRoutine(HWData, locally);
 
