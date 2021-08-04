@@ -19,11 +19,31 @@
     struct UserProvidedContants
     {
 
-        const int maxStorageDepth =  200;
-        const int minStorageDepth =  20;
-        const int maxOverheadDepth =  180;
-        const int minOverheadDepth=  20;
-
+        const int maxStorageDepth   =   200;
+        const int minStorageDepth   =   20;
+        const int maxOverheadDepth  =   180;
+        const int minOverheadDepth  =   20;
+        const int Starthour         =   500;
+        const int CloseHour         =   2000;
+        const int LiftMCoolDownTIme =   3;          // hours before motors will start again!
+                                                    // pull doenst have a cooldown time, just time boundednes.
 
     };
     UserProvidedContants    HardwareConstants;
+
+
+    struct NTPtime{
+
+        int currentHour = 800;
+        
+    };
+
+NTPtime     *mytime;
+
+struct  HistoricalTimeStamps
+{
+
+    int lastPullMotorOntime     = 800; 
+    int    lastLiftMotorOfftime = 1200;
+};
+HistoricalTimeStamps *lastRuntime = nullptr;

@@ -47,7 +47,7 @@
         ~MotorValidatorCycler(){ delete next;};
 
         MotorValidator *setNextCheck(MotorValidator *nextCheck){
-
+            cout<<"\n Cycler CLass called";
             next = nextCheck;
             return nextCheck;
         }
