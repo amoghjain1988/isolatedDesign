@@ -31,19 +31,20 @@ class relayPull: public SystemHardware
     virtual bool HardwareRoutine(GlobalHWData *myptr, HardwareUpdateSource source) override{
 
             std::cout<<"\n Checking: RElay Pull src  :"<<source;
+    if(source == locally)
+    {
 
 
+        bool motorOutput;
 
-                    bool motorOutput;
 
-
-                MotorValidatorCycler *PullMotorValveValidator = new MotorValidatorCycler;
-                    PullMotorValveValidator
-                    ->setNextCheck(new RunTimeCheck)
-                    ->setNextCheck(new InlineMainPullValveCheck)
-                    ->setNextCheck(new StorageDepthCheck)
-                    ->setNextCheck(new OverheadDepthCheck);
-                    
+        MotorValidatorCycler *PullMotorValveValidator = new MotorValidatorCycler;
+            PullMotorValveValidator
+            ->setNextCheck(new RunTimeCheck)
+            ->setNextCheck(new InlineMainPullValveCheck)
+            ->setNextCheck(new StorageDepthCheck)
+            ->setNextCheck(new OverheadDepthCheck);
+            
 
 
         
@@ -73,10 +74,13 @@ class relayPull: public SystemHardware
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n --- Program End----\n\n";
 
-       delete PullMotorValveValidator;
+        delete PullMotorValveValidator;
 
-       delete HardwareValues;
-                   return SystemHardware::HardwareRoutine(myptr, source);
+        delete HardwareValues;
+
+
+    }
+            return SystemHardware::HardwareRoutine(myptr, source);
 
     }
 

@@ -1,14 +1,20 @@
 
 #include "hardwareRoutines.cpp"
 
+#define FirmwareType 2
+
+
 // #include <iostream>
 int main()
 
 {
     cout<<"\n Program Start";
-    SystemHardware *MainController = new SystemHardware;
-    MainController
-    ->AddToHWList(new relayPull, locally)
+
+    #if  ( FirmwareType ==1 )
+    SystemHardware *LiftMotorController = new SystemHardware;
+
+    LiftMotorController
+    ->AddToHWList(new relayPull, Remotely)
     ->AddToHWList(new relayLift, locally)
     ->AddToHWList(new DepthStorage, Remotely)
     ->AddToHWList(new DepthOverhead, Remotely)
@@ -23,16 +29,28 @@ int main()
     ->AddToHWList(new InlineOverheadPull, Remotely)
     ->AddToHWList(new InlineOverheadLift, Remotely)
     ->AddToHWList(new InlineMain, Remotely);
-
-
-    cout<<"\n Finished Adding  HW list for mAin Controlelr\n";
-
     
-     MainController->HardwareRoutine(HWData, locally);
 
+     LiftMotorController->HardwareRoutine(HWData, locally);
+     delete  LiftMotorController;
 
+    cout<<"\n Finished Adding  HW list for Lift Motor Controlelr\n";
+    #endif
+    
 
+    #if  ( FirmwareType ==2 )
+
+    cout<<"\n Program Start";
+    SystemHardware *PullMotorController = new SystemHardware;
+    PullMotorController
+    ->AddToHWList(new relayPull, locally)
+    ->AddToHWList(new relayLift, Remotely);
+
+     PullMotorController->HardwareRoutine(HWData, locally);
+
+    delete PullMotorController;
     cout<<"\n Program End \n";
+    #endif
 
     return 0;
 }
