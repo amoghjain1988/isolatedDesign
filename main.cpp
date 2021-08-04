@@ -54,7 +54,6 @@
         MotorValidatorCycler *PullMotorValveValidator = new MotorValidatorCycler;
         PullMotorValveValidator
         ->setNextCheck(new RunTimeCheck)
-
         ->setNextCheck(new InlineMainPullValveCheck)
         ->setNextCheck(new StorageDepthCheck)
         ->setNextCheck(new OverheadDepthCheck);
@@ -76,7 +75,7 @@
         std::cout<<"\n Condition #1 : ";
         SetHwValues(1,0,1,0,123,23);
         printHarwareValues();
-        motorOutput = PullMotorValveValidator->PullMotorLogic(HardwareValues);
+        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n --- Program End----\n\n";
 
@@ -85,7 +84,7 @@
         std::cout<<"\n Condition #2 : ";
         SetHwValues(1,0,1,0,15,23);
         printHarwareValues();
-        motorOutput = PullMotorValveValidator->PullMotorLogic(HardwareValues);
+        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n --- Program End----\n\n";
 
@@ -94,7 +93,7 @@
         std::cout<<"\n Condition #3 : ";
         SetHwValues(0,0,1,1,15,23);
         printHarwareValues();
-        motorOutput = PullMotorValveValidator->PullMotorLogic(HardwareValues);
+        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n --- Program End----\n\n";
 
@@ -103,7 +102,7 @@
         std::cout<<"\n Condition #4 : ";
         SetHwValues(1,0,0,0,45,23);
         printHarwareValues();
-        motorOutput = PullMotorValveValidator->PullMotorLogic(HardwareValues);
+        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n --- Program End----\n\n";
 
@@ -113,15 +112,15 @@
         std::cout<<"\n Condition #5 : ";
         SetHwValues(1,0,0,0,45,123);
         printHarwareValues();
-        motorOutput = PullMotorValveValidator->PullMotorLogic(HardwareValues);
+        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n\n -----------------------\n\n";
 
         std::cout<<"\n --- Program End----\n\n";
-        std::cout<<"\n Condition #5 : ";
+        std::cout<<"\n Condition #6 : ";
         SetHwValues(1,0,0,0,300,123);
         printHarwareValues();
-        motorOutput = PullMotorValveValidator->PullMotorLogic(HardwareValues);
+        motorOutput = PullMotorValveValidator->MotorLogic(HardwareValues);
         std::cout<<"\n Motor Output: "<<motorOutput;
         std::cout<<"\n\n -----------------------\n\n";
 

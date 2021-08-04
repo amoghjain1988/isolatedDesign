@@ -12,7 +12,7 @@
 
     virtual ~MotorValidator(){};
 
-    virtual bool PullMotorLogic(GlobalSystemHardware *) =0;
+    virtual bool MotorLogic(GlobalSystemHardware *) =0;
 
 
     };
@@ -52,10 +52,10 @@
             return nextCheck;
         }
 
-        virtual bool  PullMotorLogic(GlobalSystemHardware *HwPtr) override
+        virtual bool  MotorLogic(GlobalSystemHardware *HwPtr) override
         {
             if(this->next){
-                return this->next->PullMotorLogic(HwPtr);
+                return this->next->MotorLogic(HwPtr);
             }
             else
             {                           

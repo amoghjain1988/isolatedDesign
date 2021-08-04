@@ -38,7 +38,7 @@
         
     };
 
-NTPtime     *mytime;
+NTPtime     *mytime = new NTPtime;
 
 struct  HistoricalTimeStamps
 {
@@ -46,4 +46,4 @@ struct  HistoricalTimeStamps
     int lastPullMotorOntime     = 800; 
     int    lastLiftMotorOfftime = 1200;
 };
-HistoricalTimeStamps *lastRuntime = nullptr;
+HistoricalTimeStamps *lastRuntime = new HistoricalTimeStamps;
