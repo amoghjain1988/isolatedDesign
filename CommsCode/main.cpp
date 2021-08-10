@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include "C_commsObjects.cpp"
+#include "C_commsObjects.h"
 
 int main()
 
