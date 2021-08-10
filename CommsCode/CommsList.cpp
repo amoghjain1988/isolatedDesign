@@ -2,12 +2,12 @@
 #include <iostream>
 enum communicationStates_t
 {
-
-
-
+offlineAP,
+online_OTA,
+online_AWS,
+sleep,
 };
 communicationStates_t *CommStateDesired;
-communicationStates_t *CommStateCurrent;
 
 
 class CommsParent_Setup
@@ -16,7 +16,7 @@ class CommsParent_Setup
     ~ CommsParent_Setup(){};
     virtual void *CommsItemsCheck(CommsParent_Setup*nextItem ) = 0;
 
-    virtual communicationStates_t* CommsChecklist(communicationStates_t *)  = 0;
+    virtual void CommsChecklist(communicationStates_t *)  = 0;
     
 };
 
@@ -34,10 +34,21 @@ class CommsParent_Routine : public CommsParent_Setup
         next = nextItem;
         return nextItem;
     }
-    
-    communicationStates_t* CommsChecklist(communicationStates_t *) override
-    {
 
+    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+    {
+            if(this->next)
+            {
+                return this->next->CommsChecklist(CommStateCurrent);
+            }
+            else
+            {   
+                #ifdef Dbg_HW_ListRoutine                        
+                std::cout<<"\n Exisint Comms Current State!!\n.";   
+                #endif 
+
+                // return CommStateDesired;
+            }   
     }
     
 
