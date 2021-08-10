@@ -1,4 +1,4 @@
 
     #include "B_commschecklist.cpp"
 
-    commsSetup *commsHandler = new commsSetup;      // Derived
+    CommsParent_Routine *commsHandler = new CommsParent_Routine;      // Derived

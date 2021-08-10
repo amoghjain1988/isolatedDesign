@@ -6,10 +6,7 @@
 class commsIncoming:public CommsParent_Routine
 {
     public:
-    commsIncoming(){
-                std::cout<<"\n Incoming Contructor.";
-
-    }
+    
     virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
     {
         #ifdef DebugCommsList
@@ -25,11 +22,14 @@ class commsIncoming:public CommsParent_Routine
 class commsSetup:public CommsParent_Routine
 {
         public:
+commsSetup(){
+                std::cout<<"\n Indivudal  Class Contructor is CONSTRUCTEd.";
 
+    }
     virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
     {
         #ifdef DebugCommsList
-        std::cout<<"\n Running commsSetup";
+        std::cout<<"\n Running commsSetup List Class";
         #endif
         
         return CommsParent_Routine::CommsChecklist(CommStateCurrent);
@@ -49,8 +49,7 @@ class commsTimeNTP:public CommsParent_Routine
         #endif
         
         return CommsParent_Routine::CommsChecklist(CommStateCurrent);
-        
-          
+              
     }
 };
 

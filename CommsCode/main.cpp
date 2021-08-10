@@ -9,10 +9,6 @@ int main()
 
 {
 
-    // unique_ptr<> ;
-	// 	std::unique_ptr<communicationStates_t> CommStateDesired = std::make_unique<communicationStates_t>();
-
-
     std::cout<<"\n Starting.. Empty\n";
 
     commsHandler
@@ -24,11 +20,14 @@ int main()
     ->CommsItemsCheck(new commsWifi)
     ->CommsItemsCheck(new commsAWS);
     
-     *CommStateDesired = offlineAP;
+    *CommStateDesired = offlineAP;
+    std::cout<<"\n Looping Through List\n";
+
+    
 
     commsHandler->CommsChecklist(CommStateDesired);
 
-    std::cout<<"\n Rturning Empty\n";
+    std::cout<<"\n Exiting!! Cleaning Objects\n";
     delete commsHandler;
     delete CommStateDesired;
     return 0;
