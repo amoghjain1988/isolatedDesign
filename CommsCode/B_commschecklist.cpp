@@ -1,13 +1,10 @@
-#include "A_CommsList.cpp"
+#include "B_commschecklist.h"
 #include <iostream>
 
 #define DebugCommsList
 
-class commsIncoming:public CommsParent_Routine
-{
-    public:
-    
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+
+    void commsIncoming::CommsChecklist(communicationStates_t *CommStateCurrent)
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running Comms  Incoming List.";
@@ -17,16 +14,10 @@ class commsIncoming:public CommsParent_Routine
         
           
     }
-};
 
-class commsSetup:public CommsParent_Routine
-{
-        public:
-commsSetup(){
-                std::cout<<"\n Indivudal  Class Contructor is CONSTRUCTEd.";
 
-    }
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+
+     void commsSetup::CommsChecklist(communicationStates_t *CommStateCurrent) 
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running commsSetup List Class";
@@ -36,13 +27,9 @@ commsSetup(){
         
           
     }
-};
 
-class commsTimeNTP:public CommsParent_Routine
-{
-        public:
 
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+    void commsTimeNTP::CommsChecklist(communicationStates_t *CommStateCurrent) 
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running commsTimeNTP.";
@@ -51,13 +38,9 @@ class commsTimeNTP:public CommsParent_Routine
         return CommsParent_Routine::CommsChecklist(CommStateCurrent);
               
     }
-};
 
-class commsEspNow:public CommsParent_Routine
-{
-        public:
 
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+    void commsEspNow::CommsChecklist(communicationStates_t *CommStateCurrent) 
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running commsEspNow";
@@ -67,13 +50,8 @@ class commsEspNow:public CommsParent_Routine
         
           
     }
-};
 
-class commsAPUser:public CommsParent_Routine
-{
-        public:
-
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+    void commsAPUser::CommsChecklist(communicationStates_t *CommStateCurrent)
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running commsAPUser";
@@ -83,13 +61,8 @@ class commsAPUser:public CommsParent_Routine
         
           
     }
-};
 
-class commsWifi:public CommsParent_Routine
-{
-        public:
-
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+    void commsWifi::CommsChecklist(communicationStates_t *CommStateCurrent) 
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running commsWifi.";
@@ -99,13 +72,8 @@ class commsWifi:public CommsParent_Routine
         
           
     }
-};
 
-class commsAWS:public CommsParent_Routine
-{
-        public:
-
-    virtual void CommsChecklist(communicationStates_t *CommStateCurrent) override
+    void commsAWS::CommsChecklist(communicationStates_t *CommStateCurrent) 
     {
         #ifdef DebugCommsList
         std::cout<<"\n Running commsAWS .";
@@ -115,4 +83,4 @@ class commsAWS:public CommsParent_Routine
         
           
     }
-};
+
