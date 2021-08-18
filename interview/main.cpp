@@ -13,7 +13,7 @@ enum TriggerSource
     TrigNotRequired
 };
 
-        TriggerSource        TriggerType;
+        TriggerSource        TriggerType = Trig_notset;
 
 struct ListBufferItems
 {
@@ -35,6 +35,10 @@ int main()
     TrigItem.TrigTime = 2;
     HW_Trig_Vector.push_back(TrigItem);
 
+    TrigItem.TrigType = Routine_Cyclical;
+    TrigItem.TrigTime = 13;
+    HW_Trig_Vector.push_back(TrigItem);
+    
     TrigItem.TrigType = Time_RTC;
     TrigItem.TrigTime = 22;
     HW_Trig_Vector.push_back(TrigItem);
@@ -49,8 +53,8 @@ int main()
 
 
 
-
-
+TriggerType  = Routine_Cyclical;
+    HWRoutine(TriggerType);
        
 
 
@@ -63,11 +67,12 @@ void HWRoutine(TriggerSource &TriggerType)
 const auto TriggerPresent =    std::find_if(HW_Trig_Vector.begin(), HW_Trig_Vector.end(), 
                                             [&TriggerType](const ListBufferItems& EventId) 
                                                 {
-                                                    return EventId.TrigType == TriggerType;
+                                                    std::cout<<"\n Lambda Computing"<< TriggerType;
+                                                    return EventId.TrigType == TriggerType; // return TIME..
                                                 }
 
 );
 if(TriggerPresent!= HW_Trig_Vector.end())
-std::cout<<"\n Found Trigger"<<HW_Trig_Vector.    ;
+std::cout<<"\n Found Trigger"<<TriggerPresent->TrigTime  ;
 
 }
