@@ -1,20 +1,42 @@
 #include <iostream>
+#include <vector>
 
-template <class T> class Some
+enum TriggerSource
 {
-    public:
-    static int stat;
+    Trig_notset,
+    Water_Cyclical,         // when water is found, or any change is detected in globals
+    Routine_Cyclical,       // cyclical every 1/2 - 1 hr.
+    Time_RTC,               // when rebooting happens @ 1 / every 24 hours
+    TrigNotRequired
 };
 
-template<class T>
-int Some<T>::stat = 10;
+        TriggerSource        TriggerType;
+
+struct ListBufferItems
+{
+    TriggerSource   TrigType;
+    long            TrigTime;
+};
+
+    std::vector<ListBufferItems> HW_Trig_Vector;
+void HWRoutine(TriggerSource &);
 
 int main()
 {
-    Some<int>::stat= 5;
-    std::cout<<Some<int>::stat <<"";
-        std::cout<<Some<char>::stat <<"";
-    std::cout<<Some<float>::stat <<"";
-    std::cout<<Some<long>::stat <<"";
+        TriggerType = Water_Cyclical;       HWRoutine(TriggerType   );
+        TriggerType = Time_RTC;             HWRoutine(TriggerType   );
+        TriggerType = Water_Cyclical;       HWRoutine(TriggerType   );
+        TriggerType = Routine_Cyclical;     HWRoutine(TriggerType   );
+        TriggerType = Routine_Cyclical;     HWRoutine(TriggerType   );
+
+
+}
+
+void HWRoutine(TriggerSource &TriggerType)
+{
+const auto TriggerPresent =    std::find(HW_Trig_Vector.begin(), HW_Trig_Vector.end(), [&TriggerType](const ListBufferItems& EventId) {
+        return EventId.TrigType == TriggerType;
+}
+)
 
 }
