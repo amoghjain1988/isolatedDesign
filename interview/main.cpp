@@ -1,23 +1,27 @@
+#include <iostream>
 
-class XXX{
-    public :
-    int memberfunc();
-};
+template <class T>
+void StringConst( T arg)
+{
+    typename std::remove_const<T>::type new_arg;
 
+    if(std::is_const< decltype (new_arg) > :: value)
+    std::cout<<"\n type of new arg is const";
 
-class YYY : public XXX{
-    public :
-    int memberfunc();
-};
+    else
+    {
+    std::cout<<"\n type of new arg is NOT const";
+    }
+
+}
+
 
 int main()
-{
-    XXX *bptr = new YYY;
-    YYY *dptr;
 
-    dptr = dynamic_cast<XXX*>(bptr);
-        dptr = static_cast<YYY*>(bptr);
-        dptr = dynamic_cast<YYY*>(bptr);
-        dptr = up_cast<XXX*>(bptr);
-    dptr = bptr;
+{
+    StringConst("blinkin");
+        StringConst(676);
+
+    StringConst(3.14);
+
 }
