@@ -6,10 +6,12 @@
 
     enum communicationStates_t
     {
-    offlineAP,
-    online_OTA,
-    online_AWS,
-    sleep,
+        offlineAP,
+        online_RouterOnly,
+        online_Router_AWSCloud,     
+        online_Temp,  
+        online_Cellular_AWScloud,   // routine checks have less time in btw
+        sleep,
     };
     communicationStates_t *CommStateDesired = new communicationStates_t;
 
