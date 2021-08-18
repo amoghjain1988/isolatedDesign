@@ -51,6 +51,7 @@ int main()
     TrigItem.TrigTime = 27;
     HW_Trig_Vector.push_back(TrigItem);
 
+        std::cout<<"\n passed 5 values:";
 
 
 TriggerType  = Routine_Cyclical;
@@ -58,7 +59,6 @@ TriggerType  = Routine_Cyclical;
        
 
 
-        std::cout<<"\n passed 5 values:";
 
 }
 
@@ -66,7 +66,7 @@ void HWRoutine(TriggerSource &TriggerType)
 {
 const auto TriggerPresent =    std::find_if(HW_Trig_Vector.begin(), HW_Trig_Vector.end(), 
                                             [&TriggerType](const ListBufferItems& EventId) 
-                                                {
+                                                {   
                                                     std::cout<<"\n Lambda Computing"<< TriggerType;
                                                     return EventId.TrigType == TriggerType; // return TIME..
                                                 }
