@@ -18,6 +18,6 @@ int main()
     dptr = dynamic_cast<XXX*>(bptr);
         dptr = static_cast<YYY*>(bptr);
         dptr = dynamic_cast<YYY*>(bptr);
-        dptr = dynamic_cast<YYY*>(bptr);
-
+        dptr = up_cast<XXX*>(bptr);
+    dptr = bptr;
 }
