@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include<unistd.h>
+unsigned int microsecond = 1000000;
 
 enum TriggerSource
 {
@@ -17,26 +20,54 @@ struct ListBufferItems
     TriggerSource   TrigType;
     long            TrigTime;
 };
+ListBufferItems TrigItem;
 
     std::vector<ListBufferItems> HW_Trig_Vector;
 void HWRoutine(TriggerSource &);
 
 int main()
 {
-        TriggerType = Water_Cyclical;       HWRoutine(TriggerType   );
-        TriggerType = Time_RTC;             HWRoutine(TriggerType   );
-        TriggerType = Water_Cyclical;       HWRoutine(TriggerType   );
-        TriggerType = Routine_Cyclical;     HWRoutine(TriggerType   );
-        TriggerType = Routine_Cyclical;     HWRoutine(TriggerType   );
+    TrigItem.TrigType = Water_Cyclical;
+    TrigItem.TrigTime = 0;
+    HW_Trig_Vector.push_back(TrigItem);
 
+    TrigItem.TrigType = Water_Cyclical;
+    TrigItem.TrigTime = 2;
+    HW_Trig_Vector.push_back(TrigItem);
+
+    TrigItem.TrigType = Time_RTC;
+    TrigItem.TrigTime = 22;
+    HW_Trig_Vector.push_back(TrigItem);
+
+    TrigItem.TrigType = TrigNotRequired;
+    TrigItem.TrigTime = 25;
+    HW_Trig_Vector.push_back(TrigItem);
+
+    TrigItem.TrigType = Routine_Cyclical;
+    TrigItem.TrigTime = 27;
+    HW_Trig_Vector.push_back(TrigItem);
+
+
+
+
+
+       
+
+
+        std::cout<<"\n passed 5 values:";
 
 }
 
 void HWRoutine(TriggerSource &TriggerType)
 {
-const auto TriggerPresent =    std::find(HW_Trig_Vector.begin(), HW_Trig_Vector.end(), [&TriggerType](const ListBufferItems& EventId) {
-        return EventId.TrigType == TriggerType;
-}
-)
+const auto TriggerPresent =    std::find_if(HW_Trig_Vector.begin(), HW_Trig_Vector.end(), 
+                                            [&TriggerType](const ListBufferItems& EventId) 
+                                                {
+                                                    return EventId.TrigType == TriggerType;
+                                                }
+
+);
+if(TriggerPresent!= HW_Trig_Vector.end())
+std::cout<<"\n Found Trigger"<<HW_Trig_Vector.    ;
 
 }
