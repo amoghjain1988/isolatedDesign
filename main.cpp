@@ -1,35 +1,20 @@
+#include <iostream>
+#define ThisController 3
+
+       int main()
+       {     
+        for(int j = 3; j>=0 ; j++) // start from back to erase.
+        {   
+            if(j== ThisController)
+            break;
+            
+            printf("\n &&&&& inside delete fn with J vallue %d",j);                 
+            // if(!ItPeer->ConnectionRequired[j])
+            // {   
+            //         printf("\n$$$$$$$$ Dleeting Vector at %d", j);
+            //     peerStatusList.erase(peerStatusList.begin()+j);
+            // }                    
+        }
 
 
-
-    #include <iostream>
-#include <string.h>
-#include <stdio.h>
-
-    char inputString[30] = "[false,true,true,false]";
-    // char inputString[30] = "temp123";
-
-    int main()
-    {
-        char    *SignalA;
-        char    SignalB[7];
-        char    SignalC[7];
-        char    SignalD[7];
-
- 
-   const char s[4] = "[,]";
-      const char end[2] = "";
-
-
-   char *token;
-   token = strtok(inputString, s);
-    while( token != NULL ) {
-      printf( " %s\n", token );
-    
-      token = strtok(NULL, s);
-   }
-      
-
-        return 0;
-
-
-    }
+       }
