@@ -2,103 +2,105 @@
 #include <typeinfo>
 /**
  * The base State class declares methods that all Concrete State should
- * implement and also provides a backreference to the Context object, associated
+ * implement and also provides a backreference to the CurrentState object, associated
  * with the State. This backreference can be used by States to transition the
- * Context to another State.
+ * CurrentState to another State.
  */
 
-class Context;
+class CurrentState;
 
 class State {
   /**
-   * @var Context
+   * @var CurrentState
    */
  protected:
-  Context *context_;
+  CurrentState *context_;
 
  public:
   virtual ~State() {}
 
-  void set_context(Context *context) {
+  void set_Current_State(CurrentState *context) {
     this->context_ = context;
   }
 
-  virtual void Handle1() = 0;
-  virtual void Handle2() = 0;
+  virtual void Handle_InitialState() = 0;
+  virtual void Handle_PassState()       = 0;
+//   virtual void Handle_FailState()       = 0;
+
 };
 
 /**
- * The Context defines the interface of interest to clients. It also maintains a
+ * The CurrentState defines the interface of interest to clients. It also maintains a
  * reference to an instance of a State subclass, which represents the current
- * state of the Context.
+ * state of the CurrentState.
  */
-class Context {
+class CurrentState {
   /**
-   * @var State A reference to the current state of the Context.
+   * @var State A reference to the current state of the CurrentState.
    */
  private:
   State *state_;
 
  public:
-  Context(State *state) : state_(nullptr) {
+  CurrentState(State *state) : state_(nullptr) {
     this->TransitionTo(state);
   }
-  ~Context() {
+  ~CurrentState() {
     delete state_;
   }
   /**
-   * The Context allows changing the State object at runtime.
+   * The CurrentState allows changing the State object at runtime.
    */
   void TransitionTo(State *state) {
-    std::cout << "Context: Transition to " << typeid(*state).name() << ".\n";
+    std::cout << "CurrentState: Transition to " << typeid(*state).name() << ".\n";
     if (this->state_ != nullptr)
       delete this->state_;
     this->state_ = state;
-    this->state_->set_context(this);
+    this->state_->set_Current_State(this);
   }
   /**
-   * The Context delegates part of its behavior to the current State object.
+   * The CurrentState delegates part of its behavior to the current State object.
    */
-  void Request1() {
-    this->state_->Handle1();
+  void Initial_State() {
+    this->state_->Handle_InitialState();
   }
-  void Request2() {
-    this->state_->Handle2();
+  void Pass_State() {
+    this->state_->Handle_PassState();
   }
 };
 
 /**
  * Concrete States implement various behaviors, associated with a state of the
- * Context.
+ * CurrentState.
  */
 
-class ConcreteStateA : public State {
+class FirstCommunication : public State {
  public:
-  void Handle1() override;
+  void Handle_InitialState() override;
 
-  void Handle2() override {
-    std::cout << "ConcreteStateA handles request2.\n";
+  void Handle_PassState() override {
+    std::cout << "FirstCommunication handles request2.\n";
   }
 };
 
-class ConcreteStateB : public State {
+class RoutineCommunication : public State {
  public:
-  void Handle1() override {
-    std::cout << "ConcreteStateB handles request1.\n";
+  void Handle_InitialState() override {
+    std::cout << "RoutineCommunication handles request1.\n";
   }
-  void Handle2() override {
-    std::cout << "ConcreteStateB handles request2.\n";
-    std::cout << "ConcreteStateB wants to change the state of the context.\n";
-    this->context_->TransitionTo(new ConcreteStateA);
+  void Handle_PassState() override {
+    std::cout << "RoutineCommunication handles request2.\n";
+    std::cout << "RoutineCommunication wants to change the state of the context.\n";
+    this->context_->TransitionTo(new FirstCommunication);
   }
 };
 
-void ConcreteStateA::Handle1() {
+void FirstCommunication::Handle_InitialState() {
   {
-    std::cout << "ConcreteStateA handles request1.\n";
-    std::cout << "ConcreteStateA wants to change the state of the context.\n";
+    std::cout << "FirstCommunication handles request1.\n";
+    std::cout << "FirstCommunication wants to change the state of the context.\n";
 
-    this->context_->TransitionTo(new ConcreteStateB);
+    this->context_->TransitionTo(new RoutineCommunication);
   }
 }
 
@@ -106,9 +108,9 @@ void ConcreteStateA::Handle1() {
  * The client code.
  */
 void ClientCode() {
-  Context *context = new Context(new ConcreteStateA);
-  context->Request1();
-  context->Request2();
+  CurrentState *context = new CurrentState(new FirstCommunication);
+  context->Initial_State();
+  context->Pass_State();
   delete context;
 }
 
