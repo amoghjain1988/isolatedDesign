@@ -17,8 +17,7 @@ class State {
   Context *context_;
 
  public:
-  virtual ~State() {
-  }
+  virtual ~State() {}
 
   void set_context(Context *context) {
     this->context_ = context;
