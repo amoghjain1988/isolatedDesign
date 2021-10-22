@@ -1,0 +1,3 @@
+/home/wb/IsolatedDevTests/build/CMakeFiles/rebuild_cache.dir
+/home/wb/IsolatedDevTests/build/CMakeFiles/buildfile.dir
+/home/wb/IsolatedDevTests/build/CMakeFiles/edit_cache.dir
