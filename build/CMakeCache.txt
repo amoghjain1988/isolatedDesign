@@ -130,7 +130,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=hello
+CMAKE_PROJECT_NAME:STATIC=main
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -184,22 +184,22 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //The Set the PostgreSQL_INCLUDE_DIR cmake cache entry to the top-level
 // directory containing the PostgreSQL include directories. E.g
 // /usr/local/include/PostgreSQL/8.4 or C:/Program Files/PostgreSQL/8.4/include
-PostgreSQL_INCLUDE_DIR:PATH=/usr/include/postgresql
+PostgreSQL_INCLUDE_DIR:PATH=PostgreSQL_INCLUDE_DIR-NOTFOUND
 
 //The Set the PostgreSQL_LIBRARY_DIR cmake cache entry to the top-level
 // directory containing the PostgreSQL libraries.
-PostgreSQL_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpq.so
+PostgreSQL_LIBRARY:FILEPATH=PostgreSQL_LIBRARY-NOTFOUND
 
 //The Set the PostgreSQL_INCLUDE_DIR cmake cache entry to the top-level
 // directory containing the PostgreSQL include directories. E.g
 // /usr/local/include/PostgreSQL/8.4 or C:/Program Files/PostgreSQL/8.4/include
-PostgreSQL_TYPE_INCLUDE_DIR:PATH=/usr/include/postgresql/10/server
+PostgreSQL_TYPE_INCLUDE_DIR:PATH=PostgreSQL_TYPE_INCLUDE_DIR-NOTFOUND
 
 //Value Computed by CMake
-hello_BINARY_DIR:STATIC=/home/wb/IsolatedDevTests/build
+main_BINARY_DIR:STATIC=/home/wb/IsolatedDevTests/build
 
 //Value Computed by CMake
-hello_SOURCE_DIR:STATIC=/home/wb/IsolatedDevTests
+main_SOURCE_DIR:STATIC=/home/wb/IsolatedDevTests
 
 
 ########################
@@ -341,12 +341,4 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//Details about finding PostgreSQL
-FIND_PACKAGE_MESSAGE_DETAILS_PostgreSQL:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpq.so][/usr/include/postgresql][/usr/include/postgresql/10/server][v10.18 (Ubuntu 10.18-0ubuntu0.18.04.1)()]
-//ADVANCED property for variable: PostgreSQL_INCLUDE_DIR
-PostgreSQL_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PostgreSQL_LIBRARY
-PostgreSQL_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PostgreSQL_TYPE_INCLUDE_DIR
-PostgreSQL_TYPE_INCLUDE_DIR-ADVANCED:INTERNAL=1
 
