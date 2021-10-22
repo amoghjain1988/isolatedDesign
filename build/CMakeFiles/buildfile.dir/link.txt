@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/buildfile.dir/main.cpp.o  -o buildfile 
+/usr/bin/c++     CMakeFiles/buildfile.dir/main.cpp.o  -o buildfile -lPostgreSQL::PostgreSQL 
