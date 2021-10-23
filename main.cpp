@@ -26,7 +26,7 @@ int main()
     std::cout << "\ncurrentDateTime()=" << currentDateTime() << std::endl;
 
     std::cout<<"\n\n Program Shutting down\n\n";
-     pqxx::connection c{"postgresql://accounting@localhost/company"};
+     pqxx::connection c("host=localhost dbname=TM_Test user=postgres password=password");
   pqxx::work txn{c};
 
   // Normally we'd query the DB using txn.exec().  But for querying just one
