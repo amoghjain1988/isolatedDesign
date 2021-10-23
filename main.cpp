@@ -5,7 +5,8 @@
 #include <time.h>
 
 
-// #include <libpq-fe.h>
+ #include <postgresql/libpq-fe.h>
+#include <pqxx/pqxx>
 
 
 // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
@@ -14,8 +15,6 @@ const std::string currentDateTime() {
     struct tm  tstruct;
     char       buf[80];
     tstruct = *localtime(&now);
-    // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-    // for more information about date/time format
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 
     return buf;
@@ -26,9 +25,35 @@ int main()
 
     std::cout << "\ncurrentDateTime()=" << currentDateTime() << std::endl;
 
-    // getchar();  // wait for keyboard input
     std::cout<<"\n\n Program Shutting down\n\n";
+     pqxx::connection c{"postgresql://accounting@localhost/company"};
+  pqxx::work txn{c};
 
+  // Normally we'd query the DB using txn.exec().  But for querying just one
+  // single value, we can use txn.query_value() as a shorthand.
+  //
+  // Use txn.quote() to escape and quote a C++ string for use as an SQL string
+  // in a query's text.
+  std::string RowInfo = "temp";// txn.exec("SELECT * FROM \"UserLogin\" ");
+
+  std::cout << "QueryData" << RowInfo << '\n';
+
+  // Update the employee's salary.  Use exec0() to perform a query and check
+  // that it produces an empty result.  If the result does contain data, it
+  // will throw an exception.
+  //
+  // The ID is an integer, so we don't need to escape and quote it when using
+  // it in our query text.  Just convert it to its PostgreSQL string
+  // representation using to_string().
+//   txn.exec(
+//     "UPDATE EMPLOYEE "
+//     "SET salary = salary + 1 "
+//     "WHERE id = " + pqxx::to_string(employee_id));
+
+  // Make our change definite.
+  txn.commit();
     return 0;
 }
+
+
 

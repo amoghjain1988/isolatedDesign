@@ -3,7 +3,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # This command attempts to find the library, REQUIRED argument is optional
 
-# find_package(PostgreSQL REQUIRED)
+# set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH} ${HOME}/wb/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# find_package(PostgreSQL REQUIRED )
 
 
 project(main VERSION 1.0)

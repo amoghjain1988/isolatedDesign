@@ -193,7 +193,7 @@ PostgreSQL_LIBRARY:FILEPATH=PostgreSQL_LIBRARY-NOTFOUND
 //The Set the PostgreSQL_INCLUDE_DIR cmake cache entry to the top-level
 // directory containing the PostgreSQL include directories. E.g
 // /usr/local/include/PostgreSQL/8.4 or C:/Program Files/PostgreSQL/8.4/include
-PostgreSQL_TYPE_INCLUDE_DIR:PATH=PostgreSQL_TYPE_INCLUDE_DIR-NOTFOUND
+PostgreSQL_TYPE_INCLUDE_DIR:PATH=/usr/include/postgresql
 
 //Value Computed by CMake
 main_BINARY_DIR:STATIC=/home/wb/IsolatedDevTests/build
