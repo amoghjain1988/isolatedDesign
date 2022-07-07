@@ -1,4 +1,4 @@
-#include "boost_SML.hpp"
+#include "boost_SML.h"
 #include <cassert>
 #include<iostream>
 
@@ -20,12 +20,8 @@ bool eepromset = true;
 bool provisionreq = true;
 
 
-class Admin_FSM{
-
-public:
-
-        /* 
-                  --------------------- Events -----------------------------------------------------------------------------------------------------
+            /* 
+            --------------------- Events -----------------------------------------------------------------------------------------------------
             */
             enum AdminEvents{
               e_poweredUP,
@@ -36,23 +32,7 @@ public:
               e_HwValUpdated,
               e_updateTimers,
               e_CommsRequired
-            };
-
-
-};
-
-
-class Admin_FSM_Controller: public Admin_FSM{
-
-
-public:
-
-void UpdateState(){
-  
-}
-
-};
-            
+            };   
     
 
 
@@ -181,7 +161,6 @@ struct states {
 
 sml::sm<states> SM_Admin;
 
-void EventConverter(int);
 
 
 int main() {
@@ -208,45 +187,8 @@ int main() {
   SM_Admin.process_event(CommsRequired{});
 
 
-
-  // assert(SM_Admin.is(sml::X));
-while(1)
-{
-  //std::cout<<"\n Enter an Event End \n\n";
-
-  int x;
-  std::cin>>x;
-  
-  if(x == -1)
-  break;
-  
-  EventConverter(x);
-  //std::cout<<"value entered: "<<x<<"\n";
-
+return 0;
 }
 
 
-}
-
-
-            void EventConverter(int myevent)
-            {
-
-                switch(myevent)
-                {
-                  case e_poweredUP:     SM_Admin.process_event(poweredUP{});  break;
-                  case e_SleepTime:     SM_Admin.process_event(SleepTime{});  break;
-                  case e_waterOn:       SM_Admin.process_event(waterOn{});  break;                  
-                  case e_provcomple:    SM_Admin.process_event(provcomple{});  break;
-                  case e_AlarmWakeup:   SM_Admin.process_event(AlarmWakeup{});  break;
-                  case e_HwValUpdated:  SM_Admin.process_event(HwValUpdated{});  break;
-                  case e_updateTimers:  SM_Admin.process_event(updateTimers{});  break;
-                  case e_CommsRequired: SM_Admin.process_event(CommsRequired{});  break;
-                  default:              std::cout<<"\n \t\t Error!";          break;
-
-
-                }
-
-                
-
-            }
+        
