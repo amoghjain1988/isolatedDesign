@@ -22,6 +22,10 @@ struct states;
 bool eepromset = true;
 bool provisionreq = true;
 
+namespace FSM{
+
+
+
 
             /* 
             --------------------- Events -----------------------------------------------------------------------------------------------------
@@ -118,7 +122,7 @@ struct states {
 
             return make_transition_table(
 
-            *poweredUp        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
+            poweredUp(H)        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
             , poweredUp        + event<poweredUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
             , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
             , hardware         + event<HwValUpdated>                                                         =       routine 
@@ -150,7 +154,7 @@ struct states {
           }   // operator () 
 
 };      // struct states
-
+};  // namespace FSM
 
 
 
