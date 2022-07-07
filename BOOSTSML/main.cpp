@@ -125,17 +125,16 @@ struct states {
             return make_transition_table(
 
             *poweredUp        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
-            ,poweredUp        + event<poweredUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
-            ,poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
-            ,hardware         + event<HwValUpdated>                                                         =       routine 
-            ,Communication    + event<SleepTime> [G_Provision]/(Act_setfinal)                               =       Provision
-            ,Provision        + event<provcomple>                                                           =       Communication
-            ,routine          + event<RoutineCheck>                                                         =       Monitoring
-            ,Monitoring       + event<TimersUpdated>                                                        =       routine
-            ,routine          + event<CommsRequired>                                                        =       Communication
-            ,routine          + event<waterOn>/(Act_updateTimers)                                           =       Monitoring
-            ,Monitoring       + event<TimersUpdated>                                                        =       routine
-            ,Monitoring       + event<HWActionReq>  /(Act_HWActionQueue)                                     =       hardware
+            , poweredUp        + event<poweredUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
+            , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
+            , hardware         + event<HwValUpdated>                                                         =       routine 
+            , Communication    + event<SleepTime> [G_Provision]/(Act_setfinal)                               =       Provision
+            , Provision        + event<provcomple>                                                           =       Communication
+            , routine          + event<RoutineCheck>                                                         =       Monitoring
+            , Monitoring       + event<TimersUpdated>                                                        =       routine
+            , routine          + event<CommsRequired>                                                        =       Communication
+            , routine          + event<waterOn>/(Act_updateTimers)                                           =       Monitoring
+            , Monitoring       + event<HWActionReq>  /(Act_HWActionQueue)                                     =       X
 
 
             , poweredUp       +   ENTER   PoweredUpEntry
@@ -159,32 +158,19 @@ struct states {
 };      // struct states
 
 
-sml::sm<states> SM_Admin;
+// sml::sm<states> SM_Admin;
 
 
 
 int main() {
-// /std::cout<<"\n Program Start - Observe Events \n\n";
+std::cout<<"\n Program Start - Observe Events \n\n";
 
 
-  SM_Admin.process_event(poweredUP{});
-//  SM_Admin.process_event(waterOn{});
-
-  {
-  //  std::cout<<"\t Delay Start";
-
-    using namespace std::this_thread;     // sleep_for, sleep_until
-    using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
-    using std::chrono::system_clock;
-    sleep_until(system_clock::now() + 1s);
- //   std::cout<<"\t   Delay End";
-
-    
-  }
+//   SM_Admin.process_event(poweredUP{});
   
 
 
-  SM_Admin.process_event(CommsRequired{});
+//   SM_Admin.process_event(CommsRequired{});
 
 
 return 0;
