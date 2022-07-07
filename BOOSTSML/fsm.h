@@ -22,7 +22,7 @@ struct states;
 bool eepromset = true;
 bool provisionreq = true;
 
-namespace FSM{
+namespace FSM_Admin{
 
 
 
@@ -153,7 +153,7 @@ struct states {
             );            
           }   // operator () 
 
-};      // struct states
+  };      // struct states
 };  // namespace FSM
 
 
