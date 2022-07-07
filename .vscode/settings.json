@@ -65,6 +65,9 @@
         "any": "cpp",
         "variant": "cpp",
         "*.ipp": "cpp",
-        "bit": "cpp"
-    }
+        "bit": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
+    },
+    "cmake.configureOnOpen": true
 }
