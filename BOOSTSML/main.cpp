@@ -14,6 +14,7 @@ FSM_Admin::FSMAdmininstator<> FSM_Admin{};
 
 // External Event Processor
 FSM_Admin.ExternalEventProcessor(FSM_Admin::poweredUP{});
+FSM_Admin.ExternalEventProcessor(FSM_Admin::HwValUpdated{});
 
 
 // waterOn
