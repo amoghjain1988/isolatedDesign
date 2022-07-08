@@ -2,30 +2,27 @@
 #define comms
 #include <queue>
 #include <list>
-#include<variant>
+#include <variant>
+#include "AdminEvents.h"
+#include <typeinfo>
+#include <string.h>
 
-namespace FSM_Admin{
-    struct poweredUP ;
-    struct AlarmWakeup;
-}
-class Communications{    // Sends
+
+std::queue<std::string> evQueue;
+
+class Communications
+{ // Sends
 
 public:
+         void doWork()
+        {
+                using namespace std;
+                const type_info &mytype = typeid(FSM_Admin::powerUP());
+                 std::cout<<"\n typename : "<<mytype.name();
+                //   evQueue.push(mytype.name());
 
-template<typename t>
-void doWork(t myeventlist){
-
-myeventlist = FSM_Admin::poweredUP();
-
-
-std::cout<<"\n mytypeinfo: "<<typeid(myeventlist).name();
-
-}
-
-
+                // std::cout<<"\n Rlease event..";
+        }
 };
-
-
-
 
 #endif

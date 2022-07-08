@@ -27,11 +27,11 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry      = []() { std::cout<<"\n State Entry : FSM Init";            };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";      myespNowObj.doWork();              };
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";              };
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
-            auto CommsEntry       = [mylist= evList]() { std::cout<<"\n State Entry : Comms Entry";     myespNowObj.doWork(evList);    };
+            auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
             auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";     };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };

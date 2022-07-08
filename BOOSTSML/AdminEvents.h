@@ -9,7 +9,7 @@ namespace FSM_Admin{
             --------------------- Events -----------------------------------------------------------------------------------------------------
             */
        
-            struct poweredUP    { poweredUP()     { std::cout<<" \t Event : Power Up event "<<typeid(poweredUP).name();}    };
+            struct powerUP    { powerUP()     { std::cout<<" \t Event : Power Up event ";}    };
             struct SleepTime    { SleepTime()     { std::cout<<" \t Event : SleepTime event ";}   };
             struct waterOn      { waterOn()       { std::cout<<" \t Event : WaterOn event ";}     };
             struct provcomple   { provcomple()    { std::cout<<" \t Event : provcomple event ";}  };
@@ -21,7 +21,7 @@ namespace FSM_Admin{
             struct RoutineCheck { RoutineCheck()  { std::cout<<" \t Event : RoutineCheck ";}      };
             struct HWActionReq  { HWActionReq()   { std::cout<<" \t Event : HWActionReq ";}       };
             
-            std::variant<poweredUP, SleepTime,AlarmWakeup>evList;
+          //  std::variant<powerUP, SleepTime,AlarmWakeup>evList;
 }
 
 
