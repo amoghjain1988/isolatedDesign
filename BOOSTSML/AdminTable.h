@@ -4,6 +4,7 @@
 #include "boost_SML.h"
 #include <cassert>
 #include<iostream>
+#include "AdminEvents.h"
 #include "FSMAdminFunctors.h"
 #include <deque>
 #include <queue>

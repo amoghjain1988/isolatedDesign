@@ -1,21 +1,21 @@
 #include "comms.h"
 #include<iostream>
 
-void Communications::doWork(){
+// void Communications::doWork(){
 
 
     
-std::cout<<"\n COmms Class\n";
+// std::cout<<"\n COmms Class\n";
 
-//  auto mytype = newer;
+// //  auto mytype = newer;
 
-// evtListHolder<FSM_Admin::SleepTime>*evtHol{};
-// holdClasswithStruct holdevt(evtHol);
-// callbackevent
+// // evtListHolder<FSM_Admin::SleepTime>*evtHol{};
+// // holdClasswithStruct holdevt(evtHol);
+// // callbackevent
 
-// myEventQueue.push(holdevt);
-// myEventQueue.push(6);
-// myEventQueue.push(8);
+// // myEventQueue.push(holdevt);
+// // myEventQueue.push(6);
+// // myEventQueue.push(8);
 
 
-}
+// }

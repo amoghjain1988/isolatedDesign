@@ -20,22 +20,9 @@ bool eepromset = true;
 bool provisionreq = true;
 
 
+
+
 namespace FSM_Admin{
-   /* 
-            --------------------- Events -----------------------------------------------------------------------------------------------------
-            */
-       
-            struct poweredUP    { poweredUP()     { std::cout<<" \t Event : Power Up event ";}    };
-            struct SleepTime    { SleepTime()     { std::cout<<" \t Event : SleepTime event ";}   };
-            struct waterOn      { waterOn()       { std::cout<<" \t Event : WaterOn event ";}     };
-            struct provcomple   { provcomple()    { std::cout<<" \t Event : provcomple event ";}  };
-            struct AlarmWakeup  { AlarmWakeup()   { std::cout<<" \t Event : AlarmWakeup ";}       };
-            struct HwValUpdated { HwValUpdated()  { std::cout<<" \t Event : HwValUpdated ";}      };
-            struct updateTimers { updateTimers()  { std::cout<<" \t Event : updateTimers ";}      };
-            struct CommsRequired{ CommsRequired() { std::cout<<" \t Event : CommsRequired ";}     };
-            struct TimersUpdated{ TimersUpdated() { std::cout<<" \t Event : TimersUpdated ";}     };
-            struct RoutineCheck { RoutineCheck()  { std::cout<<" \t Event : RoutineCheck ";}      };
-            struct HWActionReq  { HWActionReq()   { std::cout<<" \t Event : HWActionReq ";}       };
 
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
@@ -44,7 +31,7 @@ namespace FSM_Admin{
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";              };
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
-            auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry";     myespNowObj.doWork();     };
+            auto CommsEntry       = [mylist= evList]() { std::cout<<"\n State Entry : Comms Entry";     myespNowObj.doWork(evList);    };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
             auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";     };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };
