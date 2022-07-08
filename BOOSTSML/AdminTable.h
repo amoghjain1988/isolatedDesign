@@ -5,7 +5,8 @@
 #include <cassert>
 #include<iostream>
 #include "FSMAdminFunctors.h"
-
+#include <deque>
+#include <queue>
 
 namespace sml = boost::sml;
 
@@ -48,7 +49,7 @@ namespace FSM_Admin{
                         */
 
                         return make_transition_table(
-                        FSMInit(H)            + event<poweredUP>                                                            =       poweredUp
+                        FSMInit(H)            + event<poweredUP> /defer            = poweredUp                                         
                         , poweredUp        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
                         , poweredUp        + event<poweredUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
                         , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
@@ -98,7 +99,7 @@ namespace FSM_Admin{
               };
 
       private:
-              sml::sm<AdminTransitionTable>StateTable{};
+              sml::sm<AdminTransitionTable,sml::defer_queue<std::deque>, sml::process_queue<std::queue>>StateTable{};
 
 
       };// FSM Administrator class
