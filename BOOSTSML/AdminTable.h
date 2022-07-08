@@ -91,11 +91,8 @@ namespace FSM_Admin{
       public:
 
               template <typename myEvent>
-              void ExternalEventProcessor(myEvent evt){
-                
+              void ExternalEventProcessor(myEvent evt){                
                 StateTable.process_event(evt);
-
-
               };
 
       private:
