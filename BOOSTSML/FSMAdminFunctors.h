@@ -6,11 +6,19 @@
 */
 
 
-
 // delete when in esp.
 #include<iostream>
+#include "comms.h"
+#include<variant>
+
+Communications myespNowObj = Communications();
+
+
+
+
 bool eepromset = true;
 bool provisionreq = true;
+
 
 namespace FSM_Admin{
    /* 
@@ -29,7 +37,6 @@ namespace FSM_Admin{
             struct RoutineCheck { RoutineCheck()  { std::cout<<" \t Event : RoutineCheck ";}      };
             struct HWActionReq  { HWActionReq()   { std::cout<<" \t Event : HWActionReq ";}       };
 
-
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
@@ -37,7 +44,7 @@ namespace FSM_Admin{
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";              };
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
-            auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry";          };
+            auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry";     myespNowObj.doWork();     };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
             auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";     };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };

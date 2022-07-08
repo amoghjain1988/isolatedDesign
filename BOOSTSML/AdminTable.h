@@ -49,7 +49,7 @@ namespace FSM_Admin{
                         */
 
                         return make_transition_table(
-                        FSMInit(H)            + event<poweredUP> /defer            = poweredUp                                         
+                        FSMInit(H)            + event<poweredUP> /defer                                                   = poweredUp                                         
                         , poweredUp        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
                         , poweredUp        + event<poweredUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
                         , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 

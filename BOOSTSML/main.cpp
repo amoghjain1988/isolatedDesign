@@ -1,21 +1,38 @@
 
 #include "AdminTable.h"
 
+#include <queue>
 
-class Timer{    // Sends
-
-
-};
+FSM_Admin::FSMAdmininstator<> FSM_Admini {};
 
 int main() {
 std::cout<<"\n Program Start - Observe Events \n\n";
 
-FSM_Admin::FSMAdmininstator<> FSM_Admin{};
 
 // External Event Processor
-FSM_Admin.ExternalEventProcessor(FSM_Admin::poweredUP{});
-FSM_Admin.ExternalEventProcessor(FSM_Admin::HwValUpdated{});
+FSM_Admini.ExternalEventProcessor(FSM_Admin::poweredUP{});
+FSM_Admini.ExternalEventProcessor(FSM_Admin::CommsRequired{});
 
+auto mytemporatyevent = FSM_Admin::provcomple{};
+FSM_Admini.ExternalEventProcessor(mytemporatyevent);
+
+// while(!myEventQueue.empty())
+// {
+
+// //std::cout<<"\n value from queu: "<<myEventQueue.front();
+//  std::cout<<"\n size of queu: "<<myEventQueue.size();
+// //  auto myevent = myEventQueue.front();
+// // std::cout<<"\n type name: "<<typeid(myevent).name();
+
+// //  auto mytype = myevent.eventholder;
+// // std::cout<<"\n pointer type name: "<<typeid(mytype).name();
+
+// // auto myfinalevnent = mytype.
+// // FSM_Admini.ExternalEventProcessor(myevent);
+// myEventQueue.pop();
+
+
+// }
 
 // waterOn
 std::cout<<"\n\n\n Program End \n\n";
