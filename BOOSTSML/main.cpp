@@ -13,7 +13,7 @@ std::cout<<"\n Program Start - Observe Events \n\n";
   
 
 
-  SM_Admin.process_event(FSM_Admin::CommsRequired{});
+  //SM_Admin.process_event(FSM_Admin::CommsRequired{});
 
 
 return 0;

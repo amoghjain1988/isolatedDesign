@@ -31,10 +31,6 @@ namespace FSM_Admin{
             --------------------- Events -----------------------------------------------------------------------------------------------------
             */
        
-    
-
-
-            
             struct poweredUP    { poweredUP()     { std::cout<<" \t Event : Power Up event ";}    };
             struct SleepTime    { SleepTime()     { std::cout<<" \t Event : SleepTime event ";}   };
             struct waterOn      { waterOn()       { std::cout<<" \t Event : WaterOn event ";}     };
@@ -51,6 +47,7 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
+            auto FSMInitEntry      = []() { std::cout<<"\n State Entry : FSM Init";            };
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";              };
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
@@ -63,6 +60,7 @@ namespace FSM_Admin{
             /* 
               --------------------- State Exit Functions----------------------------------------------------------------------------------------------------- 
             */
+            auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";           };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };
             auto hardwareExit     = []() { std::cout<<"\t State Exiting : Hardware Routine";  };
@@ -103,6 +101,7 @@ struct states {
               --------------------- System States--------------------------------------------------------------------------------------------- 
               */
             
+            const auto FSMInit         = state<class FSMInit>;
             const auto poweredUp        = state<class poweredUp>;
             const auto routine          = state<class routine>;   // timer resets
             const auto Wokeup           = state<class Wokeup>;
@@ -121,8 +120,8 @@ struct states {
             */
 
             return make_transition_table(
-
-            poweredUp(H)        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
+            FSMInit(H)            + event<poweredUP>                                                            =       poweredUp
+            , poweredUp        + event<poweredUP> [G_IsEepromLoaded]                                         =       routine
             , poweredUp        + event<poweredUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
             , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
             , hardware         + event<HwValUpdated>                                                         =       routine 
@@ -135,6 +134,8 @@ struct states {
             , Monitoring       + event<HWActionReq>  /(Act_HWActionQueue)                                     =       X
 
 
+            , FSMInit       +   ENTER   FSMInitEntry
+            , FSMInit       +   EXIT    FSMInitExit 
             , poweredUp       +   ENTER   PoweredUpEntry
             , poweredUp       +   EXIT    PoweredUpExit   
             , routine         +   ENTER   routineEntry
