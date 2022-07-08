@@ -1,7 +1,6 @@
 
 #include "AdminTable.h"
 
-//sml::sm<FSM_Admin::AdminStates> SM_Admin;
 
 
 
