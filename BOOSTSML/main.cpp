@@ -1,7 +1,7 @@
 
 #include "fsm.h"
 
-sml::sm<FSM_Admin::states> SM_Admin;
+sml::sm<FSM_Admin::AdminStates> SM_Admin;
 
 
 

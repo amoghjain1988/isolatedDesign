@@ -91,7 +91,7 @@ namespace FSM_Admin{
             auto G_CommsRoutine     = [] () { std::cout<<"\t Gaurd: CommsRoutineChecks:"; return true;};
 
 
-struct states {
+struct AdminStates {
 
 
           auto operator()() const noexcept {
