@@ -1,15 +1,16 @@
 
 #include "fsm.h"
 
-sml::sm<FSM_Admin::AdminStates> SM_Admin;
+//sml::sm<FSM_Admin::AdminStates> SM_Admin;
 
 
 
 int main() {
 std::cout<<"\n Program Start - Observe Events \n\n";
 
-
-  SM_Admin.process_event(FSM_Admin::poweredUP{});
+FSM_Admin::FSMAdmininstator<> SM_Admin{};
+SM_Admin.process();
+  //SM_Admin.process_event(FSM_Admin::poweredUP{});
   
 
 

@@ -23,11 +23,7 @@ bool eepromset = true;
 bool provisionreq = true;
 
 namespace FSM_Admin{
-
-
-
-
-            /* 
+   /* 
             --------------------- Events -----------------------------------------------------------------------------------------------------
             */
        
@@ -89,6 +85,10 @@ namespace FSM_Admin{
             auto G_Provision        = []() { std::cout<<"\t Gaurd: provision Req: "<<provisionreq; return provisionreq;};
             auto G_IsEepromLoaded   = [] () { std::cout<<"\t Gaurd: EEPROM Loaded: "<<eepromset; return eepromset;};
             auto G_CommsRoutine     = [] () { std::cout<<"\t Gaurd: CommsRoutineChecks:"; return true;};
+
+
+template<class = class Dummy>
+class FSMAdmininstator{
 
 
 struct AdminStates {
@@ -155,6 +155,23 @@ struct AdminStates {
           }   // operator () 
 
   };      // struct states
+
+public:
+
+void process(){
+  
+  SM_Admin.process_event(FSM_Admin::poweredUP{});
+
+
+};
+
+private:
+sml::sm<AdminStates>SM_Admin{};
+
+
+};
+// FSM Administrator class
+
 };  // namespace FSM
 
 
