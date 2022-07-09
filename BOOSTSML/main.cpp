@@ -20,7 +20,8 @@ class  EventCallback
 {
   
   public:
-template<typename myevents>
+  
+  template<typename myevents>
   void ParseEvent(myevents ev){
     AdminFSM.ExternalEventProcessor(ev);
     

@@ -35,7 +35,7 @@ namespace FSM_Admin{
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
             auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
-            auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(std::move(ReturnEvents));    };
+            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(std::move(ReturnEvents));    };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };
               
               
