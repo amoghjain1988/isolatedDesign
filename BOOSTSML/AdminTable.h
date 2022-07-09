@@ -96,7 +96,7 @@ namespace FSM_Admin{
 
               FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
                 ReturnEvents = myyypointer;
-                std::cout<<"\n calling evt using shared ptr";
+                std::cout<<"\n calling evt using shared ptr : sh ptr Count:"<<ReturnEvents.use_count();
                 ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
               };
               template <typename myEvent>
