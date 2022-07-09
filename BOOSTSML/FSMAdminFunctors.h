@@ -16,6 +16,9 @@
 
 class  EventCallback;
 
+#define bubblePointer  std::move(ReturnEvents<EventCallback>) // used to provide a pointer which the classes can use to update event
+
+
 Communications myespNowObj = Communications();
 eeprom_event_bubbler mybubbler = eeprom_event_bubbler();
 
@@ -30,7 +33,7 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";  mybubbler.eventBubbler(std::move(ReturnEvents<EventCallback>));    };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";  mybubbler.eventBubbler(bubblePointer);    };
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";      // myespNowObj.doWork( shptr);     
                          };
 
@@ -38,7 +41,7 @@ namespace FSM_Admin{
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
             auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
-            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(std::move(ReturnEvents<EventCallback>)) ;    };
+            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(bubblePointer) ;    };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };
               
               
