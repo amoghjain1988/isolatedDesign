@@ -2,40 +2,20 @@
 
 #include <queue>
 
-// #include "AdminFSMObjects.h"
 
-// #include "AdminFSMObjects.cpp"
 
 #include "AdminTable.h"
 #include "EventsBridge.h"
 
-class eventOBserver{
+static FSM_Admin::FSMAdmininstator<> AdminFSM{};
 
-FSM_Admin::FSMAdmininstator<> AdminFSM;
-
-public:
-            eventOBserver(){
-
-                FSM_Admin::FSMAdmininstator<> AdminFSM{};
-
-            };
-
-            ~eventOBserver(){};
-            
-            // void ExtractEvent() override{}
-
-            template<typename t>
-            void update( t myevname) {
-            eventOBserver::AdminFSM.ExternalEventProcessor(myevname);
-            }
-
-};
+template<typename evName>
+void ParseEvent(evName ev){
+  AdminFSM.ExternalEventProcessor(ev);
+}
 
 
-
-
-
-
+eventOBserver myobs = eventOBserver();
 
 
 
@@ -43,9 +23,7 @@ int main() {
 
 
 std::cout<<"\n Program Start - Observing Events \n\n";
-eventOBserver myobs = eventOBserver();
-
-  myobs.update(FSM_Admin::powerUP());
+ParseEvent(FSM_Admin::powerUP{});
 
     
 std::cout<<"\n\n\n Program End \n\n";

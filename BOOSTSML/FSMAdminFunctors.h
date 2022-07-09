@@ -60,7 +60,7 @@ namespace FSM_Admin{
             auto Act_loadRTCData  = [](){std::cout<<"\t Action : Loading RTC Data";           };
             auto Act_sendSleepMsg = [](){std::cout<<"\t Action : Send Sleep Msg";             };
             auto Act_updateTimers = [](){std::cout<<"\t Action : Update Timers";              };
-            auto Act_HWActionQueue = [](){std::cout<<"\t Action : Updated HW Action Q";     };
+            auto Act_HWActionQueue= [](){std::cout<<"\t Action : Updated HW Action Q";     };
 
             
             /* 
