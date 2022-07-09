@@ -1,6 +1,6 @@
 
 
-#include "sharedPtr.cpp"
+#include "sharedPtr.h"
 #include <queue>
 
 
@@ -10,8 +10,9 @@
 
 
 
+std::shared_ptr<EventCallback>myptr = std::make_unique<EventCallback>();
 
-static FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
+FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
 
 
 
@@ -33,7 +34,7 @@ int main() {
 
 
 std::cout<<"\n Program Start - Observing Events \n\n";
-//myptr->ParseEvent(FSM_Admin::powerUP{});
+myptr->ParseEvent(FSM_Admin::powerUP{});
 
     std::cout<<"\n Sh Ptr Use count: "<<myptr.use_count();
 

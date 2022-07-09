@@ -9,16 +9,20 @@
 #include <deque>
 #include <queue>
 #include "sharedPtr.h"
-
+#include "comms.cpp"    // using CPP instead of Header to provide definition access
 
 namespace sml = boost::sml;
 
 #define     ENTER     sml::on_entry<_> / 
 #define     EXIT      sml::on_exit<_> / 
 
-              std::shared_ptr<EventCallback>ReturnEvents;
+
+Communications myespNowObj = Communications();
+
 
 namespace FSM_Admin{
+  
+std::shared_ptr<EventCallback>ReturnEvents;         // provides access to 
 
       template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
       class FSMAdmininstator{
@@ -72,8 +76,8 @@ namespace FSM_Admin{
                           --------------------- State Entry Exit Functors Attachment------------------------------------------------------------------------------------------
                         */
 
-                        , FSMInit       +   ENTER   [](){ std::cout<<"\n State Entry==="; myespNowObj.doWork( ReturnEvents);}
-                        , FSMInit       +   EXIT    FSMInitExit 
+                        , FSMInit       +   ENTER  FSMInitEntry
+                        , FSMInit       +   EXIT     [](){ std::cout<<"\n State Entry==="; myespNowObj.doWork( std::move(ReturnEvents));} 
                         , poweredUp       +   ENTER   PoweredUpEntry
                         , poweredUp       +   EXIT    PoweredUpExit   
                         , routine         +   ENTER   routineEntry

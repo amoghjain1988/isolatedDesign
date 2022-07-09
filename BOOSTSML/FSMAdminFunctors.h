@@ -8,10 +8,8 @@
 
 // delete when in esp.
 #include<iostream>
-#include "comms.h"
 #include<variant>
 
-Communications myespNowObj = Communications();
 
 
 
@@ -27,8 +25,10 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";                     };
-            auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";              };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";      };
+            auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";      // myespNowObj.doWork( shptr);     
+                         };
+
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
             auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };

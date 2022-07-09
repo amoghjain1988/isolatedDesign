@@ -1,21 +1,18 @@
 #include "comms.h"
 #include<iostream>
-
-// void Communications::doWork(){
-
-
-    
-// std::cout<<"\n COmms Class\n";
-
-// //  auto mytype = newer;
-
-// // evtListHolder<FSM_Admin::SleepTime>*evtHol{};
-// // holdClasswithStruct holdevt(evtHol);
-// // callbackevent
-
-// // myEventQueue.push(holdevt);
-// // myEventQueue.push(6);
-// // myEventQueue.push(8);
+ #include "AdminEvents.h"
 
 
-// }
+
+         void Communications::doWork(std::shared_ptr<EventCallback>meraPointer)
+     
+            {
+                // using namespace std;
+                // const type_info &mytype = typeid(FSM_Admin::powerUP());
+                //  std::cout<<"\n typename : "<<mytype.name();
+                //  meraPointer->ParseEvent(FSM_Admin::powerUP());
+                                  std::cout<<"\n Shared Ptr Count inside COmms Class : "<<meraPointer.use_count();
+
+                //   evQueue.push(mytype.name());
+                // std::cout<<"\n Rlease event..";
+        }

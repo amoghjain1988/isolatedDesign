@@ -9,7 +9,7 @@ namespace FSM_Admin{
             --------------------- Events -----------------------------------------------------------------------------------------------------
             */
        
-            struct powerUP    { powerUP()     { std::cout<<" \t Event : Power Up event ";}    };
+            struct powerUP      { powerUP()       { std::cout<<" \t Event : Power Up event ";}    };
             struct SleepTime    { SleepTime()     { std::cout<<" \t Event : SleepTime event ";}   };
             struct waterOn      { waterOn()       { std::cout<<" \t Event : WaterOn event ";}     };
             struct provcomple   { provcomple()    { std::cout<<" \t Event : provcomple event ";}  };
