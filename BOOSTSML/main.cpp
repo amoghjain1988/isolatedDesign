@@ -16,13 +16,12 @@ FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
 
 
 
-class EventCallback
+class  EventCallback 
 {
   
   public:
-
-  template<typename evName>
-  void ParseEvent(evName ev){
+template<typename myevents>
+  void ParseEvent(myevents ev){
     AdminFSM.ExternalEventProcessor(ev);
     
   }
