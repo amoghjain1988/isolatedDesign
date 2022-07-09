@@ -10,11 +10,14 @@
 #include<iostream>
 
 #include "comms.cpp"    // using CPP instead of Header to provide definition access
+#include "eepromStore.cpp"
 #include "sharedPtr.h"
+
+
 class  EventCallback;
 
 Communications myespNowObj = Communications();
-
+eeprom_event_bubbler mybubbler = eeprom_event_bubbler();
 
 bool eepromset = true;
 bool provisionreq = true;
@@ -27,7 +30,7 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";      };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";  mybubbler.eventBubbler(std::move(ReturnEvents<EventCallback>));    };
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";      // myespNowObj.doWork( shptr);     
                          };
 

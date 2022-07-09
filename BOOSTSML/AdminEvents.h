@@ -5,9 +5,7 @@
 #include <variant>
 
 namespace FSM_Admin{
-   /* 
-            --------------------- Events -----------------------------------------------------------------------------------------------------
-            */
+        /* --------------------- Events --------------------------------------------------------*/
        
             struct powerUP      { powerUP()       { std::cout<<" \t Event : Power Up event ";}    };
             struct SleepTime    { SleepTime()     { std::cout<<" \t Event : SleepTime event ";}   };
