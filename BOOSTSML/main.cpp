@@ -36,9 +36,9 @@ int main() {
 
 
 std::cout<<"\n Program Start - Observing Events \n\n";
-    std::cout<<"\n Sh Ptr Use count @ Main Entering: "<<myptr.use_count();
+std::cout<<"\n Sh Ptr Use count @ Main Entering: "<<myptr.use_count();
+myptr->ParseEvent(FSM_Admin::powerUP{});  // Main to Handle the first state - else there is an issue..
 
-myptr->ParseEvent(FSM_Admin::powerUP{});
 
     std::cout<<"\n Sh Ptr Use count @ Main Exiting: "<<myptr.use_count();
 
