@@ -14,7 +14,7 @@
 #include "sharedPtr.h"
 
 
-class  EventCallback;
+class  EventCallback;   // Forward declartion - to be used in Main.cpp, and below to make pointers
 
 #define bubblePointer  std::move(ReturnEvents<EventCallback>) // used to provide a pointer which the classes can use to update event
 
