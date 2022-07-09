@@ -2,7 +2,6 @@
 #define AdminEvents
 
 #include <iostream>
-#include <variant>
 
 namespace FSM_Admin{
         /* --------------------- Events --------------------------------------------------------*/
@@ -23,21 +22,7 @@ namespace FSM_Admin{
           //  std::variant<powerUP, SleepTime,AlarmWakeup>evList;
 }
 
-namespace evEnums{
 
-        enum class myEvents{
-
-                powerUP,
-                SleepTime,
-                waterOn,
-                provcomple,
-                AlarmWakeup,
-                HwValUpdated,
-                updateTimers
-        };
-
-
-}
 
 
 #endif
