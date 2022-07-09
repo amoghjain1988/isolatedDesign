@@ -9,7 +9,6 @@
 #include <deque>
 #include <queue>
 #include "sharedPtr.h"
-#include "comms.cpp"    // using CPP instead of Header to provide definition access
 
 namespace sml = boost::sml;
 
@@ -17,12 +16,10 @@ namespace sml = boost::sml;
 #define     EXIT      sml::on_exit<_> / 
 
 
-Communications myespNowObj = Communications();
 
 
 namespace FSM_Admin{
   
-std::shared_ptr<EventCallback>ReturnEvents;         // provides access to 
 
       template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
       class FSMAdmininstator{
@@ -60,8 +57,8 @@ std::shared_ptr<EventCallback>ReturnEvents;         // provides access to
 
                         return make_transition_table(
                         FSMInit(H)            + event<powerUP> /defer                                                   = poweredUp                                         
-                        , poweredUp        + event<powerUP> [G_IsEepromLoaded]                                         =       routine
-                        , poweredUp        + event<powerUP> [!G_IsEepromLoaded] / (Act_provision)                      =       Provision
+                        , poweredUp        + event<powerUP> [G_IsEepromLoaded]                                          =       routine
+                        , poweredUp        + event<powerUP> [!G_IsEepromLoaded] / (Act_provision)                        =       Provision
                         , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
                         , hardware         + event<HwValUpdated>                                                         =       routine 
                         , Communication    + event<SleepTime> [G_Provision]/(Act_setfinal)                               =       Provision
@@ -77,7 +74,7 @@ std::shared_ptr<EventCallback>ReturnEvents;         // provides access to
                         */
 
                         , FSMInit       +   ENTER  FSMInitEntry
-                        , FSMInit       +   EXIT     [](){ std::cout<<"\n State Entry==="; myespNowObj.doWork( std::move(ReturnEvents));} 
+                        , FSMInit       +   EXIT     FSMInitExit
                         , poweredUp       +   ENTER   PoweredUpEntry
                         , poweredUp       +   EXIT    PoweredUpExit   
                         , routine         +   ENTER   routineEntry

@@ -10,8 +10,10 @@
 #include<iostream>
 #include<variant>
 
+#include "comms.cpp"    // using CPP instead of Header to provide definition access
+#include "sharedPtr.h"
 
-
+Communications myespNowObj = Communications();
 
 
 bool eepromset = true;
@@ -33,14 +35,14 @@ namespace FSM_Admin{
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
             auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
-            auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";     };
+            auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(std::move(ReturnEvents));    };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };
               
               
             /* 
               --------------------- State Exit Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";           };
+            auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";        };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };
             auto hardwareExit     = []() { std::cout<<"\t State Exiting : Hardware Routine";  };
