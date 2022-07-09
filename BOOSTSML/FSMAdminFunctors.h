@@ -8,10 +8,10 @@
 
 // delete when in esp.
 #include<iostream>
-#include<variant>
 
 #include "comms.cpp"    // using CPP instead of Header to provide definition access
 #include "sharedPtr.h"
+class  EventCallback;
 
 Communications myespNowObj = Communications();
 
@@ -35,7 +35,7 @@ namespace FSM_Admin{
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
             auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
-            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(std::move(ReturnEvents));    };
+            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(ReturnEvents<EventCallback>);    };
             auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };
               
               

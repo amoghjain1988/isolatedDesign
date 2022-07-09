@@ -5,9 +5,10 @@
 #include <iostream>
 
 
-class EventCallback;
+// class EventCallback;
 
-std::shared_ptr<EventCallback>ReturnEvents;         // provides access to Object in Main to
+template<typename evclass>
+std::shared_ptr<evclass>ReturnEvents;         // provides access to Object in Main to
 
 
 #endif

@@ -3,12 +3,12 @@
 
 #include "sharedPtr.h"
 
-
 class Communications
 { // Sends
 
 public:
-         void doWork(std::shared_ptr<EventCallback>meraPointer);
+        template<typename sharedPtrMainClass>
+         void doWork(std::shared_ptr<sharedPtrMainClass>meraPointer);
 };
 
 #endif

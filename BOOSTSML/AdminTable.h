@@ -100,8 +100,8 @@ namespace FSM_Admin{
             
 
               explicit FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
-                ReturnEvents = std::move(myyypointer);
-                std::cout<<"\n Accepted Shared ptr. Current Count Inside State Table Constructor: "<<ReturnEvents.use_count();
+                ReturnEvents<EventCallback> = std::move(myyypointer);
+                std::cout<<"\n Accepted Shared ptr. Current Count Inside State Table Constructor: "<<ReturnEvents<EventCallback>.use_count();
                 //ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
               };
 

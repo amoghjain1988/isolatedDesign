@@ -1,7 +1,6 @@
 
 
 #include "sharedPtr.h"
-#include <queue>
 
 
 
@@ -20,6 +19,9 @@ class  EventCallback
 {
   
   public:
+  EventCallback(){
+    std::cout<<"\n EventCallback Contructed!!!";
+  }
   
   template<typename myevents>
   void ParseEvent(myevents ev){
@@ -34,9 +36,11 @@ int main() {
 
 
 std::cout<<"\n Program Start - Observing Events \n\n";
+    std::cout<<"\n Sh Ptr Use count @ Main Entering: "<<myptr.use_count();
+
 myptr->ParseEvent(FSM_Admin::powerUP{});
 
-    std::cout<<"\n Sh Ptr Use count: "<<myptr.use_count();
+    std::cout<<"\n Sh Ptr Use count @ Main Exiting: "<<myptr.use_count();
 
 std::cout<<"\n\n\n Program End \n\n";
 
