@@ -8,6 +8,8 @@
 #include "FSMAdminFunctors.h"
 #include <deque>
 #include <queue>
+#include "sharedPtr.h"
+
 
 namespace sml = boost::sml;
 
@@ -20,6 +22,7 @@ namespace FSM_Admin{
       template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
       class FSMAdmininstator{
 
+            
 
             struct AdminTransitionTable {
 
@@ -91,12 +94,18 @@ namespace FSM_Admin{
 
       public:
 
+              FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
+                ReturnEvents = myyypointer;
+                std::cout<<"\n calling evt using shared ptr";
+                ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
+              };
               template <typename myEvent>
               void ExternalEventProcessor(myEvent evt){                
                 StateTable.process_event(evt);
               };
 
       private:
+              std::shared_ptr<EventCallback>ReturnEvents;
               sml::sm<AdminTransitionTable,sml::defer_queue<std::deque>, sml::process_queue<std::queue>>StateTable{};
 
 

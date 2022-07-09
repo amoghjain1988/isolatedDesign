@@ -1,29 +1,38 @@
 
 
+#include "sharedPtr.cpp"
 #include <queue>
 
 
 
 #include "AdminTable.h"
-#include "EventsBridge.h"
-
-static FSM_Admin::FSMAdmininstator<> AdminFSM{};
-
-template<typename evName>
-void ParseEvent(evName ev){
-  AdminFSM.ExternalEventProcessor(ev);
-}
 
 
-eventOBserver myobs = eventOBserver();
 
 
+
+static FSM_Admin::FSMAdmininstator<> AdminFSM{myptr};
+
+
+
+class EventCallback
+{
+  
+  public:
+
+  template<typename evName>
+  void ParseEvent(evName ev){
+    AdminFSM.ExternalEventProcessor(ev);
+  }
+
+
+};
 
 int main() {
 
 
 std::cout<<"\n Program Start - Observing Events \n\n";
-ParseEvent(FSM_Admin::powerUP{});
+//myptr->ParseEvent(FSM_Admin::powerUP{});
 
     
 std::cout<<"\n\n\n Program End \n\n";

@@ -20,8 +20,25 @@ namespace FSM_Admin{
             struct TimersUpdated{ TimersUpdated() { std::cout<<" \t Event : TimersUpdated ";}     };
             struct RoutineCheck { RoutineCheck()  { std::cout<<" \t Event : RoutineCheck ";}      };
             struct HWActionReq  { HWActionReq()   { std::cout<<" \t Event : HWActionReq ";}       };
+
             
           //  std::variant<powerUP, SleepTime,AlarmWakeup>evList;
+}
+
+namespace evEnums{
+
+        enum class myEvents{
+
+                powerUP,
+                SleepTime,
+                waterOn,
+                provcomple,
+                AlarmWakeup,
+                HwValUpdated,
+                updateTimers
+        };
+
+
 }
 
 

@@ -68,7 +68,8 @@
         "bit": "cpp",
         "condition_variable": "cpp",
         "mutex": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "queue": "cpp"
     },
     "cmake.configureOnOpen": true,
     "C_Cpp.errorSquiggles": "Disabled"
