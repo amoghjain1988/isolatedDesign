@@ -27,7 +27,7 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";      myespNowObj.doWork();              };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";                     };
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";              };
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };

@@ -16,13 +16,15 @@ namespace sml = boost::sml;
 #define     ENTER     sml::on_entry<_> / 
 #define     EXIT      sml::on_exit<_> / 
 
+              std::shared_ptr<EventCallback>ReturnEvents;
 
 namespace FSM_Admin{
 
       template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
       class FSMAdmininstator{
+      using Self = FSMAdmininstator;
 
-            
+
 
             struct AdminTransitionTable {
 
@@ -70,7 +72,7 @@ namespace FSM_Admin{
                           --------------------- State Entry Exit Functors Attachment------------------------------------------------------------------------------------------
                         */
 
-                        , FSMInit       +   ENTER   FSMInitEntry
+                        , FSMInit       +   ENTER   [](){ std::cout<<"\n State Entry==="; myespNowObj.doWork( ReturnEvents);}
                         , FSMInit       +   EXIT    FSMInitExit 
                         , poweredUp       +   ENTER   PoweredUpEntry
                         , poweredUp       +   EXIT    PoweredUpExit   
@@ -92,20 +94,23 @@ namespace FSM_Admin{
 
               };      // struct states
 
-      public:
+      public: 
 
-              FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
-                ReturnEvents = myyypointer;
-                std::cout<<"\n calling evt using shared ptr : sh ptr Count:"<<ReturnEvents.use_count();
-                ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
+            
+
+              explicit FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
+                ReturnEvents = std::move(myyypointer);
+                std::cout<<"\n Accepted Shared ptr. Current Count Inside State Table Constructor: "<<ReturnEvents.use_count();
+                //ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
               };
+
               template <typename myEvent>
               void ExternalEventProcessor(myEvent evt){                
                 StateTable.process_event(evt);
               };
 
+
       private:
-              std::shared_ptr<EventCallback>ReturnEvents;
               sml::sm<AdminTransitionTable,sml::defer_queue<std::deque>, sml::process_queue<std::queue>>StateTable{};
 
 

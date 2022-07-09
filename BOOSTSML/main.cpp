@@ -11,7 +11,7 @@
 
 
 
-static FSM_Admin::FSMAdmininstator<> AdminFSM{myptr};
+static FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
 
 
 
