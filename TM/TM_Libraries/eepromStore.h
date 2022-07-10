@@ -1,7 +1,7 @@
 #ifndef eepromStore
 #define eepromStore
 #include <memory.h>
-#include "sharedPtr.h"
+#include "../statemachines/Admin_SML/sharedPtr.h"
 
 class eeprom_event_bubbler{
 

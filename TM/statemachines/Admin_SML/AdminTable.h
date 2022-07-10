@@ -1,7 +1,7 @@
 #ifndef AdminTable
 #define AdminTable
 
-#include "boost_SML.h"
+#include "../Commons/boost_SML_Library.h"
 #include <cassert>
 #include<iostream>
 #include "AdminEvents.h"

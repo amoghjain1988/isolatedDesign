@@ -1,7 +1,7 @@
 #include "eepromStore.h"
 #include<iostream>
- #include "AdminEvents.h"
-#include "sharedPtr.h"
+ #include "../statemachines/Admin_SML/AdminEvents.h"
+#include "../statemachines/Admin_SML/sharedPtr.h"
 
 
 

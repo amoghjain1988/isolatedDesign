@@ -8,9 +8,8 @@
 
 // delete when in esp.
 #include<iostream>
-
-#include "comms.cpp"    // using CPP instead of Header to provide definition access
-#include "eepromStore.cpp"
+#include "../../TM_Libraries/eepromStore.cpp"
+#include "../../TM_Libraries/comms.h"
 #include "sharedPtr.h"
 
 

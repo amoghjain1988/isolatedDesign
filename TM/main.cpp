@@ -1,10 +1,7 @@
 
 
-#include "sharedPtr.h"
-
-
-
-#include "AdminTable.h"
+#include "statemachines/Admin_SML/sharedPtr.h"
+#include "statemachines/Admin_SML/AdminTable.h"
 
 
 
