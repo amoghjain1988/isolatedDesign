@@ -23,9 +23,21 @@ namespace FSM_Admin{
 
       template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
       class FSMAdmininstator{
-      using Self = FSMAdmininstator;
 
+   public: 
 
+            
+
+              explicit FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
+                ReturnEvents<EventCallback> = std::move(myyypointer);
+                std::cout<<"\n Accepted Shared ptr. Current Count Inside State Table Constructor: "<<ReturnEvents<EventCallback>.use_count();
+                //ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
+              };
+
+              template <typename myEvent>
+              void ExternalEventProcessor(myEvent evt){                
+                StateTable.process_event(evt);
+              };
 
             struct AdminTransitionTable {
 
@@ -56,7 +68,7 @@ namespace FSM_Admin{
                         */
 
                         return make_transition_table(
-                        FSMInit(H)            + event<powerUP> /defer                                                   = poweredUp                                         
+                        FSMInit(H)            + event<powerUP>                                                   = poweredUp                                         
                         , poweredUp        + event<powerUP> [G_IsEepromLoaded]                                          =       routine
                         , poweredUp        + event<powerUP> [!G_IsEepromLoaded] / (Act_provision)                        =       Provision
                         , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
@@ -95,20 +107,7 @@ namespace FSM_Admin{
 
               };      // struct states
 
-      public: 
-
-            
-
-              explicit FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
-                ReturnEvents<EventCallback> = std::move(myyypointer);
-                std::cout<<"\n Accepted Shared ptr. Current Count Inside State Table Constructor: "<<ReturnEvents<EventCallback>.use_count();
-                //ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
-              };
-
-              template <typename myEvent>
-              void ExternalEventProcessor(myEvent evt){                
-                StateTable.process_event(evt);
-              };
+   
 
 
       private:
