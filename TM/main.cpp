@@ -3,12 +3,13 @@
 #include "statemachines/Admin_SML/sharedPtr.h"
 #include "statemachines/Admin_SML/AdminTable.h"
 
-
+#include <iostream>
 
 
 std::shared_ptr<EventCallback>myptr = std::make_shared<EventCallback>();
 
-FSM_Admin::FSMAdmininstator<> AdminFSM{(myptr)};
+
+FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
 
 
 

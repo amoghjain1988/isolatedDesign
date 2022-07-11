@@ -11,14 +11,18 @@
 #include "../../TM_Libraries/eepromStore.cpp"
 #include "sharedPtr.h"
 #include "../../TM_Libraries/FSM_Event.h"
+#include <memory.h>
 
 class  EventCallback;   // Forward declartion - to be used in Main.cpp, and below to make pointers
 
 // #define bubblePointer  pReturnEvent<EventCallback> // used to provide a pointer which the classes can use to update event
 
-// EventBubbler 
 // Communications myespNowObj = Communications(bubblePointer);
 EventBubbler_t<EventCallback> EventBubbler = EventBubbler_t<EventCallback>();  // pass template and shared pointer to bubbler class
+std::shared_ptr<EventCallback>MainClassPointer;   // used inside State Table
+
+
+// pReturnEvent<EventCallback>tempevent = std::make_shared<EventCallback>();
 
 eeprom_t eeprom = eeprom_t();
 bool eepromset = true;
@@ -32,7 +36,9 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";           };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";   
+            // EventBubbler.SendEvent(pReturnEvent<EventCallback>);  
+             };// assign ptr to base class
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";                };
             auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";           };
             auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";      };
@@ -45,7 +51,10 @@ namespace FSM_Admin{
             /* 
               --------------------- State Exit Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";        };
+            auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";     
+                      //  MainClassPointer->ParseEvent<TimersUpdated{}>();
+              eeprom.Eepromread();
+               };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };
             auto hardwareExit     = []() { std::cout<<"\t State Exiting : Hardware Routine";  };

@@ -8,38 +8,27 @@
 
 template<typename t>
 class EventBubbler_t{
+public:
 
         std::shared_ptr<t>FSM_Event_Bubbler;
 
-public:
-
+        EventBubbler_t()
+        {
+                std::cout<<"\n EventBubbler_t Constructed";
+        }
 
         
-        template<typename e>
-        void SendEvent(){
+      
+        void SendEvent(std::shared_ptr<t>myPointer){
+                
+        FSM_Event_Bubbler = std::move(myPointer);
         
         std::cout<<"\n Shared Ptr Count inside Event Bubbler : "<<FSM_Event_Bubbler.use_count();
         
         }
-        // void doWork()
-        // {
-        //         FSM_Event_Bubbler->ParseEvent(FSM_Admin::TimersUpdated{});
-        //         std::cout<<"\n Shared Ptr Count inside Event Bubbler : "<<FSM_Event_Bubbler.use_count();
-        // }
-        
-};
-
-
-template<typename t>
-class FSM_Event_Return_t{
-
-public:
-
-void PassEvent(t myevent){
-        
-
-}
 
 };
+
+
 
 #endif

@@ -5,6 +5,7 @@
 
 
 
+    // template <typename t>
 
     void eeprom_t::Eepromread(){
 

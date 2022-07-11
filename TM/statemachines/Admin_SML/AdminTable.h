@@ -29,11 +29,8 @@ namespace FSM_Admin{
             
 
               FSMAdmininstator(std::shared_ptr<EventCallback>evPtr){
-                //MainClassPointer = std::make_shared<EventCallback>();
-                pReturnEvent<EventCallback> = std::move(evPtr);
-                
-                std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: ";
-                //pReturnEvent->ParseEvent(FSM_Admin::powerUP{});
+                MainClassPointer = std::move(evPtr);                  
+                std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: "<<MainClassPointer.use_count();
               };
 
               template <typename myEvent>
@@ -113,7 +110,6 @@ namespace FSM_Admin{
 
 
       private:
-              std::shared_ptr<EventCallback>MainClassPointer;
               sml::sm<AdminTransitionTable,sml::defer_queue<std::deque>, sml::process_queue<std::queue>>StateTable{};
 
 
