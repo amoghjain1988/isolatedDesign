@@ -1,18 +1,16 @@
 #ifndef FSM_Event
 #define FSM_Event
 
-#include<iostream>
 #include <memory.h>
+#include "../statemachines/Admin_SML/sharedPtr.h"
 
 
 class EventBubbler_t{
 
 
 public:
-
-        std::shared_ptr<EventCallback>FSM_Event_Bubbler;
-
-        EventBubbler_t(std::shared_ptr<EventCallback>myptr);
+        template <typename t>
+        void getPtrLoc(std::shared_ptr<t>);
      
 };
 

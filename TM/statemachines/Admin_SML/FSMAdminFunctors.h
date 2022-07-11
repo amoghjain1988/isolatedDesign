@@ -10,7 +10,6 @@
 #include<iostream>
 #include "../../TM_Libraries/eepromStore.cpp"
 #include "sharedPtr.h"
-#include "../../TM_Libraries/FSM_Event.h"
 #include "../../TM_Libraries/FSM_Event.cpp"
 
 #include <memory.h>
@@ -25,6 +24,8 @@
 // pReturnEvent<EventCallback>tempevent = std::make_shared<EventCallback>();
 
 eeprom_t eeprom = eeprom_t();
+EventBubbler_t EventBubbler  = EventBubbler_t();
+
 bool eepromset = true;
 bool provisionreq = true;
 
@@ -54,9 +55,9 @@ namespace FSM_Admin{
             */
             auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";     
                       //  MainClassPointer->ParseEvent<TimersUpdated{}>();
-     EventBubbler_t EventBubbler  = EventBubbler_t(pReturnEvent);
+           EventBubbler.getPtrLoc(pReturnEvent);
 
-              eeprom.Eepromread(pReturnEvent);
+             eeprom.Eepromread(pReturnEvent);
                };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };
