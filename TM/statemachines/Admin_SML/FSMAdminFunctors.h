@@ -9,18 +9,18 @@
 // delete when in esp.
 #include<iostream>
 #include "../../TM_Libraries/eepromStore.cpp"
-#include "../../TM_Libraries/comms.h"
 #include "sharedPtr.h"
-
+#include "../../TM_Libraries/FSM_Event.h"
 
 class  EventCallback;   // Forward declartion - to be used in Main.cpp, and below to make pointers
 
-#define bubblePointer  std::move(ReturnEvents<EventCallback>) // used to provide a pointer which the classes can use to update event
+// #define bubblePointer  pReturnEvent<EventCallback> // used to provide a pointer which the classes can use to update event
 
+// EventBubbler 
+// Communications myespNowObj = Communications(bubblePointer);
+EventBubbler_t<EventCallback> EventBubbler = EventBubbler_t<EventCallback>();  // pass template and shared pointer to bubbler class
 
-Communications myespNowObj = Communications();
-eeprom_event_bubbler mybubbler = eeprom_event_bubbler();
-
+eeprom_t eeprom = eeprom_t();
 bool eepromset = true;
 bool provisionreq = true;
 
@@ -32,16 +32,14 @@ namespace FSM_Admin{
             /* 
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
-            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";  mybubbler.eventBubbler(bubblePointer);    };
-            auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";      // myespNowObj.doWork( shptr);     
-                         };
-
-            auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";         };
-            auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";    };
-            auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry"; };
-            auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";     };
-            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";    myespNowObj.doWork(bubblePointer) ;    };
-            auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";       };
+            auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";           };
+            auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";                };
+            auto monitoringEntry  = []() { std::cout<<"\n State Entry : Monitoring ";           };
+            auto hardwareEntry    = []() { std::cout<<"\n State Entry : Hardware Routine";      };
+            auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry";           };
+            auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";      };
+            inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";      };
+            auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";          };
               
               
             /* 

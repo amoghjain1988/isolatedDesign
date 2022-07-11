@@ -6,10 +6,11 @@
 
 
 
-    template<typename t>
-    void eeprom_event_bubbler::eventBubbler(std::shared_ptr<t>sptr){
+    void eeprom_t::Eepromread(){
 
-                 sptr->ParseEvent(FSM_Admin::Ready{});
-                std::cout<<"\n Shared Ptr Count inside EEPROM : "<<sptr.use_count();
+                //  sptr->ParseEvent(FSM_Admin::Ready{});
+                 std::cout<<"\n Shared Ptr Count inside EEPROM : ";
+                 
+                //  <<mybubbler.use_count();
 
     }

@@ -21,17 +21,19 @@ namespace sml = boost::sml;
 namespace FSM_Admin{
   
 
-      template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
-      class FSMAdmininstator{
+    template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
+    class FSMAdmininstator{
 
-   public: 
+    public: 
 
             
 
-              explicit FSMAdmininstator(std::shared_ptr<EventCallback>myyypointer){
-                ReturnEvents<EventCallback> = std::move(myyypointer);
-                std::cout<<"\n Accepted Shared ptr. Current Count Inside State Table Constructor: "<<ReturnEvents<EventCallback>.use_count();
-                //ReturnEvents->ParseEvent(FSM_Admin::powerUP{});
+              FSMAdmininstator(std::shared_ptr<EventCallback>evPtr){
+                //MainClassPointer = std::make_shared<EventCallback>();
+                pReturnEvent<EventCallback> = std::move(evPtr);
+                
+                std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: ";
+                //pReturnEvent->ParseEvent(FSM_Admin::powerUP{});
               };
 
               template <typename myEvent>
@@ -68,7 +70,7 @@ namespace FSM_Admin{
                         */
 
                         return make_transition_table(
-                        FSMInit(H)            + event<powerUP>                                                   = poweredUp                                         
+                        FSMInit(H)            + event<powerUP> /defer                                                  = poweredUp                                         
                         , poweredUp        + event<powerUP> [G_IsEepromLoaded]                                          =       routine
                         , poweredUp        + event<powerUP> [!G_IsEepromLoaded] / (Act_provision)                        =       Provision
                         , poweredUp        + event<AlarmWakeup>                                                          =       hardware                                 
@@ -111,6 +113,7 @@ namespace FSM_Admin{
 
 
       private:
+              std::shared_ptr<EventCallback>MainClassPointer;
               sml::sm<AdminTransitionTable,sml::defer_queue<std::deque>, sml::process_queue<std::queue>>StateTable{};
 
 
