@@ -17,7 +17,7 @@
 // #define bubblePointer  pReturnEvent<EventCallback> // used to provide a pointer which the classes can use to update event
 
 // Communications myespNowObj = Communications(bubblePointer);
-EventBubbler_t<EventCallback> EventBubbler = EventBubbler_t<EventCallback>();  // pass template and shared pointer to bubbler class
+//  EventBubbler_t<EventCallback> EventBubbler = EventBubbler_t<EventCallback>();  // pass template and shared pointer to bubbler class
 
 
 // pReturnEvent<EventCallback>tempevent = std::make_shared<EventCallback>();
@@ -35,6 +35,7 @@ namespace FSM_Admin{
                 --------------------- State Entry Functions----------------------------------------------------------------------------------------------------- 
             */
             auto FSMInitEntry     = []() { std::cout<<"\n State Entry : FSM Init";   
+
             // EventBubbler.SendEvent(pReturnEvent<EventCallback>);  
              };// assign ptr to base class
             auto wokeUPEntry      = []() { std::cout<<"\n State Entry : Wokeup";                };
@@ -51,7 +52,10 @@ namespace FSM_Admin{
             */
             auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";     
                       //  MainClassPointer->ParseEvent<TimersUpdated{}>();
-              eeprom.Eepromread(EventBubbler);
+    // EventBubbler  = EventBubbler_t(pReturnEvent);
+    // EventBubbler_t EventBubbler(pReturnEvent);
+
+              eeprom.Eepromread(pReturnEvent);
                };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };

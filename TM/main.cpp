@@ -9,7 +9,7 @@
 std::shared_ptr<EventCallback>myptr = std::make_shared<EventCallback>();
 
 
-FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
+FSM_Admin::FSMAdmininstator<> AdminFSM{myptr};
 
 
 

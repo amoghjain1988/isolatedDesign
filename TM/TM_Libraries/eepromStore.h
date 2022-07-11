@@ -8,7 +8,7 @@ class eeprom_t{
     public:
 
     template <typename t>
-    void Eepromread(t);
+    void Eepromread(std::shared_ptr<t>);
 };
 
 #endif

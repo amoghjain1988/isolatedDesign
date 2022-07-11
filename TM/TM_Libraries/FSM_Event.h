@@ -6,31 +6,23 @@
 #include "../statemachines/Admin_SML/sharedPtr.h"
 #include <memory.h>
 
-template<typename t>
+
 class EventBubbler_t{
 
 
 public:
 
-        std::shared_ptr<t>FSM_Event_Bubbler;
+        static std::shared_ptr<EventCallback>FSM_Event_Bubbler;
 
-        EventBubbler_t()
+        EventBubbler_t(std::shared_ptr<EventCallback>myptr)
         {
+                FSM_Event_Bubbler = std::move(myptr);
                 std::cout<<"\n EventBubbler_t Constructed";
         }
 
-        
-      
-        void SendEvent(){
-
-        // FSM_Event_Bubbler = std::move(myPointer);
-        
-        std::cout<<"\n Shared Ptr Count inside Event Bubbler : "<<FSM_Event_Bubbler.use_count();
-        
-        }
-
+     
 };
 
-
+// EventBubbler_t EventBubbler(pReturnEvent);
 
 #endif

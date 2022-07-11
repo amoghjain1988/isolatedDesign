@@ -15,7 +15,6 @@ namespace sml = boost::sml;
 #define     ENTER     sml::on_entry<_> / 
 #define     EXIT      sml::on_exit<_> / 
 
-// std::shared_ptr<EventCallback>pReturnEvent;
 
 
 namespace FSM_Admin{
