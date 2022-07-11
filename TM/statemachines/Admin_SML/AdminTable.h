@@ -15,12 +15,11 @@ namespace sml = boost::sml;
 #define     ENTER     sml::on_entry<_> / 
 #define     EXIT      sml::on_exit<_> / 
 
-std::shared_ptr<EventCallback>pReturnEvent = std::make_shared<EventCallback>();
+// std::shared_ptr<EventCallback>pReturnEvent;
 
 
 namespace FSM_Admin{
   
-
     template<class = class Dummy>                     // Initializing with non-existing class is required as per the SML.
     class FSMAdmininstator{
 
@@ -28,15 +27,15 @@ namespace FSM_Admin{
 
             
 
-              FSMAdmininstator(std::shared_ptr<EventCallback>evPtr){
-                pReturnEvent = std::move(evPtr);                  
-                std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: "<<pReturnEvent.use_count();
-              };
+            FSMAdmininstator(std::shared_ptr<EventCallback>evPtr){
+              pReturnEvent = std::move(evPtr);                  
+              std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: "<<pReturnEvent.use_count();
+            };
 
-              template <typename myEvent>
-              void ExternalEventProcessor(myEvent evt){                
-                StateTable.process_event(evt);
-              };
+            template <typename myEvent>
+            void ExternalEventProcessor(myEvent evt){                
+              StateTable.process_event(evt);
+            };
 
             struct AdminTransitionTable {
 

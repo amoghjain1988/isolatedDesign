@@ -18,7 +18,6 @@
 
 // Communications myespNowObj = Communications(bubblePointer);
 EventBubbler_t<EventCallback> EventBubbler = EventBubbler_t<EventCallback>();  // pass template and shared pointer to bubbler class
-std::shared_ptr<EventCallback>MainClassPointer;   // used inside State Table
 
 
 // pReturnEvent<EventCallback>tempevent = std::make_shared<EventCallback>();
@@ -52,7 +51,7 @@ namespace FSM_Admin{
             */
             auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";     
                       //  MainClassPointer->ParseEvent<TimersUpdated{}>();
-              eeprom.Eepromread(MainClassPointer);
+              eeprom.Eepromread(EventBubbler);
                };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };
