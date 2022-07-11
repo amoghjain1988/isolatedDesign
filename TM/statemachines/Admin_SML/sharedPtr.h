@@ -3,10 +3,10 @@
 #include <memory>
 
 
+class  EventCallback;   // Forward declartion - to be used in Main.cpp, and below to make pointers
 
 
-template<typename evclass>
-extern std::shared_ptr<evclass>pReturnEvent;         // provides access to Object in Main to
+extern std::shared_ptr<EventCallback>pReturnEvent;     // provides access to Object in Main to
 
 
 #endif

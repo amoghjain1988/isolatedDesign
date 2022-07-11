@@ -8,6 +8,8 @@
 
 template<typename t>
 class EventBubbler_t{
+
+
 public:
 
         std::shared_ptr<t>FSM_Event_Bubbler;
@@ -19,9 +21,9 @@ public:
 
         
       
-        void SendEvent(std::shared_ptr<t>myPointer){
-                
-        FSM_Event_Bubbler = std::move(myPointer);
+        void SendEvent(){
+
+        // FSM_Event_Bubbler = std::move(myPointer);
         
         std::cout<<"\n Shared Ptr Count inside Event Bubbler : "<<FSM_Event_Bubbler.use_count();
         

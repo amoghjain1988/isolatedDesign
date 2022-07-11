@@ -13,7 +13,6 @@
 #include "../../TM_Libraries/FSM_Event.h"
 #include <memory.h>
 
-class  EventCallback;   // Forward declartion - to be used in Main.cpp, and below to make pointers
 
 // #define bubblePointer  pReturnEvent<EventCallback> // used to provide a pointer which the classes can use to update event
 
@@ -53,7 +52,7 @@ namespace FSM_Admin{
             */
             auto FSMInitExit      = []() { std::cout<<"\t State Exiting : FSM Init ";     
                       //  MainClassPointer->ParseEvent<TimersUpdated{}>();
-              eeprom.Eepromread();
+              eeprom.Eepromread(MainClassPointer);
                };
             auto wokeUPExit       = []() { std::cout<<"\t State Exiting : Wokeup ";           };
             auto monitoringExit   = []() { std::cout<<"\t State Exiting : Monitoring";        };

@@ -15,7 +15,7 @@ namespace sml = boost::sml;
 #define     ENTER     sml::on_entry<_> / 
 #define     EXIT      sml::on_exit<_> / 
 
-
+std::shared_ptr<EventCallback>pReturnEvent = std::make_shared<EventCallback>();
 
 
 namespace FSM_Admin{
@@ -29,8 +29,8 @@ namespace FSM_Admin{
             
 
               FSMAdmininstator(std::shared_ptr<EventCallback>evPtr){
-                MainClassPointer = std::move(evPtr);                  
-                std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: "<<MainClassPointer.use_count();
+                pReturnEvent = std::move(evPtr);                  
+                std::cout<<"\n Accepted Shared ptr in FSM_State Machine. Current Count:: "<<pReturnEvent.use_count();
               };
 
               template <typename myEvent>
