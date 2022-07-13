@@ -10,7 +10,7 @@ class EventBubbler_t{
 
 public:
         template <typename t>
-        void getPtrLoc(std::shared_ptr<t>);
+        void getPtrLoc(const std::shared_ptr<t>);
      
 };
 
