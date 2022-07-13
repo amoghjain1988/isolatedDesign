@@ -47,7 +47,9 @@ namespace FSM_Admin{
             auto CommsEntry       = []() { std::cout<<"\n State Entry : Comms Entry";           };
             auto ProvisionEntry   = []() { std::cout<<"\n State Entry : Provision Entry ";      };
             inline auto PoweredUpEntry   = []() { std::cout<<"\n State Entry : PoweredUp Entry ";      };
-            auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";          };
+            auto routineEntry     = []() { std::cout<<"\n State Entry : routine Entry ";    
+                        std::cout<<"\n Routine Exit Count : "<<pReturnEvent.use_count();
+      };
               
               
             /* 
@@ -65,7 +67,8 @@ namespace FSM_Admin{
             auto CommsExit        = []() { std::cout<<"\t State Exiting : Comms Exit ";        };
             auto ProvisionExit    = []() { std::cout<<"\t State Exiting : Provision Exit";     };
             auto PoweredUpExit    = []() { std::cout<<"\t State Exiting : PoweredUp Exit ";    };
-            auto routineExit      = []() { std::cout<<"\t State Exiting : routine Exit ";      };
+            auto routineExit      = []() { std::cout<<"\t State Exiting : routine Exit ";  
+                };
 
 
             /* 

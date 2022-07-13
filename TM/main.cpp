@@ -9,7 +9,7 @@
 std::shared_ptr<EventCallback>myptr = std::make_shared<EventCallback>();
 
 
-FSM_Admin::FSMAdmininstator<> AdminFSM{myptr};
+FSM_Admin::FSMAdmininstator<> AdminFSM{std::move(myptr)};
 
 
 
@@ -18,7 +18,7 @@ class  EventCallback
   
   public:
   EventCallback(){
-    std::cout<<"\n EventCallback Contructed!!!";
+   // std::cout<<"\n EventCallback Contructed!!!";
   }
   
   template<typename myevents>
@@ -33,7 +33,7 @@ class  EventCallback
 int main() {
 myptr->ParseEvent(FSM_Admin::powerUP{});
 
-std::cout<<"\n Program Start - Observing Events \n\n";
+//std::cout<<"\n Program Start - Observing Events \n\n";
 std::cout<<"\n Sh Ptr Use count @ Main Entering: "<<myptr.use_count();
   // Main to Handle the first state - else there is an issue..
 
