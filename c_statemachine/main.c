@@ -2,13 +2,13 @@
 #include <stdlib.h>
 
 // Define the maximum number of vertices in the graph
-#define N 10
+#define MAX_VERTICES 6
 
 #define MACROSTR(k) #k
 
 /// List of Events
 #define TM_STATES_NUMBERS \
-       X(NOT_YET_SET  ) \
+       X(NOT_YET_STARTED  ) \
        X(STATE_BOOTUP   ) \
        X(STATE_WATER_ON   ) \
        X(STATE_WATER_OFF ) \
@@ -74,28 +74,30 @@ static char *kEvntStr[] =
     #undef X
 };
 
+typedef TM_EVENTS_t(*pEventHandler)();
 
 // Data structure to store a graph object
 struct Graph
 {
     // An array of pointers to Node to represent an adjacency list
-    struct Node* head[N];
+    struct Node* AdjList[MAX_VERTICES];
 };
  
 // Data structure to store adjacency list nodes of the graph
 struct Node
 {
-    SYSTEM_STATE dest;
-    TM_EVENTS_t event;
-    struct Node* next;
+    SYSTEM_STATE    curr_state;
+    TM_EVENTS_t     event;
+    struct Node*    next;
 };
  
 // Data structure to store a graph edge
 struct Edge 
 {
-    SYSTEM_STATE curr_state;
-    TM_EVENTS_t event;
-    SYSTEM_STATE next_state;
+    SYSTEM_STATE    curr_state;
+    TM_EVENTS_t     event;
+    pEventHandler   event_action;
+    SYSTEM_STATE    next_state;
 
 };
  
@@ -106,29 +108,29 @@ struct Graph* createGraph(struct Edge edges[], int n)
     struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
  
     // initialize head pointer for all vertices
-    for (int i = 0; i < N; i++) 
+    for (int i = 0; i < MAX_VERTICES; i++) 
     {
-        graph->head[i] = NULL;
+        graph->AdjList[i] = NULL;
     }
  
     // add edges to the directed graph one by one
     for (int i = 0; i < n; i++)
     {
         // get the source and destination vertex
-        int src = edges[i].curr_state;
-        int dest = edges[i].next_state;
-        int event = edges[i].event;
+        SYSTEM_STATE src    = edges[i].curr_state;
+        SYSTEM_STATE dest   = edges[i].next_state;
+        TM_EVENTS_t event   = edges[i].event;
  
         // allocate a new node of adjacency list from src to dest
         struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-        newNode->dest = dest;
+        newNode->curr_state = dest;
         newNode->event = event;
  
         // point new node to the current head
-        newNode->next = graph->head[src];
+        newNode->next = graph->AdjList[src];
  
         // point head pointer to the new node
-        graph->head[src] = newNode;
+        graph->AdjList[src] = newNode;
     }
  
     return graph;
@@ -137,13 +139,14 @@ struct Graph* createGraph(struct Edge edges[], int n)
 // Function to print adjacency list representation of a graph
 void printStateTransitionTable(struct Graph* graph)
 {
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < MAX_VERTICES; i++)
     {
         // print current vertex and all its neighbors
-        struct Node* ptr = graph->head[i];
+        struct Node* ptr = graph->AdjList[i];
         while (ptr != NULL)
         {
-            printf("\n State [%s] + Event [%s] => State [%s]\t", kSystemStatesStr[i], kEvntStr[ptr->event],kSystemStatesStr[ptr->dest]);
+            printf("\n State [%s] + Event [%s] => State [%s]\t", kSystemStatesStr[i], kEvntStr[ptr->event],kSystemStatesStr[ptr->curr_state]);
+            
             ptr = ptr->next;
         }
  
@@ -152,6 +155,18 @@ void printStateTransitionTable(struct Graph* graph)
     printf("\n\n");
 }
  
+TM_EVENTS_t BootUpAction()
+{
+    printf("\n Bootup Function");
+    return STATE_ROUTINE;
+}
+
+
+void EventCycler()
+{
+
+}
+
 // Weighted Directed graph implementation in C
 int main(void)
 {
@@ -159,13 +174,14 @@ int main(void)
     // (x, y, w) tuple represents an edge from x to y having weight `w`
     struct Edge edges[] =
     {
-        {STATE_BOOTUP,      BOOTUP_CHECK_START,             STATE_BOOTUP    },          // Stay in Routine until Finished is Released..
-        {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          STATE_ROUTINE   }, 
-        {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          STATE_WATER_ON  },        // Stay in Water On State if Water is Found..
-        {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         STATE_WATER_OFF },       // Water On Transitions to Water Off..
-        {STATE_WATER_OFF,   SYSTEM_STATE_WATER_OFF,         STATE_ROUTINE   }, 
-        {STATE_ROUTINE,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  STATE_SLEEP     }, 
-        {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   STATE_SLEEP     }, 
+        {NOT_YET_STARTED,   BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          // Stay in Routine until Finished is Released..        
+        {STATE_BOOTUP,      BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          // Stay in Routine until Finished is Released..
+        {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          BootUpAction,  STATE_ROUTINE   }, 
+        {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          BootUpAction,  STATE_WATER_ON  },          // Stay in Water On State if Water is Found..
+        {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_WATER_OFF },          // Water On Transitions to Water Off..
+        {STATE_WATER_OFF,   SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_ROUTINE   }, 
+        {STATE_ROUTINE,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     }, 
+        {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   BootUpAction,  STATE_SLEEP     }, 
 
     };
  
@@ -175,9 +191,12 @@ int main(void)
     // construct a graph from the given edges
     struct Graph *graph = createGraph(edges, n);
  
+
     // Function to print adjacency list representation of a graph
     printStateTransitionTable(graph);
 
+     printf("\n CUrrent State : %s", kSystemStatesStr[graph->AdjList[3]->curr_state]);
+     printf("\n CUrrent Event Waiting for : %s\n \n", kEvntStr[graph->AdjList[0]->event]);
 
     return 0;
 }
