@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 // Define the maximum number of vertices in the graph
-#define MAX_VERTICES 6
 
 #define MACROSTR(k) #k
 
@@ -17,6 +16,7 @@
        X(STATE_ERROR  ) \
        X(STATE_NOT_UNUSED   )
 
+#define MAX_VERTICES STATE_NOT_UNUSED
 
 typedef enum 
 {
@@ -86,7 +86,7 @@ struct Graph
 // Data structure to store adjacency list nodes of the graph
 struct Node
 {
-    SYSTEM_STATE    curr_state;
+    SYSTEM_STATE    next_state;
     TM_EVENTS_t     event;
     struct Node*    next;
 };
@@ -123,7 +123,7 @@ struct Graph* createGraph(struct Edge edges[], int n)
  
         // allocate a new node of adjacency list from src to dest
         struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-        newNode->curr_state = dest;
+        newNode->next_state = dest;
         newNode->event = event;
  
         // point new node to the current head
@@ -142,13 +142,21 @@ void printStateTransitionTable(struct Graph* graph)
     for (int i = 0; i < MAX_VERTICES; i++)
     {
         // print current vertex and all its neighbors
+        printf("\n ------ [%s]------", kSystemStatesStr[i]);
         struct Node* ptr = graph->AdjList[i];
+
+        if(!ptr)
+        {
+            printf("\t\t No EDGES");
+            continue;
+        }
         while (ptr != NULL)
         {
-            printf("\n State [%s] + Event [%s] => State [%s]\t", kSystemStatesStr[i], kEvntStr[ptr->event],kSystemStatesStr[ptr->curr_state]);
+            printf("\n\t\t\t\t Adjlist => Event [%s] => State [%s]\t", kEvntStr[ptr->event],kSystemStatesStr[ptr->next_state]);
             
             ptr = ptr->next;
         }
+
  
     }
 
@@ -186,17 +194,19 @@ int main(void)
     };
  
     // calculate the total number of edges
-    int n = sizeof(edges)/sizeof(edges[0]);
- 
+    int edge_count = sizeof(edges)/sizeof(edges[0]);
+    printf("\n Edge Count : [%d]", edge_count);
+
     // construct a graph from the given edges
-    struct Graph *graph = createGraph(edges, n);
+    struct Graph *graph = createGraph(edges, edge_count);
  
 
     // Function to print adjacency list representation of a graph
     printStateTransitionTable(graph);
 
-     printf("\n CUrrent State : %s", kSystemStatesStr[graph->AdjList[3]->curr_state]);
+     printf("\n CUrrent State : %s", kSystemStatesStr[graph->AdjList[0]->next_state]);
      printf("\n CUrrent Event Waiting for : %s\n \n", kEvntStr[graph->AdjList[0]->event]);
+    //  graph->AdjList[1]->next
 
     return 0;
 }
