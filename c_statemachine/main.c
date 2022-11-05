@@ -4,6 +4,7 @@
 // Define the maximum number of vertices in the graph
 
 #define MACROSTR(k) #k
+#define MACROFUNSTR(func_name) #func_name
 
 /// List of Events defined using xMacro
 #define TM_STATES_NUMBERS \
@@ -93,6 +94,7 @@ struct Node
 {
     SYSTEM_STATE    curr_node_state;
     SYSTEM_STATE    next_state;
+    pEventHandler   event_found_action;
     TM_EVENTS_t     event;
     struct Node*    next;
 };
@@ -127,6 +129,7 @@ struct Graph* createGraph(struct Edge edges[], int edge_count)
         SYSTEM_STATE src    = edges[i].curr_state;
         SYSTEM_STATE dest   = edges[i].next_state;
         TM_EVENTS_t event   = edges[i].event;
+        pEventHandler ev_action = edges[i].event_action;
 
         printf("\n i:[%d], src :[%s], event: [%s], dest:[%s]",i, kSystemStatesStr[src], kEvntStr[event], kSystemStatesStr[dest]);
 
@@ -135,6 +138,8 @@ struct Graph* createGraph(struct Edge edges[], int edge_count)
         newNode->next_state     = dest;
         newNode->event          = event;
         newNode->curr_node_state = src;
+        newNode->event_found_action = ev_action;
+
         // point new node to the current head
         newNode->next = graph->TransitionTable[src];
  
@@ -229,7 +234,9 @@ int main(void)
         printf("\n Start State[#%d]  = : %s", current_state, kSystemStatesStr[current_state]);
         printf(" ||\tTransition Event : %s", str_transition_event);
         printf(" ||\tNext State [#%d]  = : %s", next_state, str_next_state);
-        
+
+        NodeList->event_found_action();
+
         NodeList = NodeList->next;
 
     }
