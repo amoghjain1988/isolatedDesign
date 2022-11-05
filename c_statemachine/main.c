@@ -5,7 +5,7 @@
 
 #define MACROSTR(k) #k
 
-/// List of Events
+/// List of Events defined using xMacro
 #define TM_STATES_NUMBERS \
        X(NOT_YET_STARTED  ) \
        X(STATE_BOOTUP   ) \
@@ -43,6 +43,8 @@ static char *kSystemStatesStr[] =
        X(BLE_NOT_INIT ) \
        X(KVS_GET_FLASH_VALUES  ) \
        X(KVS_SET_FLASH_VALUES  ) \
+       X(USER_BTN_SHORT_PRESS  ) \
+       X(USER_BTN_LONG_PRESS  ) \
        X(WAKEUP_SRC_POWERON  ) \
        X(WAKEUP_SRC_USERBTN  ) \
        X(WAKEUP_SRC_INLINE_SENSOR  ) \
@@ -76,21 +78,6 @@ static char *kEvntStr[] =
 
 typedef TM_EVENTS_t(*pEventHandler)();
 
-// Data structure to store a graph object
-struct Graph
-{
-    // An array of pointers to Node to represent an adjacency list
-    struct Node* AdjList[MAX_VERTICES];
-};
- 
-// Data structure to store adjacency list nodes of the graph
-struct Node
-{
-    SYSTEM_STATE    next_state;
-    TM_EVENTS_t     event;
-    struct Node*    next;
-};
- 
 // Data structure to store a graph edge
 struct Edge 
 {
@@ -100,9 +87,29 @@ struct Edge
     SYSTEM_STATE    next_state;
 
 };
- 
+
+// Data structure to store adjacency list nodes of the graph
+struct Node
+{
+    SYSTEM_STATE    curr_node_state;
+    SYSTEM_STATE    next_state;
+    TM_EVENTS_t     event;
+    struct Node*    next;
+};
+
+
+
+
+// Data structure to store a graph object
+struct Graph
+{
+    // An array of pointers to Node to represent an adjacency list
+    struct Node* TransitionTable[MAX_VERTICES];
+};
+
+
 // Function to create an adjacency list from specified edges
-struct Graph* createGraph(struct Edge edges[], int n)
+struct Graph* createGraph(struct Edge edges[], int edge_count)
 {
     // allocate storage for the graph data structure
     struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
@@ -110,27 +117,29 @@ struct Graph* createGraph(struct Edge edges[], int n)
     // initialize head pointer for all vertices
     for (int i = 0; i < MAX_VERTICES; i++) 
     {
-        graph->AdjList[i] = NULL;
+        graph->TransitionTable[i] = NULL;
     }
  
     // add edges to the directed graph one by one
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < edge_count; i++)
     {
         // get the source and destination vertex
         SYSTEM_STATE src    = edges[i].curr_state;
         SYSTEM_STATE dest   = edges[i].next_state;
         TM_EVENTS_t event   = edges[i].event;
- 
+
+        printf("\n i:[%d], src :[%s], event: [%s], dest:[%s]",i, kSystemStatesStr[src], kEvntStr[event], kSystemStatesStr[dest]);
+
         // allocate a new node of adjacency list from src to dest
-        struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-        newNode->next_state = dest;
-        newNode->event = event;
- 
+        struct Node* newNode    = (struct Node*)malloc(sizeof(struct Node));
+        newNode->next_state     = dest;
+        newNode->event          = event;
+        newNode->curr_node_state = src;
         // point new node to the current head
-        newNode->next = graph->AdjList[src];
+        newNode->next = graph->TransitionTable[src];
  
         // point head pointer to the new node
-        graph->AdjList[src] = newNode;
+        graph->TransitionTable[src] = newNode;
     }
  
     return graph;
@@ -143,7 +152,7 @@ void printStateTransitionTable(struct Graph* graph)
     {
         // print current vertex and all its neighbors
         printf("\n ------ [%s]------", kSystemStatesStr[i]);
-        struct Node* ptr = graph->AdjList[i];
+        struct Node* ptr = graph->TransitionTable[i];
 
         if(!ptr)
         {
@@ -152,7 +161,7 @@ void printStateTransitionTable(struct Graph* graph)
         }
         while (ptr != NULL)
         {
-            printf("\n\t\t\t\t Adjlist => Event [%s] => State [%s]\t", kEvntStr[ptr->event],kSystemStatesStr[ptr->next_state]);
+            printf("\n\t\t\t\t ==> Event [%s] => State [%s]\t", kEvntStr[ptr->event],kSystemStatesStr[ptr->next_state]);
             
             ptr = ptr->next;
         }
@@ -187,9 +196,11 @@ int main(void)
         {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          BootUpAction,  STATE_ROUTINE   }, 
         {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          BootUpAction,  STATE_WATER_ON  },          // Stay in Water On State if Water is Found..
         {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_WATER_OFF },          // Water On Transitions to Water Off..
+        {STATE_WATER_ON,    USER_BTN_LONG_PRESS,            BootUpAction,  STATE_WATER_OFF },          // User Butn during Water on Shuts Motor Down..
         {STATE_WATER_OFF,   SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_ROUTINE   }, 
         {STATE_ROUTINE,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     }, 
         {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   BootUpAction,  STATE_SLEEP     }, 
+        {STATE_ROUTINE,     EVENT_ERROR,                    BootUpAction,  STATE_ERROR     }
 
     };
  
@@ -204,9 +215,26 @@ int main(void)
     // Function to print adjacency list representation of a graph
     printStateTransitionTable(graph);
 
-     printf("\n CUrrent State : %s", kSystemStatesStr[graph->AdjList[0]->next_state]);
-     printf("\n CUrrent Event Waiting for : %s\n \n", kEvntStr[graph->AdjList[0]->event]);
-    //  graph->AdjList[1]->next
+    SYSTEM_STATE current_state = STATE_WATER_ON;
+
+    struct Node* NodeList = graph->TransitionTable[current_state];
+
+    while(NodeList)
+    {
+        int next_state                      = NodeList->next_state;
+        const char *str_next_state          = kSystemStatesStr[next_state];
+        TM_EVENTS_t transition_event        = NodeList->event;
+        const char *str_transition_event    = kEvntStr[transition_event];
+        
+        printf("\n Start State[#%d]  = : %s", current_state, kSystemStatesStr[current_state]);
+        printf(" ||\tTransition Event : %s", str_transition_event);
+        printf(" ||\tNext State [#%d]  = : %s", next_state, str_next_state);
+        
+        NodeList = NodeList->next;
+
+    }
+     printf("\n");
+
 
     return 0;
 }
