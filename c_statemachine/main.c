@@ -22,6 +22,7 @@
        X(STATE_IDLE  ) \
        X(STATE_SLEEP  ) \
        X(STATE_ERROR  ) \
+       X(STATE_RESET  ) \
        X(STATE_NOT_UNUSED   )
 
 #define MAX_VERTICES STATE_NOT_UNUSED
@@ -117,7 +118,7 @@ struct Graph
 
 
 // Function to create an adjacency list from specified edges
-struct Graph* createGraph(struct Edge edges[], int edge_count)
+struct Graph* createGraph(struct Edge *edges, int edge_count)
 {
     // allocate storage for the graph data structure
     struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
@@ -163,17 +164,18 @@ void printStateTransitionTable(struct Graph* graph)
     for (int i = 0; i < MAX_VERTICES; i++)
     {
         // print current vertex and all its neighbors
-        printf("\n ------ [%s]------", kSystemStatesStr[i]);
         struct Node* ptr = graph->TransitionTable[i];
 
         if(!ptr)
         {
-            printf("\t\t No EDGES");
+            printf("\n ------ [%s]------", kSystemStatesStr[i]);
+            printf("\t\t -----------No EDGES---------");
             continue;
         }
         while (ptr != NULL)
         {
-            printf("\n\t\t\t\t ==> Event [%s] => State [%s]\t", kEvntStr[ptr->curr_event.event],kSystemStatesStr[ptr->curr_event.next_state]);
+            printf("\n ------ [%s]------", kSystemStatesStr[i]);
+            printf("\t ==> Event [%s] => State [%s]\t", kEvntStr[ptr->curr_event.event],kSystemStatesStr[ptr->curr_event.next_state]);
             
             ptr = ptr->next;
         }
@@ -198,9 +200,9 @@ void EventCycler()
 
 bool EventFoundInState(struct Node* NodeList, SYSTEM_STATE current_state,TM_EVENTS_t current_event, SYSTEM_STATE *next_state  )
 {
-    if(NodeList==NULL)
+    if(NodeList == NULL)
     {
-        printf("'\n Invalid State. No Events Attached to this state yet..");
+        // printf("'\n Invalid State. No Events Attached to this state yet..");
         return false;
     }
     while(NodeList->next!=NULL)
@@ -247,7 +249,6 @@ int random_generator(int min, int max){
 int main(void)
 {   
     srand(time(NULL));
-    printf("\n program starts..");
     // input array containing edges of the graph (as per the above diagram)
     struct Edge edges[] =
     {
@@ -280,6 +281,8 @@ int main(void)
         {STATE_WATER_ON,    UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },          
         {STATE_WATER_OFF,   UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },
 
+        // Unconditional Transition due to ANY_EVENTS
+        {STATE_ERROR,       ANY_EVENTS,                    BootUpAction,  STATE_RESET     },
 
 
     };
@@ -315,6 +318,7 @@ int main(void)
         const char* random_state_str = kSystemStatesStr[random_state];
         const char* random_event_str = kEvntStr[random_event];
 
+      //  printf("\n Test Event :[%s] ", random_event_str);
 
         NodeList = graph->TransitionTable[random_state];
         SYSTEM_STATE *outputState = (SYSTEM_STATE *)malloc(sizeof(SYSTEM_STATE)); 
@@ -324,6 +328,10 @@ int main(void)
             printf("\n State : [%s] | Event : [%s] | Next State : [%s]",random_state_str,  random_event_str,kSystemStatesStr[*outputState]);     
             random_state = *outputState;
         }
+        // else
+        // {
+        //     random_state = random_generator(NOT_YET_STARTED+1, STATE_NOT_UNUSED-1);
+        // }
         
 
         free(NodeList);
