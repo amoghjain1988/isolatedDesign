@@ -145,7 +145,7 @@ struct Graph* createGraph(struct Edge edges[], int edge_count)
         newNode->curr_event.next_state      = dest;
         newNode->curr_event.event           = event;
         newNode->curr_event.curr_state      = src;
-        newNode->curr_event.event_action    = ev_action;
+        // newNode->curr_event.event_action    = ev_action;
 
         // point new node to the current head
         newNode->next = graph->TransitionTable[src];
@@ -196,14 +196,14 @@ void EventCycler()
 
 }
 
-bool EventFoundInState(struct Node* NodeList, SYSTEM_STATE current_state,TM_EVENTS_t current_event, SYSTEM_STATE *next_state )
+bool EventFoundInState(struct Node* NodeList, SYSTEM_STATE current_state,TM_EVENTS_t current_event, SYSTEM_STATE *next_state  )
 {
-    if(!NodeList)
+    if(NodeList==NULL)
     {
-       // printf("'\n Invalid State. No Events Attached to this state yet..");
+        printf("'\n Invalid State. No Events Attached to this state yet..");
         return false;
     }
-    while(NodeList!=NULL)
+    while(NodeList->next!=NULL)
     {
 
         if(!NodeList->curr_event.next_state)
@@ -243,16 +243,11 @@ int random_generator(int min, int max){
 }
 
 
-void MakeAdjancencyList(struct Edge edges[])
-{
-    
-}
-
 // Weighted Directed graph implementation in C
 int main(void)
 {   
     srand(time(NULL));
-    
+    printf("\n program starts..");
     // input array containing edges of the graph (as per the above diagram)
     struct Edge edges[] =
     {
@@ -261,7 +256,6 @@ int main(void)
         {STATE_ANY_ALL,     USER_BTN_LONG_PRESS,            BootUpAction,  STATE_FACTORY_RESET },          
         {STATE_ANY_ALL,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     },
 
-        {STATE_ERROR,       ANY_EVENTS,                     BootUpAction,  STATE_ERROR   },          
 
 
         {NOT_YET_STARTED,   BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },              
@@ -299,13 +293,16 @@ int main(void)
  
 
     // Function to print adjacency list representation of a graph
-    //printStateTransitionTable(graph);
+    printStateTransitionTable(graph);
 
 
     int x = 0;
 
     SYSTEM_STATE random_state = random_generator(NOT_YET_STARTED+1, STATE_NOT_UNUSED-1);
 
+    // SYSTEM_STATE random_state = STATE_ANY_ALL;
+    
+    printf("\n Starting State :[%s] ", kSystemStatesStr[random_state]);
     while(x<200)
     {
         // printf("\n\t\t ~~~~~~~~~~~~~~~~ x=[%d]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", x);
@@ -313,18 +310,18 @@ int main(void)
         struct Node* NodeList = (struct Node*)malloc(sizeof( struct Node));
 
         x++;
-        TM_EVENTS_t random_event = random_generator(ANY_EVENTS, EVENT_COUNT-1);
+        TM_EVENTS_t random_event = random_generator(NO_EVENTS+1, EVENT_COUNT-1);
 
         const char* random_state_str = kSystemStatesStr[random_state];
         const char* random_event_str = kEvntStr[random_event];
 
 
         NodeList = graph->TransitionTable[random_state];
-        SYSTEM_STATE *outputState = malloc(sizeof(SYSTEM_STATE)); 
+        SYSTEM_STATE *outputState = (SYSTEM_STATE *)malloc(sizeof(SYSTEM_STATE)); 
 
         if(EventFoundInState(NodeList,random_state,random_event,outputState))
         {
-            printf("\n State : [%s], Event : [%s], Next State : [%s]",random_state_str,  random_event_str,kSystemStatesStr[*outputState]);     
+            printf("\n State : [%s] | Event : [%s] | Next State : [%s]",random_state_str,  random_event_str,kSystemStatesStr[*outputState]);     
             random_state = *outputState;
         }
         
