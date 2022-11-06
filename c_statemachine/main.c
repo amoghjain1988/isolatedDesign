@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
        #include <unistd.h>
-
+#include <stdbool.h>
 #include <stdlib.h>
 // Define the maximum number of vertices in the graph
 
@@ -12,6 +12,8 @@
 /// List of Events defined using xMacro
 #define TM_STATES_NUMBERS \
        X(NOT_YET_STARTED  ) \
+       X(STATE_FACTORY_RESET  ) \
+       X(STATE_ANY_ALL  ) \
        X(STATE_BOOTUP   ) \
        X(STATE_WOKEUP   ) \
        X(STATE_WATER_ON   ) \
@@ -44,6 +46,7 @@ static char *kSystemStatesStr[] =
 /// List of Events
 #define TM_EVENTS_NUMBERS \
        X(NO_EVENTS  ) \
+       X(ANY_EVENTS  ) \
        X(BOOTUP_CHECK_START   ) \
        X(BOOTUP_CHECK_FINISHED   ) \
        X(BLE_NOT_INIT ) \
@@ -98,10 +101,7 @@ struct Edge
 // Data structure to store adjacency list nodes of the graph
 struct Node
 {
-    SYSTEM_STATE    curr_node_state;
-    SYSTEM_STATE    next_state;
-    pEventHandler   event_found_action;
-    TM_EVENTS_t     event;
+    struct Edge     curr_event;
     struct Node*    next;
 };
 
@@ -137,14 +137,15 @@ struct Graph* createGraph(struct Edge edges[], int edge_count)
         TM_EVENTS_t event   = edges[i].event;
         pEventHandler ev_action = edges[i].event_action;
 
-        printf("\n i:[%d], src :[%s], event: [%s], dest:[%s]",i, kSystemStatesStr[src], kEvntStr[event], kSystemStatesStr[dest]);
+        //printf("\n i:[%d], src :[%s], event: [%s], dest:[%s]",i, kSystemStatesStr[src], kEvntStr[event], kSystemStatesStr[dest]);
 
         // allocate a new node of adjacency list from src to dest
         struct Node* newNode    = (struct Node*)malloc(sizeof(struct Node));
-        newNode->next_state     = dest;
-        newNode->event          = event;
-        newNode->curr_node_state = src;
-        newNode->event_found_action = ev_action;
+        
+        newNode->curr_event.next_state      = dest;
+        newNode->curr_event.event           = event;
+        newNode->curr_event.curr_state      = src;
+        newNode->curr_event.event_action    = ev_action;
 
         // point new node to the current head
         newNode->next = graph->TransitionTable[src];
@@ -172,7 +173,7 @@ void printStateTransitionTable(struct Graph* graph)
         }
         while (ptr != NULL)
         {
-            printf("\n\t\t\t\t ==> Event [%s] => State [%s]\t", kEvntStr[ptr->event],kSystemStatesStr[ptr->next_state]);
+            printf("\n\t\t\t\t ==> Event [%s] => State [%s]\t", kEvntStr[ptr->curr_event.event],kSystemStatesStr[ptr->curr_event.next_state]);
             
             ptr = ptr->next;
         }
@@ -194,25 +195,27 @@ void EventCycler()
 {
 
 }
-void printRelatedEdges(struct Node* NodeList, SYSTEM_STATE current_state,TM_EVENTS_t current_event )
+
+bool EventFoundInState(struct Node* NodeList, SYSTEM_STATE current_state,TM_EVENTS_t current_event, SYSTEM_STATE *next_state )
 {
     if(!NodeList)
     {
        // printf("'\n Invalid State. No Events Attached to this state yet..");
-        return;
+        return false;
     }
     while(NodeList!=NULL)
     {
 
-        // if(!NodeList->next_state)
-        // {
-        //     printf("\n Event ")
-        //     return;
+        if(!NodeList->curr_event.next_state)
+        {
+            // printf("\n Event ")
+            return false;
 
-        // }
-        int next_state                      = NodeList->next_state;
-        const char *str_next_state          = kSystemStatesStr[next_state];
-        TM_EVENTS_t transition_event        = NodeList->event;
+        }
+        SYSTEM_STATE transition_to_state    = NodeList->curr_event.next_state;
+        TM_EVENTS_t transition_event        = NodeList->curr_event.event;
+
+        const char *str_next_state          = kSystemStatesStr[transition_to_state];
         const char *str_transition_event    = kEvntStr[transition_event];
         
         // printf("\n Start State[#%d]  = : %s", current_state, kSystemStatesStr[current_state]);
@@ -221,20 +224,28 @@ void printRelatedEdges(struct Node* NodeList, SYSTEM_STATE current_state,TM_EVEN
 
         if(current_event == transition_event)
         {
-            printf("\n Event [%s] Found in state : [%s]. Action can be taken..",kEvntStr[current_event], kSystemStatesStr[current_state]);
-            return;
+           // printf("\t Event [%s] Found in state : [%s]. [Action Fn Called]",kEvntStr[current_event], kSystemStatesStr[current_state]);
+            *next_state = transition_to_state;
+            // NodeList->event_found_action();
+            return true;
         }
-        //NodeList->event_found_action();
 
         NodeList = NodeList->next;
 
     }
-     printf("\n Ignoring Event [%s]  as it is not Associated with Current State [%s]... ",kEvntStr[current_event], kSystemStatesStr[current_state]);
+    // printf("\n Ignoring Event [%s]  as it is not Associated with Current State [%s]... ",kEvntStr[current_event], kSystemStatesStr[current_state]);
+    return false;
 }
 
 int random_generator(int min, int max){
     
     return min + rand() / (RAND_MAX / (max - min + 1) + 1);
+}
+
+
+void MakeAdjancencyList(struct Edge edges[])
+{
+    
 }
 
 // Weighted Directed graph implementation in C
@@ -243,27 +254,45 @@ int main(void)
     srand(time(NULL));
     
     // input array containing edges of the graph (as per the above diagram)
-    // (x, y, w) tuple represents an edge from x to y having weight `w`
     struct Edge edges[] =
     {
-        {NOT_YET_STARTED,   BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          // Stay in Routine until Finished is Released..        
-        {STATE_BOOTUP,      BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          // Stay in Routine until Finished is Released..
-        {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          BootUpAction,  STATE_IDLE       }, 
-        {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          BootUpAction,  STATE_WATER_ON  },          // Stay in Water On State if Water is Found..
-        {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_WATER_OFF },          // Water On Transitions to Water Off..
-        {STATE_WATER_ON,    USER_BTN_LONG_PRESS,            BootUpAction,  STATE_WATER_OFF },          // User Butn during Water on Shuts Motor Down..
+
+        // Events applicable to ANY STATE
+        {STATE_ANY_ALL,     USER_BTN_LONG_PRESS,            BootUpAction,  STATE_FACTORY_RESET },          
+        {STATE_ANY_ALL,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     },
+
+        {STATE_ERROR,       ANY_EVENTS,                     BootUpAction,  STATE_ERROR   },          
+
+
+        {NOT_YET_STARTED,   BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },              
+        {STATE_BOOTUP,      BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          
+        {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          BootUpAction,  STATE_IDLE      }, 
+        
+        {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          BootUpAction,  STATE_WATER_ON  },          
         {STATE_WATER_OFF,   SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_ROUTINE   }, 
-        {STATE_ROUTINE,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     }, 
-        {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   BootUpAction,  STATE_SLEEP     }, 
+        
+        {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_WATER_OFF },          
+
+        {STATE_WATER_ON,    USER_BTN_SHORT_PRESS,           BootUpAction,  STATE_WATER_OFF },   
+        {STATE_SLEEP,       USER_BTN_SHORT_PRESS,           BootUpAction,  STATE_WOKEUP},  
+
+
+
+        {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   BootUpAction,  STATE_SLEEP     },
+
         {STATE_ROUTINE,     EVENT_ERROR,                    BootUpAction,  STATE_ERROR     },
+        
         {STATE_IDLE,        UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   }, 
-        {STATE_IDLE,        SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     }
+        {STATE_WATER_ON,    UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },          
+        {STATE_WATER_OFF,   UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },
+
+
 
     };
  
     // calculate the total number of edges
     int edge_count = sizeof(edges)/sizeof(edges[0]);
-    printf("\n Edge Count : [%d]", edge_count);
+    printf("\n Edge Count : [%d]\n", edge_count);
 
     // construct a graph from the given edges
     struct Graph *graph = createGraph(edges, edge_count);
@@ -275,36 +304,38 @@ int main(void)
 
     int x = 0;
 
-    while(x<100)
+    SYSTEM_STATE random_state = random_generator(NOT_YET_STARTED+1, STATE_NOT_UNUSED-1);
+
+    while(x<200)
     {
-        printf("\n ~~~~~~~~~~~~~~~~ x=[%d]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", x);
+        // printf("\n\t\t ~~~~~~~~~~~~~~~~ x=[%d]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", x);
 
         struct Node* NodeList = (struct Node*)malloc(sizeof( struct Node));
 
         x++;
-
-        SYSTEM_STATE random_state = random_generator(NOT_YET_STARTED, STATE_NOT_UNUSED-1);
-        TM_EVENTS_t random_event = random_generator(NO_EVENTS, EVENT_COUNT-1);
-
-        // SYSTEM_STATE random_state = STATE_WATER_ON;
-        // TM_EVENTS_t random_event = WAKEUP_SRC_USERBTN;
+        TM_EVENTS_t random_event = random_generator(ANY_EVENTS, EVENT_COUNT-1);
 
         const char* random_state_str = kSystemStatesStr[random_state];
         const char* random_event_str = kEvntStr[random_event];
 
-        printf("\n Random State : [%s], Random Event : [%s]",random_state_str,  random_event_str);
 
         NodeList = graph->TransitionTable[random_state];
+        SYSTEM_STATE *outputState = malloc(sizeof(SYSTEM_STATE)); 
 
-        printRelatedEdges(NodeList,random_state,random_event);
+        if(EventFoundInState(NodeList,random_state,random_event,outputState))
+        {
+            printf("\n State : [%s], Event : [%s], Next State : [%s]",random_state_str,  random_event_str,kSystemStatesStr[*outputState]);     
+            random_state = *outputState;
+        }
+        
 
         free(NodeList);
         // sleep(1);
-        // printf("\n ~~~~~~~~~~~~~~~~~~~~~~END ~~~~~~~~~~~~~~~~~~~~~~~~~");
 
     }
 
 
+    printf("\n ~~~~~~~~~~~~~~~~~~~~~~END ~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 
     return 0;
 }
