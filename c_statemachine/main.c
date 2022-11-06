@@ -246,54 +246,56 @@ int random_generator(int min, int max){
 }
 
 
+struct Edge StateTransitionTable[] =
+{
+
+    // Events applicable to ANY STATE
+    {STATE_ANY_ALL,     USER_BTN_LONG_PRESS,            BootUpAction,  STATE_FACTORY_RESET },          
+    {STATE_ANY_ALL,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     },
+
+
+
+    {NOT_YET_STARTED,   BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },              
+    {STATE_BOOTUP,      BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          
+    {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          BootUpAction,  STATE_IDLE      }, 
+    
+    {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          BootUpAction,  STATE_WATER_ON  },          
+    {STATE_WATER_OFF,   SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_ROUTINE   }, 
+    
+    {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_WATER_OFF },          
+
+    {STATE_WATER_ON,    USER_BTN_SHORT_PRESS,           BootUpAction,  STATE_WATER_OFF },   
+    {STATE_SLEEP,       USER_BTN_SHORT_PRESS,           BootUpAction,  STATE_WOKEUP},  
+
+
+
+    {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   BootUpAction,  STATE_SLEEP     },
+
+    {STATE_ROUTINE,     EVENT_ERROR,                    BootUpAction,  STATE_ERROR     },
+    
+    {STATE_IDLE,        UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   }, 
+    {STATE_WATER_ON,    UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },          
+    {STATE_WATER_OFF,   UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },
+
+    // Unconditional Transition due to ANY_EVENTS
+    {STATE_ERROR,       ANY_EVENTS,                    BootUpAction,  STATE_RESET     },
+
+
+};
+
 // Weighted Directed graph implementation in C
 int main(void)
 {   
     srand(time(NULL));
     // input array containing edges of the graph (as per the above diagram)
-    struct Edge edges[] =
-    {
-
-        // Events applicable to ANY STATE
-        {STATE_ANY_ALL,     USER_BTN_LONG_PRESS,            BootUpAction,  STATE_FACTORY_RESET },          
-        {STATE_ANY_ALL,     SYSTEM_STATE_LIGHT_SLEEP_INIT,  BootUpAction,  STATE_SLEEP     },
-
-
-
-        {NOT_YET_STARTED,   BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },              
-        {STATE_BOOTUP,      BOOTUP_CHECK_START,             BootUpAction,  STATE_BOOTUP    },          
-        {STATE_BOOTUP,      BOOTUP_CHECK_FINISHED,          BootUpAction,  STATE_IDLE      }, 
-        
-        {STATE_WATER_ON,    SYSTEM_STATE_WATER_ON,          BootUpAction,  STATE_WATER_ON  },          
-        {STATE_WATER_OFF,   SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_ROUTINE   }, 
-        
-        {STATE_WATER_ON,    SYSTEM_STATE_WATER_OFF,         BootUpAction,  STATE_WATER_OFF },          
-
-        {STATE_WATER_ON,    USER_BTN_SHORT_PRESS,           BootUpAction,  STATE_WATER_OFF },   
-        {STATE_SLEEP,       USER_BTN_SHORT_PRESS,           BootUpAction,  STATE_WOKEUP},  
-
-
-
-        {STATE_ROUTINE,     SYSTEM_STATE_DEEP_SLEEP_INIT,   BootUpAction,  STATE_SLEEP     },
-
-        {STATE_ROUTINE,     EVENT_ERROR,                    BootUpAction,  STATE_ERROR     },
-        
-        {STATE_IDLE,        UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   }, 
-        {STATE_WATER_ON,    UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },          
-        {STATE_WATER_OFF,   UPDATE_HW_VALUES,               BootUpAction,  STATE_ROUTINE   },
-
-        // Unconditional Transition due to ANY_EVENTS
-        {STATE_ERROR,       ANY_EVENTS,                    BootUpAction,  STATE_RESET     },
-
-
-    };
+   
  
     // calculate the total number of edges
-    int edge_count = sizeof(edges)/sizeof(edges[0]);
+    int edge_count = sizeof(StateTransitionTable)/sizeof(StateTransitionTable[0]);
     printf("\n Edge Count : [%d]\n", edge_count);
 
     // construct a graph from the given edges
-    struct Graph *graph = createGraph(edges, edge_count);
+    struct Graph *graph = createGraph(StateTransitionTable, edge_count);
  
 
     // Function to print adjacency list representation of a graph
