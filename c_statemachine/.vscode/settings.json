@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "cstddef": "c",
-        "limits": "c"
+        "limits": "c",
+        "random": "c"
     }
 }

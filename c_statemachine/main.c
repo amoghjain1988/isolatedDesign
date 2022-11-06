@@ -50,6 +50,7 @@ static char *kSystemStatesStr[] =
        X(ANY_EVENTS  ) \
        X(BOOTUP_CHECK_START   ) \
        X(BOOTUP_CHECK_FINISHED   ) \
+       X(BLE_DATA_RCVD) \
        X(BLE_NOT_INIT ) \
        X(KVS_GET_FLASH_VALUES  ) \
        X(KVS_SET_FLASH_VALUES  ) \
@@ -175,7 +176,7 @@ void printStateTransitionTable(struct Graph* graph)
         while (ptr != NULL)
         {
             printf("\n ------ [%s]------", kSystemStatesStr[i]);
-            printf("\t ==> Event [%s] => State [%s]\t", kEvntStr[ptr->curr_event.event],kSystemStatesStr[ptr->curr_event.next_state]);
+            printf("\t ==> Event [%d][%s] => State [%d][%s]\t",ptr->curr_event.event, kEvntStr[ptr->curr_event.event],ptr->curr_event.next_state, kSystemStatesStr[ptr->curr_event.next_state]);
             
             ptr = ptr->next;
         }
@@ -314,11 +315,18 @@ int main(void)
 
         x++;
         TM_EVENTS_t random_event = random_generator(NO_EVENTS+1, EVENT_COUNT-1);
+        // TM_EVENTS_t random_event ;
+        // printf( "Enter a Event from [%d] to [%d] :", NO_EVENTS+1,EVENT_COUNT-1);
+        // random_event = getchar();
 
+        // if(random_event==0)
+        // {
+        //     random_state = random_generator(NOT_YET_STARTED+1, STATE_NOT_UNUSED-1);
+        // }
         const char* random_state_str = kSystemStatesStr[random_state];
         const char* random_event_str = kEvntStr[random_event];
 
-      //  printf("\n Test Event :[%s] ", random_event_str);
+        //printf("\n Test State: [%d], Test Event :[%s] ", random_state_str, random_event_str);
 
         NodeList = graph->TransitionTable[random_state];
         SYSTEM_STATE *outputState = (SYSTEM_STATE *)malloc(sizeof(SYSTEM_STATE)); 
@@ -328,12 +336,9 @@ int main(void)
             printf("\n State : [%s] | Event : [%s] | Next State : [%s]",random_state_str,  random_event_str,kSystemStatesStr[*outputState]);     
             random_state = *outputState;
         }
-        // else
-        // {
-        //     random_state = random_generator(NOT_YET_STARTED+1, STATE_NOT_UNUSED-1);
-        // }
-        
 
+        
+        
         free(NodeList);
         // sleep(1);
 
